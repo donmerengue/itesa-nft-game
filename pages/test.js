@@ -3,22 +3,22 @@ import {
   addNewDoc,
   deleteData,
   getData,
+  getDocumento,
   updateData,
 } from "../fetchData/controllers";
-import handler from "./api/hello";
 
 const test = () => {
   //Ejemplo de data
   const userData = {
-    email: "mail@gmail.com",
-    isAdmin: false,
-    lastName: "Lastname",
-    name: "Name",
-    walletAddress: "6a5sd4a65sdasd565sa",
+    email: "mechi@gmail.com",
+    isAdmin: true,
+    lastName: "Programadora",
+    name: "Mechi",
+    walletAddress: "asdas6d5as4d65asd6",
   };
   const updatedData = {
-    lastName: "Apellido actualizado",
-    name: "Nombre Actualizado",
+    lastName: "Mechi actualizado",
+    name: "MEchi Actualizado",
   };
   const statsData = {
     level: 5,
@@ -41,26 +41,30 @@ const test = () => {
           addNewDoc("users", userData);
         }}
       >
-        {" "}
         Ejecutar addNewDoc
       </button>
       <button onClick={handlerGet}> Ejecutar getDocs</button>
       <button
         onClick={() => {
-          updateData("users", "baABYTOIt155ZKyCRr6E", updatedData);
+          updateData("users", "kbQYfPHLHrkZ6SMojLvn", updatedData);
         }}
       >
-        {" "}
-        Actualizar información{" "}
+        Actualizar información
       </button>
 
       <button
         onClick={() => {
-          deleteData("users", "p9b7RVlfzauRn2J2K4cU");
+          deleteData("users","kbQYfPHLHrkZ6SMojLvn");
         }}
       >
-        {" "}
-        Borrar documento{" "}
+        Borrar documento
+      </button>
+      <button
+        onClick={() => {
+            getDocumento( "users","jMspmTasdasG4p3gchomkXQIZ")     
+   }}
+      >
+        Traer un documento
       </button>
     </div>
   );
