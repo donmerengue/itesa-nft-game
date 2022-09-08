@@ -5,8 +5,8 @@ import {
   doc,
   updateDoc,
   deleteDoc,
+  getDoc,
 } from "firebase/firestore";
-import { useState } from "react";
 import db from "../firebase/firebase-config";
 
 //Agregar un nuevo documento a una colección
@@ -21,6 +21,22 @@ export const getData = async (coleccion) => {
   return data.docs?.map((doc) => ({ ...doc.data(), id: doc.id }));
 };
 
+//Traer un solo doc
+export const getDocumento = async (coleccion, id) => {
+    const docRef = doc(db,coleccion, id);
+    const docSnap = await getDoc(docRef);
+    
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+    }
+
+};
+
+
 //Actualizar información
 export const updateData = async (coleccion, id, data) => {
   const dataDoc = doc(db, coleccion, id);
@@ -28,29 +44,10 @@ export const updateData = async (coleccion, id, data) => {
   console.log("ok");
 };
 
-
-
 //Borrar Información
-export const deleteData = async (coleccion,id) => {
+export const deleteData = async (coleccion, id) => {
   const userDoc = doc(db, coleccion, id);
   await deleteDoc(userDoc);
   console.log(`Documento de ${coleccion} eliminado`);
 };
 
-
-
-//* Codigo de ejemplo
-
-// import admin from '../firebase/nodeApp'
-
-// export const getProfileData = async (username) => {
-//   const db = admin.firestore()
-//   const profileCollection = db.collection('profile')
-//   const profileDoc = await profileCollection.doc(username).get()
-
-//   if (!profileDoc.exists) {
-//     return null
-//   }
-
-//   return profileDoc.data()
-// }
