@@ -10,24 +10,23 @@ import {
 const test = () => {
   //Ejemplo de data
   const userData = {
-    email: "mechi@gmail.com",
+    email: "carlitos@gmail.com",
     isAdmin: true,
-    lastName: "Programadora",
-    name: "Mechi",
-    walletAddress: "asdas6d5as4d65asd6",
+    lastName: "Programador",
+    name: "Carlos",
+    walletAddress: "asdas6d5as23sadsgsf",
+    isActive:true,
+    level:2,
+    experience:20,
+    wonBattles:1,
+    lostBattles:0,
+    totalBattles:1
   };
   const updatedData = {
     lastName: "Mechi actualizado",
     name: "MEchi Actualizado",
   };
-  const statsData = {
-    level: 5,
-    lostBattles: 2,
-    totalFights: 10,
-    winFights: 8,
-    cualquierCosa: "8",
-  };
-
+  
   const handlerGet = () => {
     getData("users").then((data) => {
       console.log(data);
