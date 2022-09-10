@@ -1,7 +1,5 @@
-const createAvatar = () => {
-  return (
-    <div>createAvatar</div>
-  )
-}
+const CreateAvatarPage = () => {
+  return <div>CreateAvatarPage</div>;
+};
 
-export default createAvatar
+export default CreateAvatarPage;

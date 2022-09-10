@@ -1,7 +1,5 @@
-const ranking = () => {
-  return (
-    <div>ranking</div>
-  )
-}
+const RankingPage = () => {
+  return <div>ranking</div>;
+};
 
-export default ranking
+export default RankingPage;
