@@ -7,7 +7,7 @@ import {
   updateData,
 } from "../fetchData/controllers";
 
-const test = () => {
+const TestPage = () => {
   //Ejemplo de data
   const userData = {
     email: "victor@gmail.com",
@@ -65,4 +65,4 @@ const test = () => {
   );
 };
 
-export default test;
+export default TestPage;
