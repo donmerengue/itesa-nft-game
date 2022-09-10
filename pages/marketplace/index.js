@@ -1,9 +1,9 @@
-const index = () => {
+const MarketplaceIndex = () => {
   return (
     <>
       <div>El marketplace viene aqui</div>
     </>
-  )
-}
+  );
+};
 
-export default index
+export default MarketplaceIndex;
