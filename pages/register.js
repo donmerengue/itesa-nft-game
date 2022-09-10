@@ -1,8 +1,7 @@
+import Register from "../components/auth/Register";
 
 const register = () => {
-  return (
-    <div>register</div>
-  )
-}
+  return <Register />;
+};
 
-export default register
+export default register;

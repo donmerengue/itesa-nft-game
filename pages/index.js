@@ -2,6 +2,10 @@ import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
 
+// TODO: React-Firebase Auth Hooks (Lucas, 10/9, 13:45);  
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { useCollection } from 'react-firebase-hooks/firestore';
+
 export default function Home() {
   return (
     <div className={styles.container}>
