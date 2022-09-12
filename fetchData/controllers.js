@@ -6,12 +6,21 @@ import {
   updateDoc,
   deleteDoc,
   getDoc,
+  setDoc,
 } from "firebase/firestore";
 import db from "../firebase/firebase-config";
 
 //Agregar un nuevo documento a una colección
 export const addNewDoc = async (coleccion, data) => {
   const docRef = await addDoc(collection(db, coleccion), data);
+  console.log("Document written with name ", docRef);
+};
+
+//Agregar un nuevo documento a una colección seteando el ID
+export const setNewDoc = async (coleccion, data, uid) => {
+  const docRef = await setDoc(doc(db, coleccion, uid), data, {
+    merge: true,
+  });
   console.log("Document written with name ", docRef);
 };
 
@@ -23,19 +32,16 @@ export const getData = async (coleccion) => {
 
 //Traer un solo doc
 export const getDocumento = async (coleccion, id) => {
-    const docRef = doc(db,coleccion, id);
-    const docSnap = await getDoc(docRef);
-    
+  const docRef = doc(db, coleccion, id);
+  const docSnap = await getDoc(docRef);
 
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-    }
-
+  if (docSnap.exists()) {
+    console.log("Document data:", docSnap.data());
+  } else {
+    // doc.data() will be undefined in this case
+    console.log("No such document!");
+  }
 };
-
 
 //Actualizar información
 export const updateData = async (coleccion, id, data) => {
@@ -50,4 +56,3 @@ export const deleteData = async (coleccion, id) => {
   await deleteDoc(userDoc);
   console.log(`Documento de ${coleccion} eliminado`);
 };
-
