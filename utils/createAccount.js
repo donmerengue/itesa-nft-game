@@ -1,6 +1,6 @@
 import { auth } from "../firebase/firebase-config";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { setNewDoc } from "../fetchData/controllers";
+import { getDocumento, setNewDoc } from "../fetchData/controllers";
 
 // Create new account using email/password
 const createAccount = async () => {
@@ -9,13 +9,16 @@ const createAccount = async () => {
   const password = txtPassword.value;
 
   // Use auth from Firebase to create new account
+  //Guardamos el user en Firebase Authentication y recibimos un userId
   try {
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
       password
     );
-    console.log(userCredential.user.uid);
+
+    //Guardamos el usuario en Firestore con el userId y datos del form recibidos
+   //TODO: Agregar walletAddress 12/09
     const userData = {
       email: userCredential.user.email,
       isAdmin: true,
@@ -24,7 +27,11 @@ const createAccount = async () => {
       walletAddress: "asdsa68923sadsgsf",
       isActive: true,
     };
-    setNewDoc("users", userData, userCredential.user.uid);
+     await setNewDoc("users", userData, userCredential.user.uid)
+     return getDocumento("users",userCredential.user.uid)
+     
+    
+
   } catch (error) {
     console.log(`There was an error: ${error}`);
   }
