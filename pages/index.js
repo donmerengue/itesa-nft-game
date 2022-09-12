@@ -1,12 +1,18 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import {  useSelector } from "react-redux";
+
 
 // TODO: React-Firebase Auth Hooks (Lucas, 10/9, 13:45);  
-import { useAuthState } from 'react-firebase-hooks/auth';
 import { useCollection } from 'react-firebase-hooks/firestore';
+import { auth } from '../firebase/firebase-config';
+import useAuth from '../hooks/useAuth';
 
 export default function Home() {
+  useAuth()
+  const user = useSelector(state=>state.user)
+
   return (
     <div className={styles.container}>
       <Head>

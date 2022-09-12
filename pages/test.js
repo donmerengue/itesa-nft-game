@@ -8,11 +8,13 @@ import {
 } from "../fetchData/controllers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase-config";
+import useAuth from "../hooks/useAuth";
+import {  useSelector } from "react-redux";
 
 const TestPage = () => {
-  const [user, loading, error] = useAuthState(auth);
+  const user = useSelector(state=>state.user)
 
-  console.log(user)
+  useAuth()
 
   //Ejemplo de data
   const userData = {

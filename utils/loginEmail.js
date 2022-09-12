@@ -1,5 +1,6 @@
 import { auth } from "../firebase/firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { getDocumento } from "../fetchData/controllers";
 
 // Login using email/password
 const loginEmail = async () => {
@@ -14,8 +15,8 @@ const loginEmail = async () => {
       loginEmail,
       loginPassword
     );
-    console.log(userCredential)
-    console.log(userCredential.user.uid);
+
+    return getDocumento("users",userCredential.user.uid)
   } catch (error) {
     console.log(`There was an error: ${error}`);
   }

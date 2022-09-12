@@ -1,17 +1,17 @@
 import { useForm } from "react-hook-form";
 import createAccount from "../../utils/createAccount";
+import { useDispatch, useSelector } from "react-redux";
+import { register } from "../../state/user";
 
 const Register = () => {
-  //   const {
-  //     register,
-  //     handleSubmit,
-  //     watch,
-  //     formState: { errors },
-  //   } = useForm();
-  //   const onSubmit = (data) => console.log(data);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
 
-  //   console.log(watch("password")); // watch input value by passing the name of it
+  const registerHandler = () => {
+    dispatch(register());
+  };
 
+  
   return (
     <form>
       <div className="group">
@@ -34,7 +34,8 @@ const Register = () => {
         id="btnSignup"
         type="button"
         className="button buttonBlue"
-        onClick={createAccount}>
+        onClick={registerHandler}
+      >
         Sign up
       </button>
     </form>
