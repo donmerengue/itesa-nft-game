@@ -14,6 +14,7 @@ const loginEmail = async () => {
       loginEmail,
       loginPassword
     );
+    console.log(userCredential)
     console.log(userCredential.user.uid);
   } catch (error) {
     console.log(`There was an error: ${error}`);

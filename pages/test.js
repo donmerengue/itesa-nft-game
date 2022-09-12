@@ -6,8 +6,14 @@ import {
   getDocumento,
   updateData,
 } from "../fetchData/controllers";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../firebase/firebase-config";
 
 const TestPage = () => {
+  const [user, loading, error] = useAuthState(auth);
+
+  console.log(user)
+
   //Ejemplo de data
   const userData = {
     email: "victor@gmail.com",
@@ -16,11 +22,6 @@ const TestPage = () => {
     name: "Victor",
     walletAddress: "asdsa68923sadsgsf",
     isActive: true,
-    level: 3,
-    experience: 20,
-    wonBattles: 2,
-    lostBattles: 0,
-    totalBattles: 2,
   };
   const updatedData = {
     lastName: "Mechi actualizado",
