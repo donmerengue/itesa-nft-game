@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "ethers": "^5.7.0",
     "@reduxjs/toolkit": "^1.8.5",
     "firebase": "^9.9.4",
     "next": "12.2.5",
