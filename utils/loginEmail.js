@@ -3,10 +3,10 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { getDocumento } from "../fetchData/controllers";
 
 // Login using email/password
-const loginEmail = async () => {
+const loginEmail = async ({email,password}) => {
   // Get email/password from Form Inputs
-  const loginEmail = txtEmail.value;
-  const loginPassword = txtPassword.value;
+  const loginEmail = email;
+  const loginPassword = password;
 
   // Use auth from Firebase to log in to existing account
   try {
@@ -18,7 +18,7 @@ const loginEmail = async () => {
 
     return getDocumento("users",userCredential.user.uid)
   } catch (error) {
-    console.log(`There was an error: ${error}`);
+   return error
   }
 };
 
