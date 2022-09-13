@@ -73,6 +73,8 @@ const Login = () => {
     dispatch(linkLogin(data));
   };
 
+  
+
   return (
     <>
       <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.50"}>
@@ -160,9 +162,17 @@ const Login = () => {
               </Stack>
             </Box>
           </form>
+          <button
+        id="btnLoginLink"
+        type="button"
+        className="button buttonBlue"
+        onClick={loginLinkHandler}>
+        Send Login Link
+      </button>
         </Stack>
       </Flex>
     </>
+
   );
 };
 
