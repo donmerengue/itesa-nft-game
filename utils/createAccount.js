@@ -3,10 +3,8 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { getDocumento, setNewDoc } from "../fetchData/controllers";
 
 // Create new account using email/password
-const createAccount = async () => {
-  // Get email/password from Form Inputs
-  const email = txtEmail.value;
-  const password = txtPassword.value;
+const createAccount = async ({name,lastname,email, password}) => {
+
 
   // Use auth from Firebase to create new account
   //Guardamos el user en Firebase Authentication y recibimos un userId
@@ -22,8 +20,8 @@ const createAccount = async () => {
     const userData = {
       email: userCredential.user.email,
       isAdmin: true,
-      lastname: "Programador",
-      name: "Marcos",
+      lastname,
+      name,
       walletAddress: "asdsa68923sadsgsf",
       isActive: true,
     };
@@ -33,7 +31,7 @@ const createAccount = async () => {
     
 
   } catch (error) {
-    console.log(`There was an error: ${error}`);
+    return error
   }
 };
 

@@ -8,13 +8,13 @@ export const getUser = createAsyncThunk("GET_USER", (userId) => {
   return getDocumento("users", userId);
 });
 
-export const register = createAsyncThunk("REGISTER", () => {
-  return createAccount();
-});
+export const registerUser = createAsyncThunk("REGISTER", (userData)=>{
+  return  createAccount(userData)
+})
 
-export const login = createAsyncThunk("LOGIN", () => {
-  return loginEmail();
-});
+export const login = createAsyncThunk("LOGIN", ()=>{
+  return  loginEmail()
+})
 
 export const linkLogin = createAsyncThunk("LOGIN_LINK", () => {
   console.log("linkLogin action being dispatched by LOGIN LINK BUTTON");
@@ -22,10 +22,12 @@ export const linkLogin = createAsyncThunk("LOGIN_LINK", () => {
 });
 
 const userReducer = createReducer(null, {
-  [getUser.fulfilled]: (state, action) => action.payload,
-  [register.fulfilled]: (state, action) => action.payload,
-  [login.fulfilled]: (state, action) => action.payload,
-  [linkLogin.fulfilled]: (state, action) => action.payload,
-});
+    [getUser.fulfilled] : (state,action)=> action.payload,
+    [registerUser.fulfilled] : (state,action)=> {
+      action.payload.name === "FirebaseError"?  "ERROR" : action.payload},
+    [login.fulfilled] : (state,action)=> action.payload,
+    [linkLogin.fulfilled]: (state, action) => action.payload,
+})
+
 
 export default userReducer;
