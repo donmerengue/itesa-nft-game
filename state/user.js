@@ -12,8 +12,8 @@ export const registerUser = createAsyncThunk("REGISTER", (userData)=>{
   return  createAccount(userData)
 })
 
-export const login = createAsyncThunk("LOGIN", ()=>{
-  return  loginEmail()
+export const login = createAsyncThunk("LOGIN", (userData)=>{
+  return  loginEmail(userData)
 })
 
 export const linkLogin = createAsyncThunk("LOGIN_LINK", () => {
@@ -25,7 +25,8 @@ const userReducer = createReducer(null, {
     [getUser.fulfilled] : (state,action)=> action.payload,
     [registerUser.fulfilled] : (state,action)=> {
       action.payload.name === "FirebaseError"?  "ERROR" : action.payload},
-    [login.fulfilled] : (state,action)=> action.payload,
+    [login.fulfilled] : (state,action)=> {
+      action.payload.name !== "FirebaseError" &&  action.payload},
     [linkLogin.fulfilled]: (state, action) => action.payload,
 })
 
