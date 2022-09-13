@@ -14,6 +14,8 @@ const Login = () => {
     dispatch(linkLogin());
   };
 
+  
+
   return (
     <form>
       <div className="group">
@@ -40,11 +42,17 @@ const Login = () => {
         Sign up
       </button>
       <button
-        id="btnLogin"
+        id="btnLoginLink"
         type="button"
         className="button buttonBlue"
         onClick={loginLinkHandler}>
         Send Login Link
+      </button>
+      <button
+        id="recaptcha-container-id"
+        type="button"
+        className="button buttonBlue">
+        RECAPTCHA CONTAINER
       </button>
     </form>
   );

@@ -43,16 +43,16 @@ const Register = () => {
     await dispatch(registerUser(data)).then((res) =>
       res.payload.isActive
         ? toast({
-            title: "Account created.",
-            description: "We've created your account for you.",
+            title: "Account created",
+            description: "",
             status: "success",
             position: "top",
             duration: 6000,
             isClosable: true,
           })
         : toast({
-            title: "Email is already in use.",
-            description: "Please try again.",
+            title: "Email is already in use",
+            description: "Please try again",
             status: "error",
             position: "top",
             duration: 6000,
@@ -64,7 +64,11 @@ const Register = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.50"}>
+        <Flex
+          minH={"100vh"}
+          align={"center"}
+          justify={"center"}
+          bg={"gray.50"}>
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -81,8 +85,7 @@ const Register = () => {
                     <FormControl
                       id="firstName"
                       isInvalid={errors.name}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>First Name</FormLabel>
                       <Input
                         type="text"
@@ -116,8 +119,7 @@ const Register = () => {
                     <FormControl
                       id="lastname"
                       isInvalid={errors.lastname}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>Last Name</FormLabel>
                       <Input
                         type="text"
@@ -148,7 +150,10 @@ const Register = () => {
                     </FormControl>
                   </Box>
                 </HStack>
-                <FormControl id="email" isInvalid={errors.email} isRequired>
+                <FormControl
+                  id="email"
+                  isInvalid={errors.email}
+                  isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
@@ -172,8 +177,7 @@ const Register = () => {
                 <FormControl
                   id="password"
                   isInvalid={errors.password}
-                  isRequired
-                >
+                  isRequired>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
@@ -186,7 +190,8 @@ const Register = () => {
                         },
                         minLength: {
                           value: 8,
-                          message: "Weak password, minimum length should be 8.",
+                          message:
+                            "Weak password, minimum length should be 8.",
                         },
                       })}
                     />
@@ -195,8 +200,7 @@ const Register = () => {
                         variant={"ghost"}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
-                        }
-                      >
+                        }>
                         {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                       </Button>
                     </InputRightElement>
@@ -215,8 +219,7 @@ const Register = () => {
                       bg: "blue.500",
                     }}
                     isLoading={isSubmitting}
-                    type="submit"
-                  >
+                    type="submit">
                     Sign up
                   </Button>
                 </Stack>
