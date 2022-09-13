@@ -1,6 +1,18 @@
-import loginEmail from "../../utils/loginEmail";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../state/user";
 
 const Login = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+
+const loginHandler = () =>{
+  dispatch(login());
+  
+}
+
+
+
   return (
     <form>
       <div className="group">
@@ -20,7 +32,7 @@ const Login = () => {
         id="btnLogin"
         type="button"
         className="button buttonBlue"
-        onClick={loginEmail}>
+        onClick={loginHandler}>
         Log in
       </button>
       <button id="btnSignup" type="button" className="button buttonBlue">
