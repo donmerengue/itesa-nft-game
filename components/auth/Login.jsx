@@ -1,17 +1,18 @@
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../state/user";
+import { login, linkLogin } from "../../state/user";
+
 
 const Login = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
 
+  const loginHandler = () => {
+    dispatch(login());
+  };
 
-const loginHandler = () =>{
-  dispatch(login());
-  
-}
-
-
+  const loginLinkHandler = () => {
+    dispatch(linkLogin());
+  };
 
   return (
     <form>
@@ -37,6 +38,13 @@ const loginHandler = () =>{
       </button>
       <button id="btnSignup" type="button" className="button buttonBlue">
         Sign up
+      </button>
+      <button
+        id="btnLogin"
+        type="button"
+        className="button buttonBlue"
+        onClick={loginLinkHandler}>
+        Send Login Link
       </button>
     </form>
   );

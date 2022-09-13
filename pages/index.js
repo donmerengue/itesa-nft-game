@@ -12,6 +12,7 @@ import useAuth from '../hooks/useAuth';
 export default function Home() {
   useAuth()
   const user = useSelector(state=>state.user)
+  console.log(user)
 
   return (
     <div className={styles.container}>
