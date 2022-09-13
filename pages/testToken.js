@@ -6,7 +6,7 @@ import {
   sendTokens,
 } from "../utils/blockchain/tokenOperations";
 
-const testToken = () => {
+const TestToken = () => {
   //   const address = "0x39906C8A5D39fc920DF46b2aCeDc1B80e75E5b50";
   const [balance, setBalance] = useState("");
   const [total, setTotal] = useState(0);
@@ -54,4 +54,4 @@ const testToken = () => {
   );
 };
 
-export default testToken;
+export default TestToken;
