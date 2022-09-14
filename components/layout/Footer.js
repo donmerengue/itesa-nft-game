@@ -25,7 +25,9 @@ import { ReactNode } from 'react';
                 direction={{ base: 'column', md: 'row' }}
                 spacing={4}
                 justify={{ base: 'center', md: 'space-between' }}
-                align={{ base: 'center', md: 'center' }}>
+                align={{ base: 'center', md: 'center' }}
+                mt={"86vh"}
+                >
                 <Text>INTERGALAXY</Text>
                 <Text>© 2022 Intergalaxy. All rights reserved</Text>
                 <Stack direction={'row'} spacing={6}>
