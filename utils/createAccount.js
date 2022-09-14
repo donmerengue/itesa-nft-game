@@ -4,11 +4,16 @@ import {
   sendEmailVerification,
 } from "firebase/auth";
 import { getDocumento, setNewDoc } from "../fetchData/controllers";
+import { createWallet } from "./blockchain/tokenOperations";
+
+
 
 // Create new account using email/password
 const createAccount = async ({ name, lastname, email, password }) => {
-  //Guardamos el user en Firebase Authentication y recibimos un userId
   try {
+    // const {address, mnomic} = createWallet()
+    
+    //Guardamos el user en Firebase Authentication y recibimos un userId
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email,
@@ -22,7 +27,7 @@ const createAccount = async ({ name, lastname, email, password }) => {
       isAdmin: false,
       lastname,
       name,
-      walletAddress: "asdsa68923sadsgsf",
+      walletAddress: "",
       isActive: true,
     };
     await sendEmailVerification(auth.currentUser);
