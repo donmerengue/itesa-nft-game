@@ -26,9 +26,10 @@ import { ReactNode } from 'react';
                 spacing={4}
                 justify={{ base: 'center', md: 'space-between' }}
                 align={{ base: 'center', md: 'center' }}
-                mt={"86vh"}
                 >
+                    <Link href='/'>
                 <Text>INTERGALAXY</Text>
+                </Link>
                 <Text>© 2022 Intergalaxy. All rights reserved</Text>
                 <Stack direction={'row'} spacing={6}>
                     <FaInstagram /> 

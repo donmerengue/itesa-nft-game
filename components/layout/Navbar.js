@@ -10,7 +10,6 @@ import {
   Stack,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
-/* import { HamburgerIcon, CloseIcon, } from '@chakra-ui/icons'; */
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
@@ -36,14 +35,12 @@ const Navbar = () => {
         <Stack direction="row" spacing={4} align="center">
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
-             HOME
+             INTERGALAXY
             </Button>
           </Link>
           <Button colorScheme="gray.50" variant="ghost">
          MARKETPLACE
           </Button>
-        </Stack>
-        <Stack direction="row" spacing={4} align="center">
           <Button colorScheme="gray.50" variant="ghost">
             PLAY NOW
           </Button>
@@ -70,12 +67,12 @@ const Navbar = () => {
 
           {user? (
             <>
-            <Link href="/">
+            <Link href="/user/profile">
               <Button colorScheme="gray.50" variant="ghost">
                PROFILE
               </Button>
             </Link>
-            <Link href="/">
+            <Link href="/user/history">
               <Button colorScheme="gray.50" variant="ghost">
                 HISTORY
               </Button>
@@ -94,7 +91,7 @@ const Navbar = () => {
                 onClick={handleAccount}
               >
                 {account ? (
-                  <p>{account[0].slice(0, 8)}</p>
+                  <p className="text-white">{account[0].slice(0, 8)}</p>
                 ) : (
                   <Avatar
                     size={"sm"}
