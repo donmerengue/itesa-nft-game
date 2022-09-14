@@ -6,9 +6,7 @@ import {
 import { getDocumento, setNewDoc } from "../fetchData/controllers";
 
 // Create new account using email/password
-const createAccount = async ({ name, lastname, email, password }) => {  
-  
-
+const createAccount = async ({ name, lastname, email, password }) => {
   //Guardamos el user en Firebase Authentication y recibimos un userId
   try {
     const userCredential = await createUserWithEmailAndPassword(
@@ -21,13 +19,12 @@ const createAccount = async ({ name, lastname, email, password }) => {
     //TODO: Agregar walletAddress 12/09
     const userData = {
       email: userCredential.user.email,
-      isAdmin: true,
+      isAdmin: false,
       lastname,
       name,
       walletAddress: "asdsa68923sadsgsf",
       isActive: true,
     };
-    console.log(auth.currentUser);
     await sendEmailVerification(auth.currentUser);
     await setNewDoc("users", userData, userCredential.user.uid);
     return getDocumento("users", userCredential.user.uid);
