@@ -19,20 +19,22 @@ export const login = createAsyncThunk("LOGIN", (userData) => {
 });
 
 export const linkLogin = createAsyncThunk("LOGIN_LINK", (email) => {
-  console.log("email desde accion linkLogin", email);
   return sendLoginLink(email);
 });
 
 const userReducer = createReducer(null, {
   [getUser.fulfilled]: (state, action) => action.payload,
   [registerUser.fulfilled]: (state, action) => {
-    action.payload.name === "FirebaseError" ? "ERROR" : action.payload;
+    if (action.payload.isActive) {
+      return action.payload;
+    }
   },
   [login.fulfilled]: (state, action) => {
-    action.payload.name !== "FirebaseError" && action.payload;
+    if (action.payload.isActive) {
+      return action.payload;
+    }
   },
   [linkLogin.fulfilled]: (state, action) => {
-    console.log("action payload desde user state", action.payload);
     // if (action.payload) return action.payload;
   },
 });
