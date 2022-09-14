@@ -23,15 +23,28 @@ import {
   Container,
   FormErrorMessage,
   useToast,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
+  Divider,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosEye, IoMdEye, IoMdEyeOff } from "react-icons/io";
+import { createWallet } from "../../utils/blockchain/tokenOperations";
+import { updateData } from "../../fetchData/controllers";
+import { auth } from "../../firebase/firebase-config";
 
 const Register = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const user = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
     register,
@@ -39,7 +52,11 @@ const Register = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const [phrase, setPhrase] = useState();
+  const [key, setKey] = useState();
+
   const onSubmit = async (data) => {
+    const { address, mnomic, privateKey } = createWallet();
     await dispatch(registerUser(data)).then((res) =>
       res.payload.isActive
         ? toast({
@@ -59,16 +76,23 @@ const Register = () => {
             isClosable: true,
           })
     );
+    updateData("users", auth.currentUser.uid, { walletAddress: address });
+
+    setKey(privateKey);
+    setPhrase(mnomic);
+    onOpen();
+  };
+
+  const handlerClose = () => {
+    onClose();
+    setPhrase("");
+    setKey("");
   };
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Flex
-          minH={"100vh"}
-          align={"center"}
-          justify={"center"}
-          bg={"gray.50"}>
+        <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.50"}>
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -85,7 +109,8 @@ const Register = () => {
                     <FormControl
                       id="firstName"
                       isInvalid={errors.name}
-                      isRequired>
+                      isRequired
+                    >
                       <FormLabel>First Name</FormLabel>
                       <Input
                         type="text"
@@ -119,7 +144,8 @@ const Register = () => {
                     <FormControl
                       id="lastname"
                       isInvalid={errors.lastname}
-                      isRequired>
+                      isRequired
+                    >
                       <FormLabel>Last Name</FormLabel>
                       <Input
                         type="text"
@@ -150,10 +176,7 @@ const Register = () => {
                     </FormControl>
                   </Box>
                 </HStack>
-                <FormControl
-                  id="email"
-                  isInvalid={errors.email}
-                  isRequired>
+                <FormControl id="email" isInvalid={errors.email} isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
@@ -177,7 +200,8 @@ const Register = () => {
                 <FormControl
                   id="password"
                   isInvalid={errors.password}
-                  isRequired>
+                  isRequired
+                >
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
@@ -190,8 +214,7 @@ const Register = () => {
                         },
                         minLength: {
                           value: 8,
-                          message:
-                            "Weak password, minimum length should be 8.",
+                          message: "Weak password, minimum length should be 8.",
                         },
                       })}
                     />
@@ -200,7 +223,8 @@ const Register = () => {
                         variant={"ghost"}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
-                        }>
+                        }
+                      >
                         {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                       </Button>
                     </InputRightElement>
@@ -219,13 +243,17 @@ const Register = () => {
                       bg: "blue.500",
                     }}
                     isLoading={isSubmitting}
-                    type="submit">
+                    type="submit"
+                  >
                     Sign up
                   </Button>
                 </Stack>
                 <Stack pt={6}>
                   <Text align={"center"}>
-                    Already a user? <Link href="/login" color={"blue.400"}>Login</Link>
+                    Already a user?{" "}
+                    <Link href="/login" color={"blue.400"}>
+                      Login
+                    </Link>
                   </Text>
                 </Stack>
               </Stack>
@@ -233,6 +261,34 @@ const Register = () => {
           </Stack>
         </Flex>
       </form>
+
+      <Modal isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Tu info privada</ModalHeader>
+          <ModalCloseButton />
+          <ModalBody>
+            <Heading size={"md"}>Tu frase de recuperacion</Heading>
+            <Text> {phrase}</Text>
+            <Divider my={"20px"} />
+
+            <Heading size={"md"}>Tu llave privada </Heading>
+            <Text> {key}</Text>
+
+            <Divider my={"20px"} />
+            <Text>
+              {" "}
+              Esta información va a desaparecer cuando cierres esta ventana
+            </Text>
+          </ModalBody>
+
+          <ModalFooter>
+            <Button colorScheme="blue" mr={3} onClick={handlerClose}>
+              Close
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
