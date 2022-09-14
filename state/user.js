@@ -3,6 +3,7 @@ import { getDocumento } from "../fetchData/controllers";
 import createAccount from "../utils/createAccount";
 import loginEmail from "../utils/loginEmail";
 import sendLoginLink from "../utils/loginLink";
+import logout from "../utils/logout";
 
 const initialState = { userData: {}, exists: false };
 
@@ -22,6 +23,10 @@ export const linkLogin = createAsyncThunk("LOGIN_LINK", (email) => {
   return sendLoginLink(email);
 });
 
+export const logoutUser = createAsyncThunk("LOGOUT", () => {
+  return logout();
+});
+
 const userReducer = createReducer(null, {
   [getUser.fulfilled]: (state, action) => action.payload,
   [registerUser.fulfilled]: (state, action) => {
@@ -37,6 +42,7 @@ const userReducer = createReducer(null, {
   [linkLogin.fulfilled]: (state, action) => {
     // if (action.payload) return action.payload;
   },
+  [logoutUser.fulfilled]: (state, action) => action.payload,
 });
 
 export default userReducer;
