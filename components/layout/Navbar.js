@@ -9,15 +9,21 @@ import {
   MenuButton,
   Stack,
 } from "@chakra-ui/react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 /* import { HamburgerIcon, CloseIcon, } from '@chakra-ui/icons'; */
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
+import { logoutUser } from "../../state/user";
+import useAuth from "../../hooks/useAuth";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
+  const dispatch = useDispatch();
 
+  //Traer info del usuario logueado
+  useAuth();
   const user = useSelector((state) => state.user);
 
+  //Manejo de cuenta de Metamask
   const handleAccount = async () => {
     if (account) {
       setAccount(null);
@@ -25,7 +31,12 @@ const Navbar = () => {
       setAccount(await requestAccount());
     }
   };
-  
+
+  //Manejo del logout
+  const handlerLogout = () => {
+    dispatch(logoutUser());
+  };
+
   return (
     <Box bg={"gray.900"} color={"gray.50"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
@@ -66,7 +77,11 @@ const Navbar = () => {
 
           {user ? (
             <Link href="/">
-              <Button colorScheme="gray.50" variant="ghost">
+              <Button
+                colorScheme="gray.50"
+                variant="ghost"
+                onClick={handlerLogout}
+              >
                 Logout
               </Button>
             </Link>

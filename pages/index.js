@@ -8,9 +8,6 @@ import useAuth from '../hooks/useAuth';
 import {Box, Text, Image   } from '@chakra-ui/react';
 
 export default function Home() {
-  useAuth()
-  const user = useSelector(state=>state.user)
-  console.log(user)
 
   return (
     <Box>
