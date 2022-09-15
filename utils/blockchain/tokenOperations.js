@@ -9,6 +9,14 @@ const bscProvider = new ethers.providers.JsonRpcProvider(
 const senderKey =
   "8b9d24eae4dd47e51544868ec4056fa2ad305168a8f571c31b68d580aca89c94"
 
+// Datos del token ITGX
+const tokenData = {
+  tokenAddress: "0x27D7F516Ff969d67170035d0a2B1F071859F602e",
+  tokenSymbol: "ITGX",
+  tokenDecimals: 18,
+  tokenImage: "https://i.imgur.com/G40GU3V.png",
+}
+
 // Formatear la salida de BigInt a decimal
 const formatEther = ethers.utils.formatEther
 
@@ -50,20 +58,6 @@ const totalSupply = async () => {
   }
 }
 
-//Interaccion con Metamask.
-// Esto conecta
-const requestAccount = async () => {
-  try {
-    const account = await window.ethereum.request({
-      method: "eth_requestAccounts",
-    })
-
-    return account
-  } catch (error) {
-    console.log(error.message)
-  }
-}
-
 // Para enviar tokens desde el address principal
 // Metodo alternativo hasta poder mintear tokens.
 const sendTokens = async (recipient, value) => {
@@ -83,6 +77,7 @@ const sendTokens = async (recipient, value) => {
   }
 }
 
+//* Crear wallet
 const createWallet = () => {
   const randomWallet = ethers.Wallet.createRandom()
   return {
@@ -92,10 +87,110 @@ const createWallet = () => {
   }
 }
 
+//########## INTERACCION CON METAMASK ###############
+//* Esto conecta
+const requestAccount = async () => {
+  try {
+    const account = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    })
+
+    return account
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+//* Comprobar si metamask esta instalado
+const isMetamaskInstalled = async () => {
+  if (window.ethereum) console.log("Si, Metamask esta instalado")
+  if (!window.ethereum) alert("necesitas instalar metamask")
+}
+
+//* Agregar Token ITGX
+const addToken = async () => {
+  try {
+    // wasAdded es un booleano que indica si el token fue aniadido o no.
+    const { tokenAddress, tokenDecimals, tokenImage, tokenSymbol } = tokenData
+    const wasAdded = await ethereum.request({
+      method: "wallet_watchAsset",
+      params: {
+        type: "ERC20", // Protocolo del token
+        options: {
+          address: tokenAddress, // El address del token
+          symbol: tokenSymbol, // Simbolo del token
+          decimals: tokenDecimals, // Decimales del token
+          image: tokenImage, // Url de imagen para que se vea en metamask
+        },
+      },
+    })
+    // Solo para propositos de comprobacion
+    if (wasAdded) {
+      console.log("Thanks for your interest!")
+    } else {
+      console.log("Your loss!")
+    }
+  } catch (addTokenError) {
+    if(addTokenError.code === 4001){
+      alert("debes aniadir el token para jugar")
+    }
+  }
+}
+
+//* Cambiar de chain a la de binance test
+const switchNetwork = async () => {
+  if (window.ethereum) {
+    try {
+      // Intentando conectarse a la testnet de binance
+      await window.ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: "0x61" }], // Verificando el chainId (esta en hexadecimal)
+      })
+    } catch (switchError) {
+      // El error 4902 significa que la red no esta agreagada a metamask
+      // Debemos solicitar agregarla con el metodo "wallet_addEthereumChain"
+      if (switchError.code === 4902) {
+        try {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            // Los params son los datos para aniadir la red
+            params: [
+              {
+                chainId: "0x61",
+                chainName: "Smart Chain - Testnet",
+                rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
+                nativeCurrency: {
+                  name: "BNB",
+                  symbol: "BNB",
+                  decimals: 18,
+                },
+                blockExplorerUrls: ["https://testnet.bscscan.com"],
+              },
+            ],
+          })
+        } catch (addError) {
+          console.log(addError)
+        }
+      }
+      console.log(switchError)
+    }
+  } else {
+    // Si metamask no esta instalado se lanzara una alerta
+    alert(
+      "MetaMask is not installed. Please install it to use this app: https://metamask.io/download.html"
+    )
+  }
+}
+
+// #######################################################
+
 module.exports = {
   getBalance,
   totalSupply,
   requestAccount,
   sendTokens,
   createWallet,
+  isMetamaskInstalled,
+  addToken,
+  switchNetwork
 }
