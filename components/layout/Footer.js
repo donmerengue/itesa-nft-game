@@ -26,6 +26,7 @@ import { ReactNode } from 'react';
                 spacing={4}
                 justify={{ base: 'center', md: 'space-between' }}
                 align={{ base: 'center', md: 'center' }}
+                className=" bottom-0 w-full"
                 >
                     <Link href='/'>
                 <Text>INTERGALAXY</Text>
