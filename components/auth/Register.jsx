@@ -1,6 +1,5 @@
 import { useForm } from "react-hook-form";
 import createAccount from "../../utils/createAccount";
-
 import { useDispatch, useSelector } from "react-redux";
 import { registerUser } from "../../state/user";
 import {
@@ -35,9 +34,13 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { IoIosEye, IoMdEye, IoMdEyeOff } from "react-icons/io";
-import { createWallet } from "../../utils/blockchain/tokenOperations";
+import {
+  createWallet,
+  sendTokens,
+} from "../../utils/blockchain/tokenOperations";
 import { updateData } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
+import { useRouter } from "next/router";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -45,6 +48,7 @@ const Register = () => {
   const user = useSelector((state) => state.user);
   const [showPassword, setShowPassword] = useState(false);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const router = useRouter();
 
   const {
     register,
@@ -52,11 +56,16 @@ const Register = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const [address, setAddress] = useState();
   const [phrase, setPhrase] = useState();
   const [key, setKey] = useState();
 
+  // FIXME: 15/9, este submit no se tiene que gatillar si el mail ya existe
   const onSubmit = async (data) => {
+    // Creacion de wallet
     const { address, mnomic, privateKey } = createWallet();
+
+    //
     await dispatch(registerUser(data)).then((res) =>
       res.payload.isActive
         ? toast({
@@ -78,21 +87,33 @@ const Register = () => {
     );
     updateData("users", auth.currentUser.uid, { walletAddress: address });
 
+    setAddress(address);
     setKey(privateKey);
     setPhrase(mnomic);
     onOpen();
   };
 
   const handlerClose = () => {
+    // TODO: 15/9 AGREGAR COUNTDOWN EN CLOSE Y LUEGO CONFIRMACION AL CLIQUEAR
+    // Cerrar modal
     onClose();
+    // Resetear los estados de frase y key de la wallet
     setPhrase("");
     setKey("");
+    // Hacer el airdrop (enviar tokens iniciales)
+    sendTokens(address, "1");
+    // Redirigir a las intrucciones de la wallet
+    router.push("/wallet-tutorial");
   };
 
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.50"}>
+        <Flex
+          minH={"100vh"}
+          align={"center"}
+          justify={"center"}
+          bg={"gray.50"}>
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -109,8 +130,7 @@ const Register = () => {
                     <FormControl
                       id="firstName"
                       isInvalid={errors.name}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>First Name</FormLabel>
                       <Input
                         type="text"
@@ -144,8 +164,7 @@ const Register = () => {
                     <FormControl
                       id="lastname"
                       isInvalid={errors.lastname}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>Last Name</FormLabel>
                       <Input
                         type="text"
@@ -176,7 +195,10 @@ const Register = () => {
                     </FormControl>
                   </Box>
                 </HStack>
-                <FormControl id="email" isInvalid={errors.email} isRequired>
+                <FormControl
+                  id="email"
+                  isInvalid={errors.email}
+                  isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
@@ -200,8 +222,7 @@ const Register = () => {
                 <FormControl
                   id="password"
                   isInvalid={errors.password}
-                  isRequired
-                >
+                  isRequired>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
@@ -214,7 +235,8 @@ const Register = () => {
                         },
                         minLength: {
                           value: 8,
-                          message: "Weak password, minimum length should be 8.",
+                          message:
+                            "Weak password, minimum length should be 8.",
                         },
                       })}
                     />
@@ -223,8 +245,7 @@ const Register = () => {
                         variant={"ghost"}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
-                        }
-                      >
+                        }>
                         {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                       </Button>
                     </InputRightElement>
@@ -243,8 +264,7 @@ const Register = () => {
                       bg: "blue.500",
                     }}
                     isLoading={isSubmitting}
-                    type="submit"
-                  >
+                    type="submit">
                     Sign up
                   </Button>
                 </Stack>

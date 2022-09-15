@@ -1,5 +1,4 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useRouter } from "next/router";
 import { linkLogin } from "../../state/user";
 import { useForm } from "react-hook-form";
 

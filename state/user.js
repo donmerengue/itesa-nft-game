@@ -5,7 +5,7 @@ import loginEmail from "../utils/loginEmail";
 import sendLoginLink from "../utils/loginLink";
 import logout from "../utils/logout";
 
-const initialState = { userData: {}, exists: false };
+// const initialState = { userData: {}, exists: false };
 
 export const getUser = createAsyncThunk("GET_USER", (userId) => {
   return getDocumento("users", userId);
