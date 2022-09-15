@@ -1,5 +1,5 @@
 import React from 'react'
-import WalletInstrucions from '../components/auth/WalletInstrucions'
+import WalletInstrucions from '../components/auth/WalletInstructions'
 
 const wallet = () => {
   return (
