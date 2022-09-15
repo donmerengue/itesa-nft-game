@@ -5,6 +5,9 @@ import {
   requestAccount,
   sendTokens,
   createWallet,
+  isMetamaskInstalled,
+  addToken,
+  switchNetwork,
 } from "../utils/blockchain/tokenOperations"
 
 const TestToken = () => {
@@ -72,6 +75,21 @@ const TestToken = () => {
     totalSupply().then(total => setTotal(total))
   }, [])
 
+  // esta metamask instalado?
+  const metamaskInstalado = () => {
+    isMetamaskInstalled()
+  }
+
+  // Agregar token a metamask
+const agregarToken = () => {
+  addToken()
+}
+
+const cambiarRed = () => {
+  switchNetwork()
+}
+
+
   return (
     <>
       <h1>Por ahora tenemos {total} ITGX 🤑</h1>
@@ -109,6 +127,12 @@ const TestToken = () => {
       <p>Wallet creada: {randomWallet}</p>
       <p>⚠️Frase de recuperacion de la wallet⚠️: {phraseWallet}</p>
       <p>⚠️Key de recuperacionde la wallet creada⚠️: {keyWallet}</p>
+      <br/>
+      <button onClick={metamaskInstalado}>Metamask instalado?</button>
+      <br/>
+      <button onClick={agregarToken}>Agregar token ITGX</button>
+      <br />
+      <button onClick={cambiarRed}>Cambiar a bsc testnet</button>
     </>
   )
 }
