@@ -1,7 +1,9 @@
+import Marketplace from "../../components/Marketplace/"
+
 const MarketplaceIndex = () => {
   return (
     <>
-      <div>El marketplace viene aqui</div>
+      <Marketplace />
     </>
   );
 };
