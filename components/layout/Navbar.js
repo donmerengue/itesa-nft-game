@@ -33,17 +33,25 @@ const Navbar = () => {
     <Box bg={"gray.900"} color={"gray.50"} px={4} >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row" spacing={4} align="center">
+
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
              INTERGALAXY
             </Button>
           </Link>
+
+          <Link href="/marketplace">
           <Button colorScheme="gray.50" variant="ghost">
          MARKETPLACE
           </Button>
+          </Link>
+
+          <Link >
           <Button colorScheme="gray.50" variant="ghost">
             PLAY NOW
           </Button>
+          </Link>
+          
         </Stack>
         <Stack direction="row" spacing={4} align="center">
     
