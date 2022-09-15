@@ -30,7 +30,7 @@ const Navbar = () => {
   };
 
   return (
-    <Box bg={"gray.900"} color={"gray.50"} px={4}>
+    <Box bg={"gray.900"} color={"gray.50"} px={4} >
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row" spacing={4} align="center">
           <Link href="/">

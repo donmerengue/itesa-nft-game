@@ -7,8 +7,8 @@ const UserProfile = () => {
   const user = useSelector((state) => state.user);
   
   return (
-    <Div>
-      <div className="py-40 ">
+    <div className="bg-[url('https://i.pinimg.com/originals/d7/d8/db/d7d8dbf3811c797e5d2cc364743ae3a7.gif')] h-[100vh]">
+      <div className="py-60 ">
         <div className="container m-auto px-6 text-white  md:px-12 xl:px-6">
           <div className="mb-12 space-y-2 text-center">
             <h2 className="text-2xl font-bold md:text-4xl">PROFILE</h2>
@@ -118,15 +118,8 @@ const UserProfile = () => {
           </div>
         </div>
       </div>
-    </Div>
-  );
+    </div>
+  )
 };
-
-const Div = styled.div`
-  padding-top: 64px;
-  padding-bottom: 64px;
-  height: 100vh;
-  background-image: url('https://i.pinimg.com/originals/d7/d8/db/d7d8dbf3811c797e5d2cc364743ae3a7.gif'); 
-`;
 
 export default UserProfile;
