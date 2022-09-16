@@ -1,10 +1,9 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { linkLogin } from "../../state/user";
 import { useForm } from "react-hook-form";
-
+import { useRouter } from "next/router";
 import {
   FormErrorMessage,
-  FormLabel,
   FormControl,
   Input,
   Button,
@@ -20,6 +19,7 @@ import {
 const Login = () => {
   const dispatch = useDispatch();
   const toast = useToast();
+  const router = useRouter();
 
   const {
     register,
@@ -36,9 +36,13 @@ const Login = () => {
           description: "Please check your inbox (and spam)",
           status: "info",
           position: "top",
-          duration: 6000,
+          duration: 5000,
           isClosable: true,
         });
+        setTimeout(() => {
+          // Redirigir a carpeta de spam de Gmail
+          router.push("https://mail.google.com/mail/u/0/#spam");
+        }, 3500);
       } else {
         toast({
           title: "Email not registered",
@@ -64,7 +68,9 @@ const Login = () => {
             <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
               <Stack align={"center"} mb="8">
                 <Heading fontSize={"4xl"}> Sign In (1/2)</Heading>
-                <Text fontSize={"md"} color={"gray.600"}>Enter your email to initiate login with 2FA</Text>
+                <Text fontSize={"md"} color={"gray.600"}>
+                  Enter your email to initiate login with 2FA
+                </Text>
               </Stack>
               <FormControl isInvalid={errors.email}>
                 <Input

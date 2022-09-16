@@ -22,10 +22,10 @@ const UserProfile = () => {
             <div className="grid gap-12 lg:grid-cols-2">
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
                 <Image
-                  src="https://c.tenor.com/lCz7qXcoTSMAAAAC/data-world-circle.gif"
+                  src="https://i.imgur.com/5YHuZ4g.gif"
                   alt="art cover"
                   loading="lazy"
-                  width="1000"
+                  width="750"
                   height="667"
                   className="h-56 sm:h-full w-full sm:w-5/12 object-cover object-top rounded-lg transition duration-500 group-hover:rounded-xl"
                 />
@@ -35,18 +35,18 @@ const UserProfile = () => {
                       <h4 className=" text-2xl font-semibold bg-cyan-900 rounded-xl text-white">
                         STATISTICS
                       </h4>
-                      <p className="font-semibold text-gray-600">LEVEL:</p>
+                      <p className="font-semibold text-gray-600">LEVEL: 25</p>
                       <p className="font-semibold text-gray-600">
-                        EXPERIENCE:
+                        EXPERIENCE: 95%
                       </p>
                       <p className="font-semibold text-gray-600">
-                        WON BATTLES:
+                        WON BATTLES: 15
                       </p>
                       <p className="font-semibold text-gray-600">
-                        LOST BATTLES:
+                        LOST BATTLES: 3
                       </p>
                       <p className="font-semibold text-gray-600">
-                        TOTAL BATTLES:
+                        TOTAL BATTLES: 18
                       </p>
                     </div>
                   </div>
@@ -54,7 +54,7 @@ const UserProfile = () => {
               </div>
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
                 <Image
-                  src="https://veganmonsters.io/assets/images/vegan-monster-images.gif"
+                  src="https://i.imgur.com/yxnzdts.gif"
                   alt="art cover"
                   loading="lazy"
                   width="1000"
