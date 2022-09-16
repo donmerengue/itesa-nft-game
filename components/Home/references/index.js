@@ -5,7 +5,8 @@ import {
     Box,
     Container,
     Heading,
-    Avatar
+    Avatar,
+    Divider
 } from '@chakra-ui/react';
 
 const References = () => {
@@ -33,8 +34,8 @@ const References = () => {
 
     return (
         <>
-            <Box bg={'gray.100'}>
-                <Container maxW={'7xl'} py={16} as={Stack} spacing={12}>
+            <Box bg={'rgba(27, 34, 97, 1)'}>
+                <Container  color={'white'}  maxW={'4xl'} py={16} as={Stack} spacing={12}>
                     <Stack spacing={0} align={'center'}>
                         <Heading>Our Gamers Speak</Heading>
                         <Text>We have been playing around the world</Text>
@@ -42,17 +43,19 @@ const References = () => {
                 </Container>
             </Box>
 
-            <Flex bg={'gray.50'}>
+            <Flex bg={'rgba(27, 34, 97, 1)'}>
                 {references.map(reference => (
                     <>
                         <Stack
                             ml={7}
+                            bg={'rgba(27, 34, 97, 1)'}
                             marginRight={7}
                             columns={4}
                             spacing={5}
-                            
-                            py={16}
+                            py={1}
                             px={8}
+                            mb={10}
+                            color={'gray.200'}
                             align={'center'}
                             direction={'column'}>
                             <Text fontSize={{ base: 'xl', md: '2xl' }}>{reference.subject}</Text>
