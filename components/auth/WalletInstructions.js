@@ -14,7 +14,6 @@ import {
   Text,
   useBreakpointValue,
 } from '@chakra-ui/react';
-import { Link } from "react-router-dom";
 
 
 const WalletInstructions = () => {
