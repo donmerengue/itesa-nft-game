@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
+import { async } from "@firebase/util";
 import Image from "next/image";
 
 const Navbar = () => {
@@ -22,8 +23,7 @@ const Navbar = () => {
   //Traer info del usuario logueado
   useAuth();
   const user = useSelector((state) => state.user);
-  console.log("user state Redux desde navbar", user);
-
+  
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
     account ? setAccount(null) : setAccount(await requestAccount());
@@ -40,7 +40,7 @@ const Navbar = () => {
 
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
-             INTERGALAXY
+              INTERGALAXY
             </Button>
             {/* <Image
               src="/jupiter.png"
@@ -97,6 +97,16 @@ const Navbar = () => {
             ""
           )}
 
+           {user?(
+            <Link href="/admin/dashboard">
+              <Button colorScheme="gray.50" variant="ghost">
+                ADMIN
+              </Button>
+            </Link>
+          ) : (
+            ""
+          )} 
+          
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
