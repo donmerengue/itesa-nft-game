@@ -43,7 +43,7 @@ const Navbar = () => {
               INTERGALAXY
             </Button>
             {/* <Image
-              src="/jupiter.png"
+              src="https://imgur.com/XESZdb9"
               alt="intergalaxy logo"
               height={64}
               width={64}></Image> */}
