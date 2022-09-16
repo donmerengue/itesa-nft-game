@@ -14,15 +14,16 @@ import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
 import { async } from "@firebase/util";
+import Image from "next/image";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
   const dispatch = useDispatch();
+
   //Traer info del usuario logueado
   useAuth();
-
   const user = useSelector((state) => state.user);
-
+  
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
     account ? setAccount(null) : setAccount(await requestAccount());
@@ -36,17 +37,30 @@ const Navbar = () => {
     <Box bg={"gray.900"} color={"gray.50"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row" spacing={4} align="center">
+
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
               INTERGALAXY
             </Button>
+            {/* <Image
+              src="/jupiter.png"
+              alt="intergalaxy logo"
+              height={64}
+              width={64}></Image> */}
           </Link>
+
+          <Link href="/marketplace">
           <Button colorScheme="gray.50" variant="ghost">
             MARKETPLACE
           </Button>
+          </Link>
+
+          <Link >
           <Button colorScheme="gray.50" variant="ghost">
             PLAY NOW
           </Button>
+          </Link>
+          
         </Stack>
         <Stack direction="row" spacing={4} align="center">
           {user ? (
@@ -54,8 +68,7 @@ const Navbar = () => {
               <Button
                 colorScheme="gray.50"
                 variant="ghost"
-                onClick={handlerLogout}
-              >
+                onClick={handlerLogout}>
                 LOGOUT
               </Button>
             </Link>
@@ -84,8 +97,6 @@ const Navbar = () => {
             ""
           )}
 
-         
-
            {user?(
             <Link href="/admin/dashboard">
               <Button colorScheme="gray.50" variant="ghost">
@@ -95,7 +106,7 @@ const Navbar = () => {
           ) : (
             ""
           )} 
-
+          
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
@@ -104,8 +115,7 @@ const Navbar = () => {
                 variant={"link"}
                 cursor={"pointer"}
                 minW={0}
-                onClick={handleAccount}
-              >
+                onClick={handleAccount}>
                 {account ? (
                   <p className="text-white">{account[0].slice(0, 8)}</p>
                 ) : (
