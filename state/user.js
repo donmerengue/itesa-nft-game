@@ -1,11 +1,15 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 import { getDocumento } from "../fetchData/controllers";
+import { auth } from "../firebase/firebase-config";
 import createAccount from "../utils/createAccount";
 import loginEmail from "../utils/loginEmail";
 import sendLoginLink from "../utils/loginLink";
 import logout from "../utils/logout";
 
-// const initialState = { userData: {}, exists: false };
+// FIXME: 15/9 -> genera react hydration error
+// const initialState = Cookies.get("user") || null;
+const initialState = null;
 
 export const getUser = createAsyncThunk("GET_USER", (userId) => {
   return getDocumento("users", userId);
@@ -15,8 +19,8 @@ export const registerUser = createAsyncThunk("REGISTER", (userData) => {
   return createAccount(userData);
 });
 
-export const login = createAsyncThunk("LOGIN", (userData) => {
-  return loginEmail(userData);
+export const login = createAsyncThunk("LOGIN", (password) => {
+  return loginEmail(password);
 });
 
 export const linkLogin = createAsyncThunk("LOGIN_LINK", (email) => {
@@ -24,10 +28,11 @@ export const linkLogin = createAsyncThunk("LOGIN_LINK", (email) => {
 });
 
 export const logoutUser = createAsyncThunk("LOGOUT", () => {
+  Cookies.remove("user");
   return logout();
 });
 
-const userReducer = createReducer(null, {
+const userReducer = createReducer(initialState, {
   [getUser.fulfilled]: (state, action) => action.payload,
   [registerUser.fulfilled]: (state, action) => {
     if (action.payload.isActive) {
@@ -36,6 +41,8 @@ const userReducer = createReducer(null, {
   },
   [login.fulfilled]: (state, action) => {
     if (action.payload.isActive) {
+      // Agregar Cookie con user data
+      Cookies.set("user", JSON.stringify(action.payload));
       return action.payload;
     }
   },

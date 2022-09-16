@@ -33,8 +33,8 @@ const LoginPassword = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
-  const onSubmit = (data) => {
-    dispatch(login(data)).then((res) => {
+  const onSubmit = (password) => {
+    dispatch(login(password)).then((res) => {
       if (res.payload.isActive) {
         toast({
           title: "Login successful",

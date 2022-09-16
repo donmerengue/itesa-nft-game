@@ -14,10 +14,15 @@ import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
 import Image from "next/image";
+import Cookies from "js-cookie";
 
-const Navbar = () => {
+const Navbar = ({ userCookie }) => {
   const [account, setAccount] = useState("");
   const dispatch = useDispatch();
+
+  // FIXME: 15/9 -> Funciona la cookie pero genera react hydration error
+  const userCookieFront = Cookies.get("user");
+  console.log("userCookieFront", userCookieFront);
 
   //Traer info del usuario logueado
   useAuth();
@@ -39,7 +44,7 @@ const Navbar = () => {
         <Stack direction="row" spacing={4} align="center">
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
-             INTERGALAXY
+              INTERGALAXY
             </Button>
             {/* <Image
               src="/jupiter.png"
@@ -88,7 +93,6 @@ const Navbar = () => {
           ) : (
             ""
           )}
-
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
