@@ -1,3 +1,4 @@
+import Image from "next/image";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -14,14 +15,13 @@ const UserProfile = () => {
             <div className="mb-12 space-y-2 text-center">
               <h2 className="text-2xl font-bold md:text-4xl">PROFILE</h2>
               <p className="lg:w-6/12 lg:mx-auto">
-                Here you can find your statistics as a user and your personal
-                data!
+                Here you can find your user stats and your personal data!
               </p>
             </div>
 
             <div className="grid gap-12 lg:grid-cols-2">
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
-                <img
+                <Image
                   src="https://c.tenor.com/lCz7qXcoTSMAAAAC/data-world-circle.gif"
                   alt="art cover"
                   loading="lazy"
@@ -36,7 +36,9 @@ const UserProfile = () => {
                         STATISTICS
                       </h4>
                       <p className="font-semibold text-gray-600">LEVEL:</p>
-                      <p className="font-semibold text-gray-600">EXPERIENCE:</p>
+                      <p className="font-semibold text-gray-600">
+                        EXPERIENCE:
+                      </p>
                       <p className="font-semibold text-gray-600">
                         WON BATTLES:
                       </p>
@@ -51,7 +53,7 @@ const UserProfile = () => {
                 </div>
               </div>
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
-                <img
+                <Image
                   src="https://veganmonsters.io/assets/images/vegan-monster-images.gif"
                   alt="art cover"
                   loading="lazy"

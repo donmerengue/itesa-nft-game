@@ -1,7 +1,7 @@
 
 import React from 'react'
 import Sidebar from '../SideBar/Sidebar'
-import Dashboar from './Dashboar'
+import Dashboar from './Dashboard'
 
 
 const Index = () => {
