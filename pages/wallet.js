@@ -1,10 +1,7 @@
-import React from 'react'
-import WalletInstrucions from '../components/auth/WalletInstructions'
+import WalletInstructions from "../components/auth/WalletInstructions";
 
-const wallet = () => {
-  return (
-    <WalletInstrucions/>
-  )
-}
+const WalletPage = () => {
+  return <WalletInstructions />;
+};
 
-export default wallet
+export default WalletPage;
