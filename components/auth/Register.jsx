@@ -1,7 +1,20 @@
-import { useForm } from "react-hook-form";
-import createAccount from "../../utils/createAccount";
+// Firebase
+import { auth } from "../../firebase/firebase-config";
+// React / Next
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useRouter } from "next/router";
+import { useForm } from "react-hook-form";
+// Utils
 import { registerUser } from "../../state/user";
+// Controllers
+import { updateData } from "../../fetchData/controllers";
+// Tokens
+import {
+  createWallet,
+  sendTokens,
+} from "../../utils/blockchain/tokenOperations";
+// UI / Styles
 import {
   Flex,
   Box,
@@ -15,11 +28,7 @@ import {
   Button,
   Heading,
   Text,
-  useColorModeValue,
   Link,
-  Spacer,
-  Grid,
-  Container,
   FormErrorMessage,
   useToast,
   useDisclosure,
@@ -32,15 +41,7 @@ import {
   ModalFooter,
   Divider,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { IoIosEye, IoMdEye, IoMdEyeOff } from "react-icons/io";
-import {
-  createWallet,
-  sendTokens,
-} from "../../utils/blockchain/tokenOperations";
-import { updateData } from "../../fetchData/controllers";
-import { auth } from "../../firebase/firebase-config";
-import { useRouter } from "next/router";
+import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
 const Register = () => {
   const dispatch = useDispatch();
@@ -50,47 +51,64 @@ const Register = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const router = useRouter();
 
+  // React Form
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
 
+  // Estados de la wallet
   const [address, setAddress] = useState();
   const [phrase, setPhrase] = useState();
   const [key, setKey] = useState();
+  const [userCreated, setUserCreated] = useState(false);
 
-  // FIXME: 15/9, este submit no se tiene que gatillar si el mail ya existe
   const onSubmit = async (data) => {
-    // Creacion de wallet
-    const { address, mnomic, privateKey } = createWallet();
+    let userCreation = false;
+    // Registrar usuario si no existe
+    await dispatch(registerUser(data)).then((res) => {
+      if (res.payload.isActive) {
+        toast({
+          title: "Account created",
+          description: "",
+          status: "success",
+          position: "top",
+          duration: 6000,
+          isClosable: true,
+        });
+        userCreation = true;
+      }
+      // Avisar si el usuario ya existe
+      else {
+        toast({
+          title: "Email is already in use",
+          description: "Please try again",
+          status: "error",
+          position: "top",
+          duration: 6000,
+          isClosable: true,
+        });
+      }
+    });
 
-    //
-    await dispatch(registerUser(data)).then((res) =>
-      res.payload.isActive
-        ? toast({
-            title: "Account created",
-            description: "",
-            status: "success",
-            position: "top",
-            duration: 6000,
-            isClosable: true,
-          })
-        : toast({
-            title: "Email is already in use",
-            description: "Please try again",
-            status: "error",
-            position: "top",
-            duration: 6000,
-            isClosable: true,
-          })
-    );
-    updateData("users", auth.currentUser.uid, { walletAddress: address });
+    // Si se acaba de registrar un usuario
+    if (userCreation) {
+      // Creacion de wallet
+      const { address, mnomic, privateKey } = createWallet();
 
-    setAddress(address);
-    setKey(privateKey);
-    setPhrase(mnomic);
-    onOpen();
+      // Agregar la walletAddress a los datos del usuario
+      updateData("users", auth.currentUser.uid, {
+        walletAddress: address,
+      });
+
+      // Setear estados de la wallet
+      setAddress(address);
+      setKey(privateKey);
+      setPhrase(mnomic);
+      // Abrir modal para mostrar datos
+      onOpen();
+    }
   };
 
   const handlerClose = () => {
@@ -103,7 +121,7 @@ const Register = () => {
     // Hacer el airdrop (enviar tokens iniciales)
     sendTokens(address, "1");
     // Redirigir a las intrucciones de la wallet
-    router.push("/wallet-tutorial");
+    router.push("/wallet");
   };
 
   return (
