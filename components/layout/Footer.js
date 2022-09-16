@@ -1,19 +1,16 @@
 import {
     Box,
-    Icon, 
-    chakra,
+    Icon,
     Container,
     Link,
     Stack,
     Text,
-    useColorModeValue,
-    VisuallyHidden,
 } from '@chakra-ui/react';
-import { FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa'; 
-import { ChatIcon, EmailIcon} from '@chakra-ui/icons'
-import { ReactNode } from 'react';
+import { FaInstagram } from 'react-icons/fa';
+import { ChatIcon, EmailIcon } from '@chakra-ui/icons'
 
- function Footer() {
+
+function Footer() {
     return (
         <Box
             bg={('gray.900')}
@@ -27,13 +24,13 @@ import { ReactNode } from 'react';
                 justify={{ base: 'center', md: 'space-between' }}
                 align={{ base: 'center', md: 'center' }}
                 className=" bottom-0 w-full"
-                >
-                    <Link href='/'>
-                <Text>INTERGALAXY</Text>
+            >
+                <Link href='/'>
+                    <Text>INTERGALAXY</Text>
                 </Link>
                 <Text>© 2022 Intergalaxy. All rights reserved</Text>
                 <Stack direction={'row'} spacing={6}>
-                    <FaInstagram /> 
+                    <FaInstagram />
                     <Icon as={EmailIcon} />
                     <Icon as={ChatIcon} />
                 </Stack>
