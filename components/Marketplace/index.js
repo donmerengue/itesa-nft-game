@@ -5,7 +5,7 @@ import GridMarket from './grid/grid';
 const Marketplace = () => {
 
     return (
-        <Box >
+        <Box>
             <HeadMarket />
             <GridMarket />
         </Box >
