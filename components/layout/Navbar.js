@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
+import { async } from "@firebase/util";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
@@ -21,8 +22,10 @@ const Navbar = () => {
   useAuth();
 
   const user = useSelector((state) => state.user);
-   //Manejo de cuenta de Metamask
-  const handleAccount = async () =>account ? setAccount(null) : setAccount(await requestAccount());
+
+  //Manejo de cuenta de Metamask
+  const handleAccount = async () =>
+    account ? setAccount(null) : setAccount(await requestAccount());
 
   //Manejo del logout
   const handlerLogout = () => {
@@ -30,23 +33,22 @@ const Navbar = () => {
   };
 
   return (
-    <Box bg={"gray.900"} color={"gray.50"} px={4} >
+    <Box bg={"gray.900"} color={"gray.50"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row" spacing={4} align="center">
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
-             INTERGALAXY
+              INTERGALAXY
             </Button>
           </Link>
           <Button colorScheme="gray.50" variant="ghost">
-         MARKETPLACE
+            MARKETPLACE
           </Button>
           <Button colorScheme="gray.50" variant="ghost">
             PLAY NOW
           </Button>
         </Stack>
         <Stack direction="row" spacing={4} align="center">
-    
           {user ? (
             <Link href="/">
               <Button
@@ -65,20 +67,34 @@ const Navbar = () => {
             </Link>
           )}
 
-          {user? (
+          {user ? (
             <>
-            <Link href="/user/profile">
-              <Button colorScheme="gray.50" variant="ghost">
-               PROFILE
-              </Button>
-            </Link>
-            <Link href="/user/history">
-              <Button colorScheme="gray.50" variant="ghost">
-                HISTORY
-              </Button>
-            </Link>
+              <Link href="/user/profile">
+                <Button colorScheme="gray.50" variant="ghost">
+                  PROFILE
+                </Button>
+              </Link>
+              <Link href="/user/history">
+                <Button colorScheme="gray.50" variant="ghost">
+                  HISTORY
+                </Button>
+              </Link>
             </>
-          ):""}
+          ) : (
+            ""
+          )}
+
+         
+
+           {user?(
+            <Link href="/admin/dashboard">
+              <Button colorScheme="gray.50" variant="ghost">
+                ADMIN
+              </Button>
+            </Link>
+          ) : (
+            ""
+          )} 
 
           <Flex alignItems={"center"}>
             <Menu>
