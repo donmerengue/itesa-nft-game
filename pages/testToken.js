@@ -9,6 +9,8 @@ import {
   addToken,
   switchNetwork,
 } from "../utils/blockchain/tokenOperations"
+import Navbar from '../components/layout/Navbar'
+import Footer from '../components/layout/Footer'
 
 const TestToken = () => {
   //   const address = "0x39906C8A5D39fc920DF46b2aCeDc1B80e75E5b50";
@@ -92,6 +94,7 @@ const cambiarRed = () => {
 
   return (
     <>
+    <Navbar/>
       <h1>Por ahora tenemos {total} ITGX 🤑</h1>
 
       <button onClick={handleBalance}>getBalance</button>
@@ -133,6 +136,7 @@ const cambiarRed = () => {
       <button onClick={agregarToken}>Agregar token ITGX</button>
       <br />
       <button onClick={cambiarRed}>Cambiar a bsc testnet</button>
+      <Footer/>
     </>
   )
 }
