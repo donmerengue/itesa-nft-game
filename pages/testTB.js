@@ -18,13 +18,20 @@ const TestTB = () => {
   //   console.log(user);
   //   console.log(auth.currentUser)
 
-  
   // Actualizar fondeo en base de datos
   const handleFunding = (tokenQuantityParam) => {
     const tokenQuantity2 = 20;
     updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
     // TODO: 20/9 pasar a un componente que sea FONDEO
     console.log("Fondos actualizados");
+  };
+
+  // Actualizar retiro en base de datos
+  const handleWithdraw = (tokenQuantityParam) => {
+    const tokenQuantity2 = -20;
+    updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
+    // TODO: 20/9 pasar a un componente que sea FONDEO
+    console.log("Fondos retirados y actualizados");
   };
 
   // Actualizar aidrop en base de datos
@@ -39,14 +46,14 @@ const TestTB = () => {
   };
 
   // TODO: 20/9 ver si esto es necesario (enviar plata otro usuario dentro del juego)
-//   const handleTransferIngame = (tokenQuantity, userMail) => {
-//     // Actualizar aidrop en base de datos
-//     // TODO: pasar al registro
-//     updateData("users", auth.currentUser.uid, {
-//       tokenQuantity,
-//     });
-//     console.log("Airdrop dado");
-//   };
+  //   const handleTransferIngame = (tokenQuantity, userMail) => {
+  //     // Actualizar aidrop en base de datos
+  //     // TODO: pasar al registro
+  //     updateData("users", auth.currentUser.uid, {
+  //       tokenQuantity,
+  //     });
+  //     console.log("Airdrop dado");
+  //   };
 
   return (
     <div>
@@ -75,6 +82,18 @@ const TestTB = () => {
         type="submit"
         onClick={handleFunding}>
         Fondeo
+      </Button>
+      <Button
+        loadingText="Loading"
+        size="lg"
+        bg={"blue.400"}
+        color={"white"}
+        _hover={{
+          bg: "blue.500",
+        }}
+        type="submit"
+        onClick={handleWithdraw}>
+        Retiro
       </Button>
       <Button
         loadingText="Loading"
