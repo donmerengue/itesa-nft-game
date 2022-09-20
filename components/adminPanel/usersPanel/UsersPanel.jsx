@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { getData } from "../../../fetchData/controllers";
 import ItemUser from "./ItemUser";
 
 const UsersPanel = () => {
   const [users, setUsers] = useState({});
   const [active, setActive] = useState(false);
+  const [update, setUpdate] = useState(false); // Es 
 
-  const handlerGet = (e) => {
-    e.preventDefault();
+  useEffect(()=>{
     getData("users").then((data) => {
       setUsers(data);
       setActive(true);
     });
-  };
+  },[update])
 
   return (
     <>
@@ -30,24 +30,13 @@ const UsersPanel = () => {
                   <th className="p-3 text-left" width="110px">
                     Baneo
                   </th>
-
-                  {active ? (
-                    ""
-                  ) : (
-                    <th className="p-3 text-left" width="140px">
-                      <button
-                        className="mr-3 text-sm bg-orange-400 hover:bg-orange-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-                        onClick={handlerGet}
-                      >
-                        All users
-                      </button>
-                    </th>
-                  )}
                 </tr>
               </thead>
-              {active? users.map((user,i)=>(
-                <ItemUser user={user} setUsers={setUsers} key={i}/>
-              )):""}
+              {active
+                ? users.map((user, i) => (
+                    <ItemUser user={user} setUpdate={setUpdate} key={i} />
+                  ))
+                : ""}
             </table>
           </div>
         </body>
