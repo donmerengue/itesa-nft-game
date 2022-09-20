@@ -65,69 +65,77 @@ const Register = () => {
   const [userCreated, setUserCreated] = useState(false);
 
   const onSubmit = async (data) => {
-   
     //Si la contraseñas coinciden
-   if(data.password === data.password2){
-    let userCreation = false;
-    // Registrar usuario si no existe
-    await dispatch(registerUser(data)).then((res) => {
-      if (res.payload.isActive) {
-        toast({
-          title: "Account created",
-          description: "",
-          status: "success",
-          position: "top",
-          duration: 6000,
-          isClosable: true,
-        });
-        userCreation = true;
-      }
-      // Avisar si el usuario ya existe
-      else {
-        toast({
-          title: "Email is already in use",
-          description: "Please try again",
-          status: "error",
-          position: "top",
-          duration: 6000,
-          isClosable: true,
-        });
-      }
-    });
-
-    // Si se acaba de registrar un usuario
-    if (userCreation) {
-      // Creacion de wallet
-      const { address, mnomic, privateKey } = createWallet();
-
-      // Agregar la walletAddress a los datos del usuario
-      updateData("users", auth.currentUser.uid, {
-        walletAddress: address,
+    if (data.password === data.password2) {
+      let userCreation = false;
+      // Registrar usuario si no existe
+      await dispatch(registerUser(data)).then((res) => {
+        if (res.payload.isActive) {
+          toast({
+            title: "Account created",
+            description: "",
+            status: "success",
+            position: "top",
+            duration: 6000,
+            isClosable: true,
+          });
+          userCreation = true;
+        }
+        // Avisar si el usuario ya existe
+        else {
+          toast({
+            title: "Email is already in use",
+            description: "Please try again",
+            status: "error",
+            position: "top",
+            duration: 6000,
+            isClosable: true,
+          });
+        }
       });
 
-      // Setear estados de la wallet
-      setAddress(address);
-      setKey(privateKey);
-      setPhrase(mnomic);
-      // Abrir modal para mostrar datos
-      onOpen();
+      // Si se acaba de registrar un usuario
+      if (userCreation) {
+        // Actualizar aidrop en base de datos
+        const tokenQuantity = 100;
+        updateData("users", auth.currentUser.uid, {
+          tokenQuantity,
+        });
+        console.log("Airdrop dado");
+
+        // TODO: 20/9 -> Por el momento queda pendiente la creacion de la wallet
+        /* // Creacion de wallet
+        const { address, mnomic, privateKey } = createWallet();
+
+        // Agregar la walletAddress a los datos del usuario
+        updateData("users", auth.currentUser.uid, {
+          walletAddress: address,
+        });
+
+        // Setear estados de la wallet
+        setAddress(address);
+        setKey(privateKey);
+        setPhrase(mnomic); */
+
+        // Abrir modal para mostrar datos
+        onOpen();
+      }
     }
-  }
-  //si no coinciden las contraseñas
-  else {
-    //mensaje de error
-    toast({
-      title: "Password doesn't match",
-      description: "Please try again",
-      status: "error",
-      position: "top",
-      duration: 6000,
-      isClosable: true,
-    });
-  }
+    //si no coinciden las contraseñas
+    else {
+      //mensaje de error
+      toast({
+        title: "Password doesn't match",
+        description: "Please try again",
+        status: "error",
+        position: "top",
+        duration: 6000,
+        isClosable: true,
+      });
+    }
   };
 
-  // FIXME: 20/9 ->esto ya no se maneja asi 
+  // FIXME: 20/9 ->esto ya no se maneja asi
   const handlerClose = () => {
     // TODO: 15/9 AGREGAR COUNTDOWN EN CLOSE Y LUEGO CONFIRMACION AL CLIQUEAR
     // Cerrar modal
@@ -138,6 +146,7 @@ const Register = () => {
     // Hacer el airdrop (enviar tokens iniciales)
     sendTokens(address, "1");
     // Redirigir a las intrucciones de la wallet
+    // TODO: 20/9 redirigir a /avatar o /createAvatar
     router.push("/wallet");
   };
 
@@ -288,7 +297,8 @@ const Register = () => {
                   <FormErrorMessage>
                     {errors.password && errors.password.message}
                   </FormErrorMessage>
-                </FormControl> <FormControl
+                </FormControl>{" "}
+                <FormControl
                   id="password2"
                   isInvalid={errors.password2}
                   isRequired>
@@ -354,26 +364,24 @@ const Register = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Tu info privada</ModalHeader>
+          <ModalHeader>Welcome to Intergalaxy!</ModalHeader>
           <ModalCloseButton />
           <ModalBody>
-            <Heading size={"md"}>Tu frase de recuperacion</Heading>
-            <Text> {phrase}</Text>
-            <Divider my={"20px"} />
-
-            <Heading size={"md"}>Tu llave privada </Heading>
-            <Text> {key}</Text>
-
+            <Heading size={"md"}>
+              We have gifted you with 1 ITGX (Intergalaxy Coin)
+            </Heading>
             <Divider my={"20px"} />
             <Text>
-              {" "}
-              Esta información va a desaparecer cuando cierres esta ventana
+              You can use these token to buy NFT equipments in the
+              marketplace
             </Text>
+            <Divider my={"20px"} />
+            <Text> Continue to create your Avatar</Text>
           </ModalBody>
 
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={handlerClose}>
-              Close
+              Continue
             </Button>
           </ModalFooter>
         </ModalContent>

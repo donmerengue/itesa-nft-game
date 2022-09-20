@@ -7,6 +7,7 @@ import {
   deleteDoc,
   getDoc,
   setDoc,
+  increment,
 } from "firebase/firestore";
 import db from "../firebase/firebase-config";
 
@@ -37,7 +38,7 @@ export const getDocumento = async (coleccion, id) => {
 
   if (docSnap.exists()) {
     console.log("Document data:", docSnap.data());
-    return docSnap.data()
+    return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
     console.log("No such document!");
@@ -48,6 +49,13 @@ export const getDocumento = async (coleccion, id) => {
 export const updateData = async (coleccion, id, data) => {
   const dataDoc = doc(db, coleccion, id);
   await updateDoc(dataDoc, data);
+  console.log("ok");
+};
+
+// Actualizar cantidad de tokens
+export const updateTokenQuant = async (coleccion, id, value) => {
+  const dataDoc = doc(db, coleccion, id);
+  await updateDoc(dataDoc, { tokenQuantity: increment(value) });
   console.log("ok");
 };
 
