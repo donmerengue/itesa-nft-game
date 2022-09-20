@@ -1,9 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useAuthState } from "react-firebase-hooks/auth";
-
 import { auth } from "../firebase/firebase-config";
-import { getDocumento } from "../fetchData/controllers";
 import { getUser, login } from "../state/user";
 
 const useAuth = () => {
@@ -13,7 +11,7 @@ const useAuth = () => {
 
   useEffect(() => {
     if (!loading) {
-      dispatch(getUser(user.uid))
+      dispatch(getUser(user.uid));
     }
   }, [user]);
 };

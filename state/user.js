@@ -1,9 +1,9 @@
 import { createAsyncThunk, createReducer } from "@reduxjs/toolkit";
 import { getDocumento } from "../fetchData/controllers";
-import createAccount from "../utils/createAccount";
-import loginEmail from "../utils/loginEmail";
-import sendLoginLink from "../utils/loginLink";
-import logout from "../utils/logout";
+import createAccount from "../utils/auth/createAccount";
+import loginEmail from "../utils/auth/loginEmail";
+import sendLoginLink from "../utils/auth/loginLink";
+import logout from "../utils/auth/logout";
 
 // const initialState = { userData: {}, exists: false };
 

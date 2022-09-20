@@ -15,7 +15,7 @@ const UserProfile = () => {
             <div className="mb-12 space-y-2 text-center">
               <h2 className="text-2xl font-bold md:text-4xl">PROFILE</h2>
               <p className="lg:w-6/12 lg:mx-auto">
-                Here you can find your user stats and your personal data!
+                Here you can find your user stats and personal data!
               </p>
             </div>
 

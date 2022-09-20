@@ -1,6 +1,6 @@
-import { auth } from "../firebase/firebase-config";
+import { auth } from "../../firebase/firebase-config";
 import { signInWithEmailAndPassword } from "firebase/auth";
-import { getDocumento } from "../fetchData/controllers";
+import { getDocumento } from "../../fetchData/controllers";
 
 // Login using email/password
 const loginEmail = async ({ password }) => {
