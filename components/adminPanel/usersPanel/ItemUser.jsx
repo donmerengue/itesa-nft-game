@@ -30,10 +30,16 @@ console.log(user)
             To give
           </td>
           )}
-          
-          <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
+          {user.isActive? (
+            <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
             BAN
           </td>
+          ):(
+            <td className="border-grey-light border hover:bg-gray-100 p-3 text-green-400 hover:text-green-600 hover:font-medium cursor-pointer">
+            Activate
+          </td>
+          )}
+          
         </tr>
       </tbody>
     </>
