@@ -6,7 +6,7 @@ import UsersPanel from './UsersPanel'
 const index = () => {
   return (
     <>
-    <div className="flex overflow-hidden bg-white pt-16 h-[100vh]">
+    <div className="flex overflow-hidden bg-white  ">
     <Sidebar/>
     <UsersPanel/>
     </div>

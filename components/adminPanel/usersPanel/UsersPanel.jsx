@@ -2,47 +2,55 @@ import React, { useState } from "react";
 import { getData } from "../../../fetchData/controllers";
 import ItemUser from "./ItemUser";
 
-
 const UsersPanel = () => {
   const [users, setUsers] = useState({});
   const [active, setActive] = useState(false);
- 
+
   const handlerGet = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     getData("users").then((data) => {
       setUsers(data);
       setActive(true);
     });
   };
- 
+
   return (
     <>
       <div className="text-gray-900 bg-white w-full h-full">
-        <div className="p-4 flex ml-20">
-          <button
-            className="mr-3 text-sm bg-blue-500 hover:bg-blue-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-            onClick={handlerGet}
-          >
-            ALL USERS
-          </button>
-        </div>
-        <div className="pr-40 py-4 flex justify-center  relative  ml-20  ">
-          <table className="w-full text-md bg-gray-300 shadow-md rounded mb-4">
-            <tbody>
-              <tr className="border-b">
-                <th className="text-left p-3 px-5">NAME</th>
-                <th className="text-left p-3 px-5">EMAIL</th>
-                <th className="text-left p-3 px-5">ADMIN</th>
-                <th></th>
-              </tr>
-              {active
-                ? users.map((user, i) => (             
-                      <ItemUser key={i} user={user} setUsers={setUsers}/>
-                  ))
-                : ""}
-            </tbody>
-          </table>
-        </div>
+        <body className="responsive">
+          <div className="container">
+            <table className="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-3">
+              <thead className="text-white">
+                <tr className="bg-gray-900 flex flex-col flex-no wrap sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0">
+                  <th className="p-3 text-left">Name</th>
+                  <th className="p-3 text-left">Email</th>
+                  <th className="p-3 text-left" width="110px">
+                    Admin
+                  </th>
+                  <th className="p-3 text-left" width="110px">
+                    Baneo
+                  </th>
+
+                  {active ? (
+                    ""
+                  ) : (
+                    <th className="p-3 text-left" width="140px">
+                      <button
+                        className="mr-3 text-sm bg-orange-400 hover:bg-orange-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
+                        onClick={handlerGet}
+                      >
+                        All users
+                      </button>
+                    </th>
+                  )}
+                </tr>
+              </thead>
+              {active? users.map((user,i)=>(
+                <ItemUser user={user} setUsers={setUsers} key={i}/>
+              )):""}
+            </table>
+          </div>
+        </body>
       </div>
     </>
   );

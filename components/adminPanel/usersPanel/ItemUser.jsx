@@ -3,73 +3,39 @@ import React, { useState } from "react";
 import { updateData } from "../../../fetchData/controllers";
 import { auth } from "../../../firebase/firebase-config";
 
-
-
-
 const ItemUser = ({ user, setUsers }) => {
   const [admin, setAdmin] = useState(false);
 
-  const toggleAdmin=(e)=>{
-    setAdmin(!admin)
-     updateData("users", auth.currentUser.uid, { isAdmin: admin })
-  }
-  
+  const toggleAdmin = (e) => {
+    setAdmin(!admin);
+    updateData("users", auth.currentUser.uid, { isAdmin: admin });
+  };
+console.log(user)
   return (
     <>
-      <tr className="border-b hover:bg-orange-100 bg-gray-100">
-        <td className="p-3 px-5">
-          <input
-            type="text"
-            value={user.name}
-            readOnly
-            className="bg-transparent focus:outline-none"
-          />
-        </td>
-        <td className="p-3 px-5">
-          <input
-            type="text"
-            value={user.email}
-            readOnly
-            className="bg-transparent focus:outline-none"
-          />
-        </td>
-        <td className="p-3 px-5">
-          {user.isAdmin === true ? (
-            <button
-            onClick={toggleAdmin}
-              type="button"
-              className="mr-3 text-sm bg-red-700 hover:bg-red-500 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-            >
-              PUT OFF
-            </button>
-          ) : (
-            <button
-            onClick={toggleAdmin}
-              type="button"
-              className="mr-3 text-sm bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-            >
-              TO GIVE
-            </button>
+      <tbody className="flex-1 sm:flex-none">
+        <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
+          <td className="border-grey-light border hover:bg-gray-100 p-3">
+            {user.name}
+          </td>
+          <td className="border-grey-light border hover:bg-gray-100 p-3 truncate">
+            {user.email}
+          </td>
+          {user.isAdmin?(
+            <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
+            Put off
+            </td>
+          ):(
+            <td className="border-grey-light border hover:bg-gray-100 p-3 text-green-400 hover:text-green-600 hover:font-medium cursor-pointer">
+            To give
+          </td>
           )}
-        </td>
-        <td className="p-3 px-5 flex justify-end">
-          {user.isActive === true ? (
-            <button
-              type="button"
-              className="text-sm bg-red-500 hover:bg-red-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-            >
-              BAN
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="mr-3 text-sm bg-green-500 hover:bg-green-700 text-white py-1 px-2 rounded focus:outline-none focus:shadow-outline"
-            >
-              ACTIVATE
-            </button>
-          )}
-        </td>
-      </tr>
+          
+          <td className="border-grey-light border hover:bg-gray-100 p-3 text-red-400 hover:text-red-600 hover:font-medium cursor-pointer">
+            BAN
+          </td>
+        </tr>
+      </tbody>
     </>
   );
 };
