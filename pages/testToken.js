@@ -8,6 +8,7 @@ import {
   isMetamaskInstalled,
   addToken,
   switchNetwork,
+  // historial
 } from "../utils/blockchain/tokenOperations"
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
@@ -90,8 +91,10 @@ const agregarToken = () => {
 const cambiarRed = () => {
   switchNetwork()
 }
+const handleHistory = () =>{
+  // historial()
 
-
+}
   return (
     <>
     <Navbar/>
@@ -127,6 +130,8 @@ const cambiarRed = () => {
       </form>
 
       <button onClick={createAddress}>Crear wallet 💰</button>
+      <button onClick={handleHistory}>historial</button>
+
       <p>Wallet creada: {randomWallet}</p>
       <p>⚠️Frase de recuperacion de la wallet⚠️: {phraseWallet}</p>
       <p>⚠️Key de recuperacionde la wallet creada⚠️: {keyWallet}</p>

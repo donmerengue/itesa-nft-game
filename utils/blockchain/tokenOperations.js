@@ -39,6 +39,8 @@ const signer = new ethers.Wallet(senderKey, bscProvider)
 // conexion al IGTX
 const contractSigned = new ethers.Contract(address, BEP20_ABI, signer)
 
+
+
 // Obtener el balance de un address en especifico.
 const getBalance = async address => {
   try {
@@ -58,6 +60,17 @@ const totalSupply = async () => {
   }
 }
 
+//Obtener el historial de transacciones
+//  const historial = async () => {
+//   bscProvider.getLogs(address).then((history) => {
+//     history.forEach((tx) => {
+//         console.log(tx);
+//     })
+//   });
+// }
+
+
+
 // Para enviar tokens desde el address principal
 // Metodo alternativo hasta poder mintear tokens.
 const sendTokens = async (recipient, value) => {
@@ -72,6 +85,7 @@ const sendTokens = async (recipient, value) => {
     // esperamos que sea minado en la blockchain
     await tx.wait()
     console.log(tx)
+    // console.log(formatEther(tx.gasPrice))
   } catch (error) {
     console.log(error.message)
   }
@@ -184,7 +198,7 @@ const switchNetwork = async () => {
 
 // ############# ENCRIPTACION WALLET? ###############
 
-let mnemonics = ethers.Wallet.createRandom().mnemonic
+/* let mnemonics = ethers.Wallet.createRandom().mnemonic
 
 const frase = mnemonics.phrase
 
@@ -200,7 +214,7 @@ let encryptPromise = wallet.encrypt(password, callback)
 
 encryptPromise.then(function (json) {
   console.log(json)
-})
+}) */
 
 // #######################################################
 
@@ -213,4 +227,5 @@ module.exports = {
   isMetamaskInstalled,
   addToken,
   switchNetwork,
+  // historial
 }
