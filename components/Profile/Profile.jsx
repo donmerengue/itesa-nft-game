@@ -8,7 +8,7 @@ const UserProfile = () => {
   const user = useSelector((state) => state.user);
 
   return (
-    <div className="bg-[url('https://i.pinimg.com/originals/d7/d8/db/d7d8dbf3811c797e5d2cc364743ae3a7.gif')] h-[100vh]">
+    <div className="bg-[url('https://i.pinimg.com/originals/d7/d8/db/d7d8dbf3811c797e5d2cc364743ae3a7.gif')]">
       <div className="py-60 ">
         <Container>
           <div className="container m-auto px-6 text-white  md:px-12 xl:px-6">
@@ -133,7 +133,7 @@ const UserProfile = () => {
 
 const Container = styled.div`
   @media screen and (max-width: 1280px) {
-    width: 150vh;
+    width: full;
   }
 `;
 
