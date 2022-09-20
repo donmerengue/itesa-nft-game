@@ -111,6 +111,7 @@ const Register = () => {
     }
   };
 
+  // FIXME: 20/9 ->esto ya no se maneja asi 
   const handlerClose = () => {
     // TODO: 15/9 AGREGAR COUNTDOWN EN CLOSE Y LUEGO CONFIRMACION AL CLIQUEAR
     // Cerrar modal

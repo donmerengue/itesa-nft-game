@@ -34,8 +34,10 @@ const sendLoginLink = async (email) => {
 
   // Si existe el usuario, mandar el mail
   const actionCodeSettings = {
-    // URL you want to redirect back to TODO: 13/9 cambiar a Vercel
-    url: "https://itesa-nft-game.vercel.app/login2fa",
+    // URL you want to redirect back to
+    // TODO: 20/9 cambiar a Vercel para la demo
+    // url: "https://itesa-nft-game.vercel.app/login2fa",
+    url: "localhost:3000/login2fa",
     handleCodeInApp: true,
   };
 
@@ -59,6 +61,8 @@ export const checkLoginLink = async () => {
   // Chequear si el usuario viene del link de su inbox
   if (!isSignInWithEmailLink(auth, window.location.href)) {
     // Redirigir a /login si el usuario no proviene desde el link de su inbox
-    window.location.replace("https://itesa-nft-game.vercel.app/login2");
+    // TODO: 20/9 cambiar a Vercel para la demo
+    window.location.replace("localhost:3000/login");
+    // window.location.replace("https://itesa-nft-game.vercel.app/login");
   }
 };
