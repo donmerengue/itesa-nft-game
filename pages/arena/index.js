@@ -1,7 +1,9 @@
-import React from "react";
+import ArenaOne from '../../components/arenas'
 
 const ArenaIndex = () => {
-  return <p>Aqui se renderizan las arenas que son componentes</p>;
+  return (
+    <ArenaOne/>
+  );
 };
 
 export default ArenaIndex;

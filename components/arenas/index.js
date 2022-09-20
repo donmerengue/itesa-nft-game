@@ -1,0 +1,118 @@
+import {
+    Stack,
+    Button,
+    Text,
+    VStack,
+    useBreakpointValue,
+    Link,
+    Heading,
+    Box,
+    Center,
+    WrapItem,
+    Wrap,
+    Image,
+} from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getAvatar } from "../../state/avatar";
+import AvatarGamer from './avatarGamer'
+import AvatarRandom from './avatarRandom'
+
+const ArenaOne = () => {
+
+    const avatar = useSelector(state => state.avatar)
+
+    const dispatch = useDispatch()
+
+    const [arena, setArena] = useState("url(https://imgur.com/qxGy6KM.jpg)")
+    console.log('ARENA----->', arena); 
+
+    const images = {
+        planet1: "url(https://imgur.com/qxGy6KM.jpg)",
+        planet2: "url(https://imgur.com/qeSAqBu.jpg)",
+        planet3: "url(https://imgur.com/wkT0Riu.jpg)",
+        planet4: "url(https://imgur.com/kFYGOdQ.jpg)",
+        planet5: "url(https://imgur.com/2ZImUtf.jpg)"
+    }; 
+
+    function bgLevel(images) {
+        if (avatar) {
+            if (avatar.level <= 10) {
+                 setArena(images.planet1)
+            } else if (avatar.level > 10 && avatar.level <= 20) {
+                 setArena(images.planet2)
+            } else if (avatar.level > 20 && avatar.level <= 30) {
+                 setArena(images.planet3)
+            } else if (avatar.level > 30 && avatar.level <= 40) {
+                 setArena(images.planet4)
+            } else if (avatar.level > 40 && avatar.level < 50) {
+                 setArena(images.planet5)
+            }
+        }
+    }
+
+    useEffect(() => {
+        dispatch(getAvatar('1'))
+        bgLevel(images)
+    }, [])
+
+    return (
+        <>
+            <Box
+                w={"full"}
+                h={"100vh"}
+                backgroundSize={"cover"}
+                backgroundImage={arena}
+                backgroundPosition={"center center"}>
+
+                <VStack
+                    w={"full"}
+                    justify={"center"}
+                    px={useBreakpointValue({ base: 4, md: 8 })}>
+                    <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
+                        <Text
+                            mt={10}
+                            color={"white"}
+                            fontWeight={700}
+                            lineHeight={1.2}
+                            fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}>
+                            ARE YOU READY TO PLAY?
+                        </Text>
+                    </Stack>
+                </VStack>
+
+                <Wrap justify={'center'} columns={2} spacing={300}>
+                    <AvatarGamer />
+                    <AvatarRandom />
+                </Wrap>
+
+                <VStack
+                    w={"full"}
+                    justify={"center"}
+                    px={useBreakpointValue({ base: 4, md: 8 })}>
+                    <Stack direction={"row"} justify={'center'}>
+                        <Link href="/">
+                            <Button
+                                bg={"gray.800"}
+                                rounded={"full"}
+                                color={"white"}
+                                _hover={{ bg: "blue.500" }}>
+                                HOME
+                            </Button>
+                        </Link>
+                        <Link href="/arena">
+                            <Button
+                                bg={"gray.800"}
+                                rounded={"full"}
+                                color={"white"}
+                                _hover={{ bg: "blue.500" }}>
+                                PLAY NOW
+                            </Button>
+                        </Link>
+                    </Stack>
+                </VStack>
+            </Box>
+        </>
+    )
+}
+export default ArenaOne 
