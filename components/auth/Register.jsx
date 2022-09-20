@@ -65,6 +65,9 @@ const Register = () => {
   const [userCreated, setUserCreated] = useState(false);
 
   const onSubmit = async (data) => {
+   
+    //Si la contraseñas coinciden
+   if(data.password === data.password2){
     let userCreation = false;
     // Registrar usuario si no existe
     await dispatch(registerUser(data)).then((res) => {
@@ -109,6 +112,19 @@ const Register = () => {
       // Abrir modal para mostrar datos
       onOpen();
     }
+  }
+  //si no coinciden las contraseñas
+  else {
+    //mensaje de error
+    toast({
+      title: "Password doesn't match",
+      description: "Please try again",
+      status: "error",
+      position: "top",
+      duration: 6000,
+      isClosable: true,
+    });
+  }
   };
 
   // FIXME: 20/9 ->esto ya no se maneja asi 
@@ -271,6 +287,40 @@ const Register = () => {
                   </InputGroup>
                   <FormErrorMessage>
                     {errors.password && errors.password.message}
+                  </FormErrorMessage>
+                </FormControl> <FormControl
+                  id="password2"
+                  isInvalid={errors.password2}
+                  isRequired>
+                  <FormLabel>Confirm your password</FormLabel>
+                  <InputGroup>
+                    <Input
+                      type={showPassword ? "text" : "password"}
+                      id="password2"
+                      {...register("password2", {
+                        required: {
+                          value: true,
+                          message: "Complete this field to continue.",
+                        },
+                        minLength: {
+                          value: 8,
+                          message:
+                            "Weak password2, minimum length should be 8.",
+                        },
+                      })}
+                    />
+                    <InputRightElement h={"full"} w="">
+                      <Button
+                        variant={"ghost"}
+                        onClick={() =>
+                          setShowPassword((showPassword) => !showPassword)
+                        }>
+                        {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
+                      </Button>
+                    </InputRightElement>
+                  </InputGroup>
+                  <FormErrorMessage>
+                    {errors.password2 && errors.password2.message}
                   </FormErrorMessage>
                 </FormControl>
                 <Stack spacing={10} pt={2}>
