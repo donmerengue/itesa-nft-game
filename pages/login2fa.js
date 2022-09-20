@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import LoginPassword from "../components/auth/LoginPassword";
-import { checkLoginLink } from "../utils/loginLink";
+import { checkLoginLink } from "../utils/auth/loginLink";
 import Navbar from '../components/layout/Navbar'
 import Footer from '../components/layout/Footer'
 

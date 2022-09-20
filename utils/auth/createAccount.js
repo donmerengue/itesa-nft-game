@@ -1,9 +1,9 @@
-import { auth } from "../firebase/firebase-config";
+import { auth } from "../../firebase/firebase-config";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
 } from "firebase/auth";
-import { getDocumento, setNewDoc } from "../fetchData/controllers";
+import { getDocumento, setNewDoc } from "../../fetchData/controllers";
 
 // Create new account using email/password
 const createAccount = async ({ name, lastname, email, password }) => {

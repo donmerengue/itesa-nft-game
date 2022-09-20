@@ -1,4 +1,4 @@
-import db, { auth } from "../firebase/firebase-config";
+import db, { auth } from "../../firebase/firebase-config";
 import {
   isSignInWithEmailLink,
   sendSignInLinkToEmail,
@@ -37,7 +37,7 @@ const sendLoginLink = async (email) => {
     // URL you want to redirect back to
     // TODO: 20/9 cambiar a Vercel para la demo
     // url: "https://itesa-nft-game.vercel.app/login2fa",
-    url: "localhost:3000/login2fa",
+    url: "http://localhost:3000/login2fa",
     handleCodeInApp: true,
   };
 
@@ -62,7 +62,7 @@ export const checkLoginLink = async () => {
   if (!isSignInWithEmailLink(auth, window.location.href)) {
     // Redirigir a /login si el usuario no proviene desde el link de su inbox
     // TODO: 20/9 cambiar a Vercel para la demo
-    window.location.replace("localhost:3000/login");
+    window.location.replace("http://localhost:3000/login");
     // window.location.replace("https://itesa-nft-game.vercel.app/login");
   }
 };
