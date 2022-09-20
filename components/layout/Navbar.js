@@ -97,7 +97,7 @@ const Navbar = () => {
             ""
           )}
 
-           {user?(
+           {user?.isAdmin?(
             <Link href="/admin/dashboard">
               <Button colorScheme="gray.50" variant="ghost">
                 ADMIN
