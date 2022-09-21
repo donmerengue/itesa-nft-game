@@ -7,6 +7,7 @@ const Balance = () => {
   useAuth();
   const user = useSelector((state) => state.user);
 
+  
   return <div>You have {user?.tokenQuantity} ITGX </div>;
 };
 
