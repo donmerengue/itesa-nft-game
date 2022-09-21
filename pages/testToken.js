@@ -13,6 +13,8 @@ import {
 } from "../utils/blockchain/tokenOperations";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
+import { auth } from "../firebase/firebase-config";
+import { updateTokenQuant } from "../fetchData/controllers";
 
 const TestToken = () => {
   //   const address = "0x39906C8A5D39fc920DF46b2aCeDc1B80e75E5b50";
@@ -39,7 +41,21 @@ const TestToken = () => {
 
   // Obtener el balance de tokens de una cuenta
   const handleFunding = async () => {
-    sendFunding();
+    // Enviar transaccion
+    const txFunding = await sendFunding("10000000000000");
+
+    // Si la transaccion fue exitosa, liberar los fondos
+    if (txFunding.to) {
+      console.log(txFunding);
+      const tokenQuantity2 = 200;
+      // Actualizar la cantidad de tokens en la DB
+      updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
+      // TODO: 20/9 pasar a un componente que sea FONDEO
+      console.log("Fondos actualizados");
+      return "ok";
+    } else {
+      console.log("Transaccion falló");
+    }
   };
 
   // Obtener el balance de tokens de una cuenta

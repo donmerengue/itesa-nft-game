@@ -118,41 +118,29 @@ const isMetamaskInstalled = async () => {
 };
 
 // Enviar tokens al address principal desde el address logeado en Metamask
-const sendFunding = async () => {
-  // Address que envia token
-  console.log("ethereum.selectedAddress!", ethereum.selectedAddress);
-  // const fromAddress = await requestAccount();
-  // console.warn("from address", fromAddress[0]);
-
-  // await fromAddress[0].getBalance();
-
-  console.log(
-    "from is ethereum address?",
-    ethers.utils.isAddress(ethereum.selectedAddress)
-  );
-  console.log("to is ethereum address?", ethers.utils.isAddress(deployer));
-
+const sendFunding = async (value) => {
   // Transaccion data
   const txParams = {
     from: ethereum.selectedAddress,
     to: deployer,
-    value: "100000000000000",
-    // nonce: window.bscProvider.getTransactionCount(send_account, "latest"),
-    // gasLimit: ethers.utils.hexlify("0x100000"), // 100000
-    // gasPrice: ethers.utils.hexlify("0x100000"),
+    value,
   };
 
   // Enviar transaccion
   try {
-    const sendTransaction = await window.ethereum.request({
+    const txSent = await window.ethereum.request({
       method: "eth_sendTransaction",
       params: [txParams],
     });
-    // Esperar que sea minado en la blockchain
-    
-    
+
+    // Obtener data de la transaccion
+    const txSentData = await bscProvider.getTransaction(txSent);
+    // Esperar que la tx sea minada en la blockchain
+    const txSentOk = await txSentData.wait();
+    return txSentOk;
   } catch (error) {
     console.log(error.message);
+    return error;
   }
 };
 
