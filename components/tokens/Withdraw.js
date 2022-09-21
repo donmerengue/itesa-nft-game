@@ -12,15 +12,19 @@ import { updateTokenQuant } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { sendTokens } from "../../utils/blockchain/tokenOperations";
 import { useSelector } from "react-redux";
+import { useForm } from "react-hook-form";
 
 const Withdraw = () => {
   const toast = useToast();
   const user = useSelector((state) => state.user);
 
+    
+    const {formState: { errors, isSubmitting }} = useForm()
   // valor a enviar
   const [value, setValue] = useState("");
   // address que recibira los tokens
   const [addressReceiver, setAddressReceiver] = useState("");
+  const [loading, setLoading] = useState(false)
 
   // Seteamos la cantidad de tokens para enviar
   const handleValue = (e) => {
@@ -34,6 +38,7 @@ const Withdraw = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    setLoading(true)
     //Tiene el saldo que quiere retirar?
     user.tokenQuantity >= value
       ? //Se envian los tokens a la address ingresada
@@ -45,6 +50,7 @@ const Withdraw = () => {
             updateTokenQuant("users", auth.currentUser.uid, value);
             setAddressReceiver("");
             setValue("");
+            setLoading(false)
             toast({
               title: "Transaction successful",
               description: "Please check your wallet",
@@ -53,7 +59,9 @@ const Withdraw = () => {
               duration: 5000,
               isClosable: true,
             });
+
           } else {
+
             //si hay error es porque no existe la address
             toast({
               title: "The address doesn't exists",
@@ -66,14 +74,15 @@ const Withdraw = () => {
           }
         })
       : //si no tiene el saldo que quiere retirar
-        toast({
-          title: "Insufficient balance",
-          description: "Please try again",
-          status: "error",
-          position: "top",
-          duration: 6000,
-          isClosable: true,
-        });
+      
+      toast({
+        title: "Insufficient balance",
+        description: "Please try again",
+        status: "error",
+        position: "top",
+        duration: 6000,
+        isClosable: true,
+      })
   };
 
   return (
@@ -101,6 +110,7 @@ const Withdraw = () => {
           <Stack boxSize={"fit-content"} mt={2}>
             <Button
               loadingText="Loading"
+              isLoading={loading}
               size="md"
               bg={"blue.400"}
               color={"white"}
