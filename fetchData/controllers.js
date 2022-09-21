@@ -1,3 +1,4 @@
+import { async } from "@firebase/util";
 import {
   collection,
   addDoc,
@@ -8,6 +9,8 @@ import {
   getDoc,
   setDoc,
   increment,
+  where,
+  query,
 } from "firebase/firestore";
 import db from "../firebase/firebase-config";
 
@@ -64,4 +67,13 @@ export const deleteData = async (coleccion, id) => {
   const userDoc = doc(db, coleccion, id);
   await deleteDoc(userDoc);
   console.log(`Documento de ${coleccion} eliminado`);
+};
+
+// trae el documento que coincida con el id del usuario logueado
+
+export const getId = async (coleccion, id) => {
+  const data = await getData(coleccion);
+  const avatar = data.filter((obj) => obj.userId === id);
+// console.log(avatar)
+  return avatar
 };
