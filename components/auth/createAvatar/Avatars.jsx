@@ -1,11 +1,13 @@
-import { Img } from "@chakra-ui/react";
+import { Img, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
+import { addNewDoc } from "../../../fetchData/controllers";
+import { auth } from "../../../firebase/firebase-config";
 
 const Avatars = ({ avatar }) => {
   const [avatarName, setAvatarName] = useState("");
   const [realName, setRealName] = useState("");
-  const [avatarUser, setAvatarUser] = useState({});
+  const toast = useToast();
   const router = useRouter();
 
   const handleName = (e) => {
@@ -17,10 +19,29 @@ const Avatars = ({ avatar }) => {
   };
 
   const handleAvatar = (avatar) => {
-    setAvatarUser(avatar);
-    router.replace("/")
+    if (avatarName) {
+      addNewDoc("userAvatar", avatar);
+      toast({
+        title: "Avatar created successfully",
+        description: "Redirecting to home",
+        status: "success",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
+      router.replace("/");
+    }else{
+      toast({
+        title: "Error creating avatar",
+        description: "Please choose a name",
+        status: "error",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      })
+    }
   };
-console.log(avatarUser)
+
   return (
     <>
       <div className="lg:flex">
@@ -46,6 +67,8 @@ console.log(avatarUser)
               handleAvatar({
                 img: avatar.img,
                 name: avatarName,
+                userId: auth.currentUser.uid,
+                level: 0,
               })
             }
             className="p-2 pl-5 pr-5 bg-transparent border-2 border-orange-500 text-orange-500 text-lg rounded-lg transition-colors duration-700 transform hover:bg-orange-600 hover:text-gray-100 focus:border-4 focus:border-indigo-300"
