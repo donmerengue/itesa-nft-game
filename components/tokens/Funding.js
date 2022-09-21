@@ -64,13 +64,13 @@ const onSubmit = () =>{
             <FormLabel>Amount 💸</FormLabel>
             <InputGroup size='sm'>
             <Input required onChange={handleValue} value={value} />
-            <InputRightAddon children='ITGX' />
+            <InputRightAddon ><span>ITGX</span></InputRightAddon>
             </InputGroup>
             <Divider my={5}/>
             <FormLabel>How many BNB will it cost you?</FormLabel>
             <InputGroup size='sm'>
             <Input disabled onChange={handleValue} value={bnb} placeholder={bnb}/>
-            <InputRightAddon children='BNB' />
+            <InputRightAddon ><span>BNB</span></InputRightAddon>
             </InputGroup>
           </FormControl>
           <Stack boxSize={"fit-content"} mt={8} justify={"end"}>
