@@ -10,6 +10,7 @@ import {
   getDoc,
   getDocs,
 } from "firebase/firestore";
+import { useParams } from "react-router-dom";
 
 // Login using email/password
 const sendLoginLink = async (email) => {
@@ -32,12 +33,19 @@ const sendLoginLink = async (email) => {
     return true;
   }
 
+  const location = window.location.pathname;
+  console.log(location);
+
+  let url;
+  if (location === "/login") url = "http://localhost:3000/login2fa";
+  if (location === "/testToken") url = "http://localhost:3000/testToken";
+
   // Si existe el usuario, mandar el mail
   const actionCodeSettings = {
     // URL you want to redirect back to
     // TODO: 20/9 cambiar a Vercel para la demo
     // url: "https://itesa-nft-game.vercel.app/login2fa",
-    url: "http://localhost:3000/login2fa",
+    url,
     handleCodeInApp: true,
   };
 
