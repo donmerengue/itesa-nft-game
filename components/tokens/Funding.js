@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { auth } from "../../firebase/firebase-config";
 import { updateTokenQuant } from "../../fetchData/controllers";
+
 import {
   Button,
   Divider,
@@ -31,6 +32,7 @@ const Funding = () => {
   };
   
 
+
   // Actualizar fondeo en base de datos
   const handleFunding = (tokenQuantityParam) => {
     const tokenQuantity2 = 20;
@@ -44,6 +46,7 @@ const onSubmit = () =>{
 }
 
   return (
+
     <>
        <Stack
         boxShadow={"lg"}
@@ -88,6 +91,7 @@ const onSubmit = () =>{
         </form>
       </Stack>
       {/* <Button
+
         loadingText="Loading"
         size="lg"
         bg={"blue.400"}
