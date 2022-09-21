@@ -36,7 +36,6 @@ console.log(avatarUser)
                 type="search"
                 className="w-full border-black  px-4 py-1 text-gray-900 "
                 placeholder="give it a name"
-                x-model="search"
                 onChange={handleName}
               />
             </form>
