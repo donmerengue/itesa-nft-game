@@ -39,6 +39,9 @@ const Withdraw = () => {
     let amount = 0
     e.preventDefault();
     setLoading(true)
+
+
+    
     //Tiene el saldo que quiere retirar?
     user.tokenQuantity >= value
       ? //Se envian los tokens a la address ingresada
@@ -88,19 +91,23 @@ const Withdraw = () => {
   return (
     <>
       <Stack
-        boxShadow={"md"}
+        boxShadow={"lg"}
         spacing={8}
         mx={"auto"}
-        maxW={"lg"}
+        my={20}
+        maxW={"xl"}
         py={12}
-        px={6}
+        px={12}
+        bg={"white"}
       >
         <Heading>Withdraw your tokens</Heading>
         <form onSubmit={onSubmit}>
           <FormControl>
             <FormLabel>Amount 💸</FormLabel>
             <Input required onChange={handleValue} value={value} />
-            <FormLabel>Address receiver</FormLabel>
+            
+            
+            <FormLabel mt={5}>Address receiver</FormLabel>
             <Input
               required
               onChange={handleAddressReceiver}
