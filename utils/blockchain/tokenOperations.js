@@ -79,11 +79,12 @@ const sendTokens = async (recipient, value) => {
       ethers.utils.parseEther(value)
     );
     // esperamos que sea minado en la blockchain
-    await tx.wait();
-    console.log(tx);
-    // console.log(formatEther(tx.gasPrice))
+
+    await tx.wait()
+    console.log(tx)
+    return "ok"
   } catch (error) {
-    console.log(error.message);
+      return error
   }
 };
 
@@ -224,23 +225,26 @@ const switchNetwork = async () => {
 
 // ############# ENCRIPTACION WALLET? ###############
 
-/* let mnemonics = ethers.Wallet.createRandom().mnemonic
 
-const frase = mnemonics.phrase
+// let mnemonics = ethers.Wallet.createRandom().mnemonic
 
-let wallet = ethers.Wallet.fromMnemonic(frase)
+// const frase = mnemonics.phrase
 
-let password = "tokencircle"
+// let wallet = ethers.Wallet.fromMnemonic(frase)
 
-function callback(progress) {
-  console.log("Encrypting: " + parseInt(progress * 100) + "% complete")
-}
+// let password = "tokencircle"
 
-let encryptPromise = wallet.encrypt(password, callback)
+// function callback(progress) {
+//   console.log("Encrypting: " + parseInt(progress * 100) + "% complete")
+// }
 
-encryptPromise.then(function (json) {
-  console.log(json)
-}) */
+// let encryptPromise = wallet.encrypt(password, callback)
+
+
+// encryptPromise.then(function (json) {
+//   console.log(json)
+// })
+
 
 // #######################################################
 
