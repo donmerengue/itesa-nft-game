@@ -12,14 +12,12 @@ import { updateTokenQuant } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { sendTokens } from "../../utils/blockchain/tokenOperations";
 import { useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
 
 const Withdraw = () => {
   const toast = useToast();
   const user = useSelector((state) => state.user);
 
     
-    const {formState: { errors, isSubmitting }} = useForm()
   // valor a enviar
   const [value, setValue] = useState("");
   // address que recibira los tokens
@@ -28,6 +26,7 @@ const Withdraw = () => {
 
   // Seteamos la cantidad de tokens para enviar
   const handleValue = (e) => {
+
     setValue(e.target.value);
   };
 
@@ -37,6 +36,7 @@ const Withdraw = () => {
   };
 
   const onSubmit = (e) => {
+    let amount = 0
     e.preventDefault();
     setLoading(true)
     //Tiene el saldo que quiere retirar?
@@ -45,9 +45,9 @@ const Withdraw = () => {
         sendTokens(addressReceiver, value).then((res) => {
           if (res === "ok") {
             //si se realizó la transaction porque el saldo y la address eran correctos
-
+              amount = value - (value*2)
             //se actualiza el saldo virtual en la db
-            updateTokenQuant("users", auth.currentUser.uid, value);
+            updateTokenQuant("users", auth.currentUser.uid, amount);
             setAddressReceiver("");
             setValue("");
             setLoading(false)
