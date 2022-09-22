@@ -6,6 +6,7 @@ import {
   getDocumento,
   updateData,
   getId,
+  setNewDoc,
 } from "../fetchData/controllers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase-config";
@@ -36,6 +37,15 @@ const TestPage = () => {
     equipped: false,
   };
 
+  // Data user-stats
+  const userStatsData = {
+    battlesLost: 0,
+    battlesTotal: 0,
+    battlesWon: 0,
+    experience: 0,
+    level: 1,
+  };
+
   const updatedData = {
     lastName: "Mechi actualizado",
     name: "MEchi Actualizado",
@@ -61,6 +71,17 @@ const TestPage = () => {
           addNewDoc("nft", nftData);
         }}>
         Ejecutar addNewNFT
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          setNewDoc(
+            "user-stats",
+            userStatsData,
+            "2TrHnyokeoUlDS0r5MkAdnT3LYz1"
+          );
+        }}>
+        Ejecutar addNewUser-stats
       </button>
       <br />
 

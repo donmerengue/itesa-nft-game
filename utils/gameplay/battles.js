@@ -27,10 +27,20 @@ export const getPower = (ntfPower) => ntfPower.reduce((a, b) => a + b);
 // const powerUserTwo = getPower(4, 4, 4);
 
 // Obtener el usuario con mayor poder
-export const getWinner = (powerUserOne, powerUserTwo) =>
-  powerUserOne > powerUserTwo
-    ? `Winner: User One (${powerUserOne}), Loser: User Two (${powerUserTwo})`
-    : `Winner: User Two (${powerUserTwo}), Loser: User One (${powerUserOne})`;
+export const getWinnerPower = (ownPower, rivalPower) =>
+  ownPower > rivalPower ? ownPower : rivalPower;
+
+export const getWinnerUser = (ownPower, ownUid, rivalPower, rivalUid) =>
+  ownPower > rivalPower ? ownUid : rivalUid;
+
+export const getLoserUser = (ownPower, ownUid, rivalPower, rivalUid) =>
+  ownPower < rivalPower ? ownUid : rivalUid;
+
+//// Obtener el usuario con mayor poder descrito
+// export const getWinnerData = (powerUserOne, powerUserTwo) =>
+// powerUserOne > powerUserTwo
+//   ? `Winner: User One (${powerUserOne}), Loser: User Two (${powerUserTwo})`
+//   : `Winner: User Two (${powerUserTwo}), Loser: User One (${powerUserOne})`;
 
 //
 export const getTotalPower = (nftItems) => {

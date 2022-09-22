@@ -12,20 +12,34 @@ import {
   Wrap,
   Image,
 } from "@chakra-ui/react";
+import { increment } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getEqNFTitems, getRival } from "../../fetchData/controllers";
+import {
+  addNewDoc,
+  getDocumento,
+  getEqNFTitems,
+  getRival,
+  updateData,
+  updateExperience,
+  updateExperienceLevel,
+  updateTokenQuant,
+} from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { getAvatar } from "../../state/avatar";
 import {
   getAttack,
   getDefense,
+  getLoserUser,
   getLuck,
   getPower,
   getTotalPower,
   getWinner,
+  getWinnerPower,
+  getWinnerUser,
 } from "../../utils/gameplay/battles";
+import { experiencePerLevel, levelUp } from "../../utils/gameplay/levelUp";
 import AvatarGamer from "./avatarGamer";
 import AvatarRandom from "./avatarRandom";
 
@@ -76,9 +90,6 @@ const ArenaCopy = () => {
     const totalOwnPower = getTotalPower(nftOwn);
     console.log("NFT OWN TOTAL POWER", totalOwnPower);
 
-    // const totalPower = getPower(nftOwnPower);
-    // console.log("total power", totalPower);
-
     // Obtener rival
     const rival = await getRival("users", uid);
     // NFT-items del rival
@@ -89,9 +100,63 @@ const ArenaCopy = () => {
     const totalRivalPower = getTotalPower(nftRival);
     console.log("NFT Rival TOTAL POWER", totalRivalPower);
 
-    console.log(getWinner(totalOwnPower, totalRivalPower))
+    console.log(
+      "WINNER POWER",
+      getWinnerPower(totalOwnPower, totalRivalPower)
+    );
+    const winnerUser = getWinnerUser(
+      totalOwnPower,
+      uid,
+      totalRivalPower,
+      rival.uid
+    );
+    console.log("WINNER USER", winnerUser);
 
-    // console.log(rival);
+    const loserUser = getLoserUser(
+      totalOwnPower,
+      uid,
+      totalRivalPower,
+      rival.uid
+    );
+    console.log("LOSER USER", loserUser);
+
+    // Agregar registro de partida a collecion de matches (general)
+    const now = new Date();
+    const matchesData = {
+      date: now,
+      user1: uid,
+      user2: rival.uid,
+      winner: winnerUser,
+    };
+    await addNewDoc("matches", matchesData);
+    // Traer data del usuario
+    const winnerUserStats = await getDocumento("user-stats", winnerUser);
+    // TODO: Actualizar estadisticas de batalla del usuario
+    const dataBattlesWinner = {
+      battlesTotal: increment(1),
+      battlesWon: increment(1),
+    };
+    updateData("user-stats", winnerUser, dataBattlesWinner);
+
+    const dataBattlesLoser = {
+      battlesTotal: increment(1),
+      battlesLost: increment(1),
+    };
+    updateData("user-stats", loserUser, dataBattlesLoser);
+
+    // Prize per win
+    await updateTokenQuant("users", winnerUser, 2);
+
+    // Determinar aumento de experiencia y nivel
+    console.log(winnerUserStats);
+    const dataLevelExp = levelUp(
+      winnerUserStats.experience + 1,
+      winnerUserStats.level
+    );
+    // Actualizar nivel en coleccion de user-stats
+    await updateData("user-stats", winnerUser, dataLevelExp);
+    // Actualizar nivel en coleccion de users
+    await updateData("users", winnerUser, { level: dataLevelExp.level });
   };
 
   return (

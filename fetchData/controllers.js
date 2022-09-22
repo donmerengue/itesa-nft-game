@@ -52,15 +52,20 @@ export const getDocumento = async (coleccion, id) => {
 export const updateData = async (coleccion, id, data) => {
   const dataDoc = doc(db, coleccion, id);
   await updateDoc(dataDoc, data);
-  console.log("ok");
 };
 
 // Actualizar cantidad de tokens
 export const updateTokenQuant = async (coleccion, id, value) => {
   const dataDoc = doc(db, coleccion, id);
   await updateDoc(dataDoc, { tokenQuantity: increment(value) });
-  console.log("ok");
 };
+
+
+// // Actualizar experiencia
+// export const updateExperienceLevel = async (id, value) => {
+//   const dataDoc = doc(db, "user-stats", id);
+//   await updateDoc(dataDoc, { experience: increment(value) });
+// };
 
 //Borrar Información
 export const deleteData = async (coleccion, id) => {
@@ -138,6 +143,12 @@ export const getEqNFTitems = async (coleccion, id) => {
 
   return nfts;
 };
+
+//Agregar un nuevo documento a una colección
+// export const addNewDoc = async (coleccion, data) => {
+//   const docRef = await addDoc(collection(db, coleccion), data);
+//   console.log("Document written with name ", docRef);
+// };
 
 // TODO: 22/9 Equipar NFT Item
 // export const equipNFTitem = async (coleccion, id, itemStatus) => {
