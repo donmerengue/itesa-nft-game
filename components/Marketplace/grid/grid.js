@@ -1,73 +1,13 @@
 import { Box, Center, Flex, Heading, Image, Stack, Text, Wrap, WrapItem, Link } from '@chakra-ui/react';
-
+import nftData from '../../../assets/nftData'
 
 const GridMarket = () => {
-
-    const nfts = [
-        {
-            name: 'NEPTUNO',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/rjuWPzD.png',
-            description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '720'
-        },
-        {
-            name: 'URANO',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/nvD4rT2.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '300'
-        },
-        {
-            name: 'MERCURIO',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/6yKQ65s.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '400'
-        },
-        {
-            name: 'VENUS',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/JuHKTlD.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '200'
-        },
-        {
-            name: 'TIERRA',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/Au723mw.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '280'
-        },
-        {
-            name: 'MARTE',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/rNudYb8.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '800'
-        },
-        {
-            name: 'PLUTON',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/FQdD8s4.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '550'
-        },
-        {
-            name: 'SATURNO',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/GZNo6Af.png',
-            description: '  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '100'
-        },
-
-    ];
 
     return (
         <>
             <Wrap ml={7} marginRight={7} columns={4} spacing={5}>
 
-                {nfts.map(nft => (
+                {nftData.map(nft => ( 
                     <>
                         <Link href={'marketplace/item'}>
                             <WrapItem>
@@ -87,7 +27,7 @@ const GridMarket = () => {
                                         zIndex={1}>
                                         <Box
                                             rounded={'lg'}
-                                            mt={-12}
+                                            mt={1}
                                             pos={'relative'}
                                             height={'230px'}
                                             _after={{
@@ -119,12 +59,12 @@ const GridMarket = () => {
                                             <Heading fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
                                                 {nft.name}
                                             </Heading>
-                                            <Text>{nft.categoria}</Text>
+                                            <Text>{nft.category}</Text>
                                             <Text align={'center'} color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
                                                 {nft.description}
                                             </Text>
                                             <Text color={'gray.200'} fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-                                                {nft.price}
+                                                {nft.price} 
                                             </Text>
                                         </Stack>
                                     </Box>
@@ -132,8 +72,8 @@ const GridMarket = () => {
                             </WrapItem>
                         </Link>
                     </>
-                ))}
-            </Wrap>
+                 ))} 
+            </Wrap> 
         </>
     )
 }
