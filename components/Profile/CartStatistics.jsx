@@ -1,6 +1,7 @@
 import Image from "next/image";
 
-const CartStatistics = () => {
+const CartStatistics = ({stats}) => {
+  console.log(stats)
   return (
     <>
       <Image

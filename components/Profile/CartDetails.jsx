@@ -1,23 +1,20 @@
 import { useSelector } from "react-redux";
+import { async } from "@firebase/util";
 import { getId } from "../../fetchData/controllers";
-import Image from "next/image";
-import { auth } from "../../firebase/firebase-config";
+import { Img } from "@chakra-ui/react";
 
-const CartDetails = () => {
-  //user logueado
+const CartDetails = ({avatar}) => {
+ 
   const user = useSelector((state) => state.user);
-  // const Avatar = getId("userAvatar", auth?.currentUser?.uid);
-
-  // console.log(Avatar);
 
   return (
     <>
-      <Image
-        src="https://i.imgur.com/yxnzdts.gif"
+      <Img
+        src={`${avatar[0].img}`}
         alt="art cover"
         loading="lazy"
         width="1000"
-        height="667"
+        height="450"
         className="h-56 sm:h-full w-full sm:w-5/12 object-cover object-top rounded-lg transition duration-500 group-hover:rounded-xl"
       />
       <div className="sm:w-7/12 pl-0 p-5">
@@ -49,10 +46,11 @@ const CartDetails = () => {
                   </span>
                 </p>
                 <hr />
+                <p className="text-left text-blue-400">My avatar</p>
                 <p className="text-gray-600 font-extrabold">
-                  Avatar Name
+                  Avatar Name:
                   <span className="text-cyan-900 font-mono">
-                    {user.walletAddress}
+                    {avatar[0].name}
                   </span>
                 </p>
               </>
