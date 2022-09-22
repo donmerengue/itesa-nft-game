@@ -5,12 +5,8 @@ import {
   VStack,
   useBreakpointValue,
   Link,
-  Heading,
   Box,
-  Center,
-  WrapItem,
   Wrap,
-  Image,
 } from "@chakra-ui/react";
 import { increment } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -22,24 +18,16 @@ import {
   getEqNFTitems,
   getRival,
   updateData,
-  updateExperience,
-  updateExperienceLevel,
   updateTokenQuant,
 } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { getAvatar } from "../../state/avatar";
 import {
-  getAttack,
-  getDefense,
   getLoserUser,
-  getLuck,
-  getPower,
   getTotalPower,
-  getWinner,
-  getWinnerPower,
   getWinnerUser,
 } from "../../utils/gameplay/battles";
-import { experiencePerLevel, levelUp } from "../../utils/gameplay/levelUp";
+import { levelUp } from "../../utils/gameplay/levelUp";
 import AvatarGamer from "./avatarGamer";
 import AvatarRandom from "./avatarRandom";
 
@@ -81,44 +69,35 @@ const ArenaCopy = () => {
   }, []);
 
   const handlePlay = async () => {
-    // ID del usuario
+    // ID del usuario loggeado
     const uid = auth.currentUser.uid;
     // NFT-items propios
     const nftOwn = await getEqNFTitems("nft", uid);
-    console.log("Your equipped NFTs", nftOwn);
     // Obtener total poder propio
     const totalOwnPower = getTotalPower(nftOwn);
-    console.log("NFT OWN TOTAL POWER", totalOwnPower);
 
     // Obtener rival
     const rival = await getRival("users", uid);
     // NFT-items del rival
-    console.warn("Your rival: ", rival);
     const nftRival = await getEqNFTitems("nft", rival.uid);
-    console.warn("Your rival equipped NFTs", nftRival);
     // Obtener total poder rival
     const totalRivalPower = getTotalPower(nftRival);
-    console.log("NFT Rival TOTAL POWER", totalRivalPower);
 
-    console.log(
-      "WINNER POWER",
-      getWinnerPower(totalOwnPower, totalRivalPower)
-    );
+    // Usuario ganador
     const winnerUser = getWinnerUser(
       totalOwnPower,
       uid,
       totalRivalPower,
       rival.uid
     );
-    console.log("WINNER USER", winnerUser);
 
+    // Usuario perdedor
     const loserUser = getLoserUser(
       totalOwnPower,
       uid,
       totalRivalPower,
       rival.uid
     );
-    console.log("LOSER USER", loserUser);
 
     // Agregar registro de partida a collecion de matches (general)
     const now = new Date();
@@ -148,7 +127,6 @@ const ArenaCopy = () => {
     await updateTokenQuant("users", winnerUser, 2);
 
     // Determinar aumento de experiencia y nivel
-    console.log(winnerUserStats);
     const dataLevelExp = levelUp(
       winnerUserStats.experience + 1,
       winnerUserStats.level

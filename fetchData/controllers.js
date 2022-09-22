@@ -144,12 +144,6 @@ export const getEqNFTitems = async (coleccion, id) => {
   return nfts;
 };
 
-//Agregar un nuevo documento a una colección
-// export const addNewDoc = async (coleccion, data) => {
-//   const docRef = await addDoc(collection(db, coleccion), data);
-//   console.log("Document written with name ", docRef);
-// };
-
 // TODO: 22/9 Equipar NFT Item
 // export const equipNFTitem = async (coleccion, id, itemStatus) => {
 //   const dataDoc = doc(db, coleccion, id);
