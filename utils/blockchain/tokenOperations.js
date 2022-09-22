@@ -1,7 +1,7 @@
-const { abi } = require("../../public/abi")
-const { ethers } = require("ethers")
-const { async } = require("@firebase/util")
-const axios = require("axios")
+const { abi } = require("../../public/abi");
+const { ethers } = require("ethers");
+const { async } = require("@firebase/util");
+const axios = require("axios");
 
 const bscProvider = new ethers.providers.JsonRpcProvider(
   "https://data-seed-prebsc-1-s1.binance.org:8545/",
@@ -20,7 +20,7 @@ const tokenData = {
 };
 
 // API key para usar bsc testnet
-const API_KEY_BSC = "KPBWPK8YRY1BXHGUADJVGWJ9F6CBMX8DCP"
+const API_KEY_BSC = "KPBWPK8YRY1BXHGUADJVGWJ9F6CBMX8DCP";
 
 // Formatear la salida de BigInt a decimal
 const formatEther = ethers.utils.formatEther;
@@ -46,7 +46,7 @@ const contractSigned = new ethers.Contract(address, BEP20_ABI, signer);
 
 // Hash de ejemplo para ver datos de su transaccion
 const hashSample =
-  "0x493e306e1859dbe79c9d5195de46874244d786b62f7aecc327a16c00f1a2f378"
+  "0x493e306e1859dbe79c9d5195de46874244d786b62f7aecc327a16c00f1a2f378";
 
 // Obtener el balance de un address en especifico.
 const getBalance = async (address) => {
@@ -89,11 +89,11 @@ const sendTokens = async (recipient, value) => {
     );
     // esperamos que sea minado en la blockchain
 
-    await tx.wait()
-    console.log(tx)
-    return "ok"
+    await tx.wait();
+    console.log(tx);
+    return "ok";
   } catch (error) {
-    return error
+    return error;
   }
 };
 
@@ -158,8 +158,7 @@ const sendFunding = async (value) => {
 const addToken = async () => {
   try {
     // wasAdded es un booleano que indica si el token fue aniadido o no.
-    const { tokenAddress, tokenDecimals, tokenImage, tokenSymbol } =
-      tokenData;
+    const { tokenAddress, tokenDecimals, tokenImage, tokenSymbol } = tokenData;
     const wasAdded = await ethereum.request({
       method: "wallet_watchAsset",
       params: {
@@ -206,9 +205,7 @@ const switchNetwork = async () => {
               {
                 chainId: "0x61",
                 chainName: "Smart Chain - Testnet",
-                rpcUrls: [
-                  "https://data-seed-prebsc-1-s1.binance.org:8545/",
-                ],
+                rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
                 nativeCurrency: {
                   name: "BNB",
                   symbol: "BNB",
@@ -234,7 +231,6 @@ const switchNetwork = async () => {
 
 // ############# ENCRIPTACION WALLET? ###############
 
-
 // let mnemonics = ethers.Wallet.createRandom().mnemonic
 
 // const frase = mnemonics.phrase
@@ -249,21 +245,19 @@ const switchNetwork = async () => {
 
 // let encryptPromise = wallet.encrypt(password, callback)
 
-
 // encryptPromise.then(function (json) {
 //   console.log(json)
 // })
-
 
 // #######################################################
 
 //* ########### TRANSACCIONES ################
 
 // Obtener la informacion de un hash en particular en BNB
-const infoTx = async hash => {
+const infoTx = async (hash) => {
   try {
-    const tx = await bscProvider.getTransaction(hash)
-    await tx.wait()
+    const tx = await bscProvider.getTransaction(hash);
+    await tx.wait();
     const objTx = {
       hash: tx.hash,
       confirmations: tx.confirmations,
@@ -271,12 +265,12 @@ const infoTx = async hash => {
       receptor: tx.to,
       cantidad: formatEther(tx.value),
       red: tx.chainId === 97 ? "BSC testnet" : "No es desde BSC testnet",
-    }
-    return objTx
+    };
+    return objTx;
   } catch (error) {
-    console.log(error.message)
+    console.log(error.message);
   }
-}
+};
 
 // Obtener historial de Tx del smart contract
 
@@ -292,26 +286,25 @@ const infoTx = async hash => {
 
 const getTotalTransactionsBNB = async () => {
   const resultados = await axios.get(
-    "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=0x52Ec083D30192691872B60334bFDd1450C1826d9&startblock=1&endblock=99999999&sort=asc&apikey=0x52Ec083D30192691872B60334bFDd1450C1826d9"
-  )
-  console.log(resultados.data.result)
-}
+    "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=0x52Ec083D30192691872B60334bFDd1450C1826d9&startblock=1&endblock=99999999&sort=desc&apikey=0x52Ec083D30192691872B60334bFDd1450C1826d9"
+  );
+  const nuevo = await resultados.data.result;
+  return nuevo
+};
 
 const getTokenTransactions = async () => {
   const resultado = await axios.get(
-    "https://api-testnet.bscscan.com/api?module=account&action=tokentx&contractaddress=0x27D7F516Ff969d67170035d0a2B1F071859F602e&page=1&offset=100&sort=asc&apikey=KPBWPK8YRY1BXHGUADJVGWJ9F6CBMX8DCP"
-  )
-  const nuevo = await resultado.data.result
-  console.log(convertTime(nuevo[0].timeStamp))
-}
+    "https://api-testnet.bscscan.com/api?module=account&action=tokentx&contractaddress=0x27D7F516Ff969d67170035d0a2B1F071859F602e&page=1&offset=100&sort=desc&apikey=KPBWPK8YRY1BXHGUADJVGWJ9F6CBMX8DCP"
+  );
+  const nuevo = await resultado.data.result;
+  return nuevo;
+};
 
-const convertTime = timeStamp => {
-  const dateTx = new Date(timeStamp * 1000)
-  console.log(dateTx.toLocaleDateString("en-GB"))
-  return dateTx.toLocaleDateString("en-GB")
-}
-
-getTokenTransactions()
+const convertTime = (timeStamp) => {
+  const dateTx = new Date(timeStamp * 1000);
+ 
+  return dateTx.toLocaleDateString("en-GB");
+};
 
 module.exports = {
   getBalance,
