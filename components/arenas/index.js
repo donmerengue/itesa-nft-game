@@ -26,7 +26,6 @@ const ArenaOne = () => {
   const dispatch = useDispatch();
 
   const [arena, setArena] = useState("url(https://imgur.com/qxGy6KM.jpg)");
-  console.log("ARENA----->", arena);
 
   const images = {
     planet1: "url(https://imgur.com/qxGy6KM.jpg)",
