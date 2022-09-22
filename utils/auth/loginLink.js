@@ -15,7 +15,7 @@ import {
 const sendLoginLink = async (email) => {
   // Buscar si existe usuario por email en la DB
   let userExists = false;
-
+  
   const docRef = query(
     collection(db, "users"),
     where("email", "==", email)
@@ -38,6 +38,7 @@ const sendLoginLink = async (email) => {
   let url;
   if (location === "/login") url = "http://localhost:3000/login2fa";
   if (location === "/testToken") url = "http://localhost:3000/testToken";
+  if (location === "/user/tokens") url = "http://localhost:3000//user/tokens";
 
   // Si existe el usuario, mandar el mail
   const actionCodeSettings = {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../../firebase/firebase-config";
 import { updateTokenQuant } from "../../fetchData/controllers";
 
@@ -14,36 +14,74 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-
+import sendLoginLink from "../../utils/auth/loginLink";
+import { useRouter } from "next/router";
+import { isSignInWithEmailLink } from "firebase/auth";
+import { sendFunding } from "../../utils/blockchain/tokenOperations";
+import { useDispatch, useSelector } from "react-redux";
+import { getItgx } from "../../state/itgx";
 
 
 
 const Funding = () => {
-
+  
   const [value, setValue] = useState("");
   const [bnb, setBnb] = useState("");
-
+  const [wei, setWei]= useState("")
   const [loading, setLoading] = useState(false)
+  const hasRendered = useRef(null);
+  const itgx = useSelector(state=>state.itgx)
+  const router = useRouter();
+const dispatch = useDispatch()
 
+console.log(itgx);
+  
   const handleValue = (e) => {
-
     setValue(e.target.value);
     setBnb(e.target.value * 0.001);
+    // setWei(bnb * 898117.59)
   };
   
+  
+  const handleFunding = (e) =>{
+    e.preventDefault
+    const { email } = auth.currentUser;
+    sendLoginLink(email);
+    dispatch(getItgx(value))
 
-
-  // Actualizar fondeo en base de datos
-  const handleFunding = (tokenQuantityParam) => {
-    const tokenQuantity2 = 20;
-    updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
-    // TODO: 20/9 pasar a un componente que sea FONDEO
-    console.log("Fondos actualizados");
-  };
-
-const onSubmit = () =>{
-
+  setTimeout(() => {
+    // Redirigir a carpeta de spam de Gmail
+    router.push("https://mail.google.com/mail/u/0/#spam");
+  }, 2500);
 }
+
+const confirmFunding = async () => {
+  if (isSignInWithEmailLink(auth, router.asPath)) {
+    // Enviar transaccion
+    const txFunding = await sendFunding("10000000000000");
+    // Si la transaccion fue exitosa, liberar los fondos
+    if (txFunding.to) {
+      console.log(txFunding);
+      const tokenQuantity2 = itgx;
+      // Actualizar la cantidad de tokens en la DB
+      updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
+      console.log("Fondos actualizados");
+      return "ok";
+    } else {
+      console.log("Transaccion falló");
+    }
+  }
+};
+
+useEffect(() => {
+  if (!hasRendered.current){
+
+    confirmFunding();
+  hasRendered.current = true
+  }
+
+
+}, []);
 
   return (
 
@@ -59,7 +97,7 @@ const onSubmit = () =>{
         bg={"white"}
       >
         <Heading>Funding</Heading>
-        <form onSubmit={onSubmit}>
+        <form>
           <FormControl>
             <FormLabel>Amount 💸</FormLabel>
             <InputGroup size='sm'>
@@ -83,26 +121,13 @@ const onSubmit = () =>{
               _hover={{
                 bg: "blue.500",
               }}
-              type="submit"
+              onClick={handleFunding}
             >
               Continue
             </Button>
           </Stack>
         </form>
       </Stack>
-      {/* <Button
-
-        loadingText="Loading"
-        size="lg"
-        bg={"blue.400"}
-        color={"white"}
-        _hover={{
-          bg: "blue.500",
-        }}
-        type="submit"
-        onClick={handleFunding}>
-        Fondeo
-      </Button> */}
     </>
   );
 };
