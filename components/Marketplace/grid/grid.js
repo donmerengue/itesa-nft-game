@@ -64,8 +64,7 @@ const GridMarket = () => {
     ];
 
     return (
-        <div className=''>
-
+        <>
             <Wrap ml={7} marginRight={7} columns={4} spacing={5}>
 
                 {nfts.map(nft => (
@@ -135,7 +134,7 @@ const GridMarket = () => {
                     </>
                 ))}
             </Wrap>
-        </div>
+        </>
     )
 }
 
