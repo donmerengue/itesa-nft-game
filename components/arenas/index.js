@@ -21,12 +21,12 @@ import AvatarRandom from './avatarRandom'
 const ArenaOne = () => {
 
     const avatar = useSelector(state => state.avatar)
-
     const dispatch = useDispatch()
-
-    const [arena, setArena] = useState("url(https://imgur.com/qxGy6KM.jpg)")
-    console.log('ARENA----->', arena); 
-
+    const [arena, setArena] = useState('')
+   /*  const arenaLevel = useParams() */
+  
+     /* useparam con un use effect, ruta dinamica
+     */
     const images = {
         planet1: "url(https://imgur.com/qxGy6KM.jpg)",
         planet2: "url(https://imgur.com/qeSAqBu.jpg)",
@@ -38,23 +38,30 @@ const ArenaOne = () => {
     function bgLevel(images) {
         if (avatar) {
             if (avatar.level <= 10) {
-                 setArena(images.planet1)
+                  setArena(images.planet1) 
+                 console.log('imagen1--->', images.planet1)
             } else if (avatar.level > 10 && avatar.level <= 20) {
                  setArena(images.planet2)
+                 console.log('imagen2--->', images.planet2)
             } else if (avatar.level > 20 && avatar.level <= 30) {
-                 setArena(images.planet3)
+                 setArena(images.planet3) 
+                 console.log('imagen3--->', images.planet3)
             } else if (avatar.level > 30 && avatar.level <= 40) {
-                 setArena(images.planet4)
+                  setArena(images.planet4) 
+                 console.log('imagen4--->', images.planet4)
             } else if (avatar.level > 40 && avatar.level < 50) {
-                 setArena(images.planet5)
+                  setArena(images.planet5) 
+                 console.log('imagen5--->', images.planet5)
             }
         }
     }
 
-    useEffect(() => {
-        dispatch(getAvatar('1'))
+    console.log('ARENA----->', arena);
+
+ useEffect(() => {
+        dispatch(getAvatar('1')) 
         bgLevel(images)
-    }, [])
+    }, []) 
 
     return (
         <>
@@ -115,4 +122,4 @@ const ArenaOne = () => {
         </>
     )
 }
-export default ArenaOne 
+export default ArenaOne        

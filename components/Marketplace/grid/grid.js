@@ -1,4 +1,4 @@
-import { Box, Center, Flex, Heading, Image, Stack, Text, Wrap, WrapItem } from '@chakra-ui/react';
+import { Box, Center, Flex, Heading, Image, Stack, Text, Wrap, WrapItem, Link } from '@chakra-ui/react';
 import CardDetail from '../itemPage';
 
 const GridMarket = () => {
@@ -70,6 +70,7 @@ const GridMarket = () => {
 
                 {nfts.map(nft => (
                     <>
+                    <Link href={''}> 
                         <WrapItem>
                             <Center>
                                 <Box
@@ -130,6 +131,7 @@ const GridMarket = () => {
                                 </Box>
                             </Center>
                         </WrapItem>
+                        </Link>
                     </>
                 ))}
             </Wrap>
