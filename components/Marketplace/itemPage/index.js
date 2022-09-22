@@ -18,14 +18,28 @@ import {
 
 const ItemPage = () => {
 
+    /* AVATAR */
+    /*  const nfts = [
+         {
+             name: 'TIERRA',
+             categoria: 'Avatar',
+             img: 'https://imgur.com/Au723mw.png',
+             description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
+             price: '280'
+         }
+     ] */
+
     const nfts = [
         {
-            name: 'TIERRA',
-            categoria: 'Avatar',
-            img: 'https://imgur.com/Au723mw.png',
+            name: "Sword",
             description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            price: '280'
-        }
+            type: "Attack",
+            power: 3,
+            material: "Steel",
+            handle: "Gold",
+            img: "https://imgur.com/Y9USM7O.jpg",
+            price: 40,
+        },
     ]
 
     return (
@@ -44,7 +58,7 @@ const ItemPage = () => {
                         align={'center'}
                         justify={'center'}
                         w={'100%'}
-                        h={{ base: '100%', sm: '400px', lg: '500px' }}
+                        h={{ base: '100%', sm: '500px', lg: '600px' }}
                     />
                 </Flex>
 
@@ -93,17 +107,35 @@ const ItemPage = () => {
                                 mb={'4'}>
                                 Properties
                             </Text>
-
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                                <List spacing={2}>
-                                    <ListItem>Archetype</ListItem>
-                                    <ListItem>Background</ListItem>{' '}
-                                    <ListItem>Clothing</ListItem>
+                                <List spacing={2} >
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                        
+                                        </Text>{' '}
+                                        {nfts[0].type}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            CLOTHING:
+                                        </Text>{' '}
+                                        {nfts[0].power}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            EYES:
+                                        </Text>{' '}
+                                        {nfts[0].material}
+                                    </ListItem>
                                 </List>
-                                <List spacing={2}>
-                                    <ListItem>Eyes</ListItem>
-                                    <ListItem>Head</ListItem>
-                                    <ListItem>Mouse</ListItem>
+                                <List spacing={2} >
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            MOUTH:
+                                        </Text>{' '}
+                                        {nfts[0].handle}
+                                    </ListItem>
+                                   
                                 </List>
                             </SimpleGrid>
                         </Box>
@@ -116,57 +148,54 @@ const ItemPage = () => {
                                 textTransform={'uppercase'}
                                 mb={'4'}
                                 justifyContent={'center'}>
-                                Characteristics
+                                Details
                             </Text>
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                                 <List spacing={2} >
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            BACKGROUND:
+                                        Contract Address
                                         </Text>{' '}
-                                        None{' '}
+                                        0x191a...2e8c{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            CLOTHING:
+                                        Token ID:
                                         </Text>{' '}
-                                        Monstruo Skin Red{' '}
+                                        2{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            EYES:
+                                        Token Standard:
                                         </Text>{' '}
-                                        One Yellow{' '}
+                                        ERC-721{' '}
                                     </ListItem>
                                 </List>
                                 <List spacing={2} >
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            MOUTH:
+                                        Blockchain:
                                         </Text>{' '}
-                                        Big Fear{' '}
+                                        BSC Testnet{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            HANDS:
+                                        Last Updated:
                                         </Text>{' '}
-                                        Claws{' '}
+                                        7 minutes ago{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                            ACCESSORY:
+                                        Creator Earnings:
                                         </Text>{' '}
-                                        Parrot Pet{' '}
+                                        0%{' '}
                                     </ListItem>
                                 </List>
                             </SimpleGrid>
                         </Box>
                     </Stack>
-                    
-          
-
                 </Stack>
-
+              
                 <VStack
                     w={"full"}
                     justify={"center"}
@@ -181,18 +210,9 @@ const ItemPage = () => {
                                 BUY NOW
                             </Button>
                         </Link>
-                        <Link href="">
-                            <Button
-                                bg={"gray.800"}
-                                rounded={"full"}
-                                color={"white"}
-                                _hover={{ bg: "blue.500" }}>
-                                MAKE AN OFFER
-                            </Button>
-                        </Link>
                     </Stack>
                 </VStack>
-                
+
             </SimpleGrid>
         </Container>
     );

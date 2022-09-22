@@ -3,7 +3,7 @@ import Footer from "../../components/layout/Footer";
 import Navbar from "../../components/layout/Navbar";
 import ItemPage from "../../components/Marketplace/itemPage";
 
-//AVATAR COPIA
+//ACCESORIOS NFT
 const Item = () => {
   const router = useRouter();
   const { id } = router.query;
