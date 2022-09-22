@@ -115,8 +115,8 @@ export const getRival = async (coleccion, id) => {
   return rival;
 };
 
-// Buscar NFT-Items de usuario
-export const getNFTitems = async (coleccion, id) => {
+// Buscar NFT-Items equipados de usuario
+export const getEqNFTitems = async (coleccion, id) => {
   // Traer data del usuario actual
   // const user = await getDocumento("users", id);
 
@@ -138,6 +138,13 @@ export const getNFTitems = async (coleccion, id) => {
 
   return nfts;
 };
+
+// TODO: 22/9 Equipar NFT Item
+// export const equipNFTitem = async (coleccion, id, itemStatus) => {
+//   const dataDoc = doc(db, coleccion, id);
+//   await updateDoc(dataDoc, { equipped: itemStatus });
+//   console.log("ok");
+// };
 
 /* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
 export const getRivalWannaPlay = async (coleccion, id) => {

@@ -15,9 +15,17 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getNFTitems, getRival } from "../../fetchData/controllers";
+import { getEqNFTitems, getRival } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { getAvatar } from "../../state/avatar";
+import {
+  getAttack,
+  getDefense,
+  getLuck,
+  getPower,
+  getTotalPower,
+  getWinner,
+} from "../../utils/gameplay/battles";
 import AvatarGamer from "./avatarGamer";
 import AvatarRandom from "./avatarRandom";
 
@@ -62,16 +70,26 @@ const ArenaCopy = () => {
     // ID del usuario
     const uid = auth.currentUser.uid;
     // NFT-items propios
-    const nftOwn = await getNFTitems("nft", uid);
+    const nftOwn = await getEqNFTitems("nft", uid);
     console.log("Your equipped NFTs", nftOwn);
+    // Obtener total poder propio
+    const totalOwnPower = getTotalPower(nftOwn);
+    console.log("NFT OWN TOTAL POWER", totalOwnPower);
+
+    // const totalPower = getPower(nftOwnPower);
+    // console.log("total power", totalPower);
 
     // Obtener rival
     const rival = await getRival("users", uid);
     // NFT-items del rival
     console.warn("Your rival: ", rival);
-    // console.log("rival uid", rival.uid);
-    const nftRival = await getNFTitems("nft", rival.uid);
+    const nftRival = await getEqNFTitems("nft", rival.uid);
     console.warn("Your rival equipped NFTs", nftRival);
+    // Obtener total poder rival
+    const totalRivalPower = getTotalPower(nftRival);
+    console.log("NFT Rival TOTAL POWER", totalRivalPower);
+
+    console.log(getWinner(totalOwnPower, totalRivalPower))
 
     // console.log(rival);
   };
