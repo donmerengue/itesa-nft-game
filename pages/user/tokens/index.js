@@ -1,9 +1,10 @@
 import { Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import React from "react";
-import Navbar from "../../components/layout/Navbar";
-import Balance from "../../components/tokens/Balance";
-import Funding from "../../components/tokens/Funding";
-import Withdraw from "../../components/tokens/Withdraw";
+import Footer from "../../../components/layout/Footer";
+import Navbar from "../../../components/layout/Navbar";
+import Balance from "../../../components/tokens/Balance";
+import Funding from "../../../components/tokens/Funding";
+import Withdraw from "../../../components/tokens/Withdraw";
 
 const TokensPage = () => {
   return (
@@ -27,6 +28,8 @@ const TokensPage = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
+    <Footer/>
+
     </>
   );
 };

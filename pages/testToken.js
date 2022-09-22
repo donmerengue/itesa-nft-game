@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   getBalance,
   totalSupply,
@@ -43,45 +43,39 @@ const TestToken = () => {
   // Key de la wallet creada
   const [keyWallet, setKeyWallet] = useState("");
 
+  
+  const hasRendered = useRef(null);
+  
   // Gatillar transaccion de fondeo
-  const [txEjecutada, setTxEjecutada] = useState("false");
+  const confirmFunding = async () => {
+      if (isSignInWithEmailLink(auth, router.asPath)) {
+        console.log("testeando cuantas veces se imprime");
 
-  useEffect(() => {
-    const confirmFunding = async () => {
-      // if (txEjecutada === "false") {
-      if (txEjecutada === "false") {
-        if (isSignInWithEmailLink(auth, router.asPath)) {
-          console.log("testeando cuantas veces se imprime");
-          setTxEjecutada(true);
-          // console.log("txEjecutada dentro del isSignIn", txEjecutada);
-
-          // Enviar transaccion
-          const txFunding = await sendFunding("10000000000000");
-          // Si la transaccion fue exitosa, liberar los fondos
-          if (txFunding.to) {
-            console.log(txFunding);
-            const tokenQuantity2 = 200;
-            // Actualizar la cantidad de tokens en la DB
-            updateTokenQuant(
-              "users",
-              auth.currentUser.uid,
-              tokenQuantity2
-            );
-            console.log("Fondos actualizados");
-            return "ok";
-          } else {
-            console.log("Transaccion falló");
-          }
+        // Enviar transaccion
+        const txFunding = await sendFunding("10000000000000");
+        // Si la transaccion fue exitosa, liberar los fondos
+        if (txFunding.to) {
+          console.log(txFunding);
+          const tokenQuantity2 = 200;
+          // Actualizar la cantidad de tokens en la DB
+          updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
+          console.log("Fondos actualizados");
+          return "ok";
+        } else {
+          console.log("Transaccion falló");
         }
-        // console.log("txEjecutada fuera del isSignIn", txEjecutada);
       }
-    };
-    setTxEjecutada(true);
-    // LLamar a la funcion
-    confirmFunding();
-    // let txPendiente = true;
-    console.log("tx Eejecutada", txEjecutada);
-  }, [txEjecutada]);
+  };
+  
+  
+  useEffect(() => {
+    if (!hasRendered.current){
+
+      confirmFunding();
+    hasRendered.current = true
+    }
+
+  }, []);
 
   // Obtener el balance de tokens de una cuenta
   const handleFunding = async () => {
