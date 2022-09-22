@@ -1,4 +1,3 @@
-import { CheckIcon, EditIcon } from '@chakra-ui/icons';
 import {
     Box,
     Container,
@@ -13,8 +12,9 @@ import {
     StackDivider,
     List,
     ListItem,
+    Link,
+    useBreakpointValue
 } from '@chakra-ui/react';
-
 
 const ItemPage = () => {
 
@@ -42,15 +42,17 @@ const ItemPage = () => {
                         src={nfts[0].img}
                         fit={'cover'}
                         align={'center'}
+                        justify={'center'}
                         w={'100%'}
                         h={{ base: '100%', sm: '400px', lg: '500px' }}
                     />
                 </Flex>
-                <Stack spacing={{ base: 6, md: 10 }}>
+
+                <Stack spacing={{ base: 4, md: 5 }}>
                     <Box as={'header'}>
                         <Heading
                             lineHeight={1.1}
-                            fontWeight={600}
+                            fontWeight={500}
                             fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
                             {nfts[0].name}
                         </Heading>
@@ -58,7 +60,7 @@ const ItemPage = () => {
                             color={'gray.900'}
                             fontWeight={300}
                             fontSize={'2xl'}>
-                            {nfts[0].price}
+                            ${nfts[0].price}
                         </Text>
                     </Box>
 
@@ -70,11 +72,11 @@ const ItemPage = () => {
                                 borderColor={'gray.200'}
                             />
                         }>
-                        <VStack spacing={{ base: 4, sm: 6 }}>
+                        <VStack spacing={{ base: 2, sm: 3 }}>
                             <Text
                                 color={'gray.500'}
                                 fontSize={'2xl'}
-                                fontWeight={'300'}>
+                                fontWeight={'250'}>
                                 {nfts[0].categoria}
                             </Text>
                             <Text fontSize={'lg'}>
@@ -85,7 +87,7 @@ const ItemPage = () => {
                         <Box>
                             <Text
                                 fontSize={{ base: '16px', lg: '20px' }}
-                                color={'yellow.500'}
+                                color={'gray.900'}
                                 fontWeight={'bold'}
                                 textTransform={'uppercase'}
                                 mb={'4'}>
@@ -109,98 +111,88 @@ const ItemPage = () => {
                         <Box columns={{ base: 1, md: 2 }} spacing={10}>
                             <Text
                                 fontSize={{ base: '16px', lg: '20px' }}
-                                color={'yellow.500'}
+                                color={'gray.900'}
                                 fontWeight={'bold'}
                                 textTransform={'uppercase'}
                                 mb={'4'}
                                 justifyContent={'center'}>
                                 Characteristics
                             </Text>
-
-                            <List spacing={2} >
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    BACKGROUND:
-                                    </Text>{' '}
-                                    None{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    CLOTHING:
-                                    </Text>{' '}
-                                    Monstruo Skin Red{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    EYES:
-                                    </Text>{' '}
-                                    One Yellow{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    MOUTH:
-                                    </Text>{' '}
-                                    Big Fear{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    HANDS:
-                                    </Text>{' '}
-                                    Claws{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    ACCESSORY:
-                                    </Text>{' '}
-                                  Parrot Pet{' '}
-                                </ListItem>
-                                <ListItem>
-                                    <Text as={'span'} fontWeight={'bold'}>
-                                    NOSE:
-                                    </Text>{' '} None {' '}
-                                </ListItem>
-                            </List>
+                            <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
+                                <List spacing={2} >
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            BACKGROUND:
+                                        </Text>{' '}
+                                        None{' '}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            CLOTHING:
+                                        </Text>{' '}
+                                        Monstruo Skin Red{' '}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            EYES:
+                                        </Text>{' '}
+                                        One Yellow{' '}
+                                    </ListItem>
+                                </List>
+                                <List spacing={2} >
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            MOUTH:
+                                        </Text>{' '}
+                                        Big Fear{' '}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            HANDS:
+                                        </Text>{' '}
+                                        Claws{' '}
+                                    </ListItem>
+                                    <ListItem>
+                                        <Text as={'span'} fontWeight={'bold'}>
+                                            ACCESSORY:
+                                        </Text>{' '}
+                                        Parrot Pet{' '}
+                                    </ListItem>
+                                </List>
+                            </SimpleGrid>
                         </Box>
                     </Stack>
-
-                    <Stack>
-                        <Button
-                            rounded={'none'}
-                            borderRadius={'full'}
-                            w={'full'}
-                            mt={8}
-                            size={'lg'}
-                            py={'7'}
-                            bg={'blue.400'}
-                            color={'white'}
-                            textTransform={'uppercase'}
-                            _hover={{
-                                transform: 'translateY(2px)',
-                                boxShadow: 'lg',
-                            }}>
-                            < CheckIcon /> BUY NOW
-                        </Button>
-                    </Stack>
-
-                    <Stack>
-                        <Button
-                            rounded={'none'}
-                            borderRadius={'full'}
-                            w={'full'}
-                            size={'lg'}
-                            py={'7'}
-                            bg={'blue.400'}
-                            color={'white'}
-                            textTransform={'uppercase'}
-                            _hover={{
-                                transform: 'translateY(2px)',
-                                boxShadow: 'lg',
-                            }}>
-                            < EditIcon />Make Offer
-                        </Button>
-                    </Stack>
+                    
+          
 
                 </Stack>
+
+                <VStack
+                    w={"full"}
+                    justify={"center"}
+                    px={useBreakpointValue({ base: 4, md: 8 })}>
+                    <Stack direction={"row"} justify={'center'}>
+                        <Link href="">
+                            <Button
+                                bg={"gray.800"}
+                                rounded={"full"}
+                                color={"white"}
+                                _hover={{ bg: "blue.500" }}>
+                                BUY NOW
+                            </Button>
+                        </Link>
+                        <Link href="">
+                            <Button
+                                bg={"gray.800"}
+                                rounded={"full"}
+                                color={"white"}
+                                _hover={{ bg: "blue.500" }}>
+                                MAKE AN OFFER
+                            </Button>
+                        </Link>
+                    </Stack>
+                </VStack>
+                
             </SimpleGrid>
         </Container>
     );
