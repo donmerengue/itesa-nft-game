@@ -68,7 +68,6 @@ const Avatars = ({ avatar }) => {
                 img: avatar.img,
                 name: avatarName,
                 userId: auth.currentUser.uid,
-                level: 0,
               })
             }
             className="p-2 pl-5 pr-5 bg-transparent border-2 border-orange-500 text-orange-500 text-lg rounded-lg transition-colors duration-700 transform hover:bg-orange-600 hover:text-gray-100 focus:border-4 focus:border-indigo-300"
