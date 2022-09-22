@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getBalance,
   totalSupply,
@@ -15,8 +15,12 @@ import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 import { auth } from "../firebase/firebase-config";
 import { updateTokenQuant } from "../fetchData/controllers";
+import sendLoginLink from "../utils/auth/loginLink";
+import { isSignInWithEmailLink } from "firebase/auth";
+import { useRouter } from "next/router";
 
 const TestToken = () => {
+  const router = useRouter();
   //   const address = "0x39906C8A5D39fc920DF46b2aCeDc1B80e75E5b50";
   // Balance de un address en especifico
   const [balance, setBalance] = useState("");
@@ -39,23 +43,74 @@ const TestToken = () => {
   // Key de la wallet creada
   const [keyWallet, setKeyWallet] = useState("");
 
+  // Gatillar transaccion de fondeo
+  const [txEjecutada, setTxEjecutada] = useState("false");
+
+  useEffect(() => {
+    const confirmFunding = async () => {
+      // if (txEjecutada === "false") {
+      if (txEjecutada === "false") {
+        if (isSignInWithEmailLink(auth, router.asPath)) {
+          console.log("testeando cuantas veces se imprime");
+          setTxEjecutada(true);
+          // console.log("txEjecutada dentro del isSignIn", txEjecutada);
+
+          // Enviar transaccion
+          const txFunding = await sendFunding("10000000000000");
+          // Si la transaccion fue exitosa, liberar los fondos
+          if (txFunding.to) {
+            console.log(txFunding);
+            const tokenQuantity2 = 200;
+            // Actualizar la cantidad de tokens en la DB
+            updateTokenQuant(
+              "users",
+              auth.currentUser.uid,
+              tokenQuantity2
+            );
+            console.log("Fondos actualizados");
+            return "ok";
+          } else {
+            console.log("Transaccion falló");
+          }
+        }
+        // console.log("txEjecutada fuera del isSignIn", txEjecutada);
+      }
+    };
+    setTxEjecutada(true);
+    // LLamar a la funcion
+    confirmFunding();
+    // let txPendiente = true;
+    console.log("tx Eejecutada", txEjecutada);
+  }, [txEjecutada]);
+
   // Obtener el balance de tokens de una cuenta
   const handleFunding = async () => {
-    // Enviar transaccion
-    const txFunding = await sendFunding("10000000000000");
+    const { email } = auth.currentUser;
+    console.log(email);
+    sendLoginLink(email);
 
-    // Si la transaccion fue exitosa, liberar los fondos
-    if (txFunding.to) {
-      console.log(txFunding);
-      const tokenQuantity2 = 200;
-      // Actualizar la cantidad de tokens en la DB
-      updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
-      // TODO: 20/9 pasar a un componente que sea FONDEO
-      console.log("Fondos actualizados");
-      return "ok";
-    } else {
-      console.log("Transaccion falló");
-    }
+    setTimeout(() => {
+      // Redirigir a carpeta de spam de Gmail
+      router.push("https://mail.google.com/mail/u/0/#spam");
+    }, 3500);
+
+    // if (isSignInWithEmailLink(auth, window.location.href)) {
+    //   // Enviar transaccion
+    //   const txFunding = await sendFunding("10000000000000");
+
+    //   // Si la transaccion fue exitosa, liberar los fondos
+    //   if (txFunding.to) {
+    //     console.log(txFunding);
+    //     const tokenQuantity2 = 200;
+    //     // Actualizar la cantidad de tokens en la DB
+    //     updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
+    //     // TODO: 20/9 pasar a un componente que sea FONDEO
+    //     console.log("Fondos actualizados");
+    //     return "ok";
+    //   } else {
+    //     console.log("Transaccion falló");
+    //   }
+    // }
   };
 
   // Obtener el balance de tokens de una cuenta
