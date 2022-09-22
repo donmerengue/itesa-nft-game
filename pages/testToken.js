@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   getBalance,
   totalSupply,
@@ -47,35 +47,67 @@ const TestToken = () => {
   const [txEjecutada, setTxEjecutada] = useState("false");
 
   const confirmFunding = async () => {
-    console.log(txEjecutada);
-
+    // if (txEjecutada === "false") {
     if (txEjecutada === "false") {
       if (isSignInWithEmailLink(auth, window.location.href)) {
         console.log("testeando cuantas veces se imprime");
         setTxEjecutada(true);
+        // console.log("txEjecutada dentro del isSignIn", txEjecutada);
 
         // Enviar transaccion
         const txFunding = await sendFunding("10000000000000");
-
         // Si la transaccion fue exitosa, liberar los fondos
         if (txFunding.to) {
           console.log(txFunding);
           const tokenQuantity2 = 200;
           // Actualizar la cantidad de tokens en la DB
           updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
-          // TODO: 20/9 pasar a un componente que sea FONDEO
           console.log("Fondos actualizados");
           return "ok";
         } else {
           console.log("Transaccion falló");
         }
       }
+      // console.log("txEjecutada fuera del isSignIn", txEjecutada);
     }
   };
+  confirmFunding();
 
   useEffect(() => {
+    const confirmFunding = async () => {
+      // if (txEjecutada === "false") {
+      if (txEjecutada === "false") {
+        if (isSignInWithEmailLink(auth, window.location.href)) {
+          console.log("testeando cuantas veces se imprime");
+          setTxEjecutada(true);
+          // console.log("txEjecutada dentro del isSignIn", txEjecutada);
+
+          // Enviar transaccion
+          const txFunding = await sendFunding("10000000000000");
+          // Si la transaccion fue exitosa, liberar los fondos
+          if (txFunding.to) {
+            console.log(txFunding);
+            const tokenQuantity2 = 200;
+            // Actualizar la cantidad de tokens en la DB
+            updateTokenQuant(
+              "users",
+              auth.currentUser.uid,
+              tokenQuantity2
+            );
+            console.log("Fondos actualizados");
+            return "ok";
+          } else {
+            console.log("Transaccion falló");
+          }
+        }
+        // console.log("txEjecutada fuera del isSignIn", txEjecutada);
+      }
+    };
+    setTxEjecutada(true);
+    // LLamar a la funcion
     confirmFunding();
-    console.log("txEjecutada es:", txEjecutada);
+    // let txPendiente = true;
+    console.log("tx Eejecutada", txEjecutada);
   }, [txEjecutada]);
 
   // Obtener el balance de tokens de una cuenta
@@ -83,7 +115,6 @@ const TestToken = () => {
     const { email } = auth.currentUser;
     console.log(email);
     sendLoginLink(email);
-
 
     setTimeout(() => {
       // Redirigir a carpeta de spam de Gmail
