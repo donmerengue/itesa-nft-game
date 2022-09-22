@@ -15,6 +15,8 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { getRival } from "../../fetchData/controllers";
+import { auth } from "../../firebase/firebase-config";
 import { getAvatar } from "../../state/avatar";
 import AvatarGamer from "./avatarGamer";
 import AvatarRandom from "./avatarRandom";
@@ -55,6 +57,12 @@ const ArenaCopy = () => {
     dispatch(getAvatar("1"));
     bgLevel(images);
   }, []);
+
+  const handlePlay = () => {
+    const uid = auth.currentUser.uid;
+    getRival("users", uid);
+    // console.log(rival);
+  };
 
   return (
     <>
@@ -111,16 +119,16 @@ const ArenaCopy = () => {
                 HOME
               </Button>
             </Link>
-            <Link href="/play">
-              <Button
-                bg={"gray.800"}
-                rounded={"full"}
-                color={"white"}
-                _hover={{ bg: "blue.500" }}
-                onClick={handlePlay}>
-                PLAY NOW
-              </Button>
-            </Link>
+            {/* <Link href="/play"> */}
+            <Button
+              bg={"gray.800"}
+              rounded={"full"}
+              color={"white"}
+              _hover={{ bg: "blue.500" }}
+              onClick={handlePlay}>
+              PLAY NOW
+            </Button>
+            {/* </Link> */}
           </Stack>
         </VStack>
       </Box>

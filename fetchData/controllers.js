@@ -69,11 +69,69 @@ export const deleteData = async (coleccion, id) => {
   console.log(`Documento de ${coleccion} eliminado`);
 };
 
-// trae el documento que coincida con el id del usuario logueado
-
+// Traer el documento que coincida con el id del usuario logueado
 export const getId = async (coleccion, id) => {
   const data = await getData(coleccion);
   const avatar = data.filter((obj) => obj.userId === id);
-// console.log(avatar)
-  return avatar
+  // console.log(avatar)
+  return avatar;
 };
+
+// Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
+export const getRival = async (coleccion, id) => {
+  // Traer data del usuario actual
+  const user = await getDocumento("users", id);
+
+  // Filtrar por niveles
+  const usersRef = collection(db, coleccion);
+  const levelQuery = query(usersRef, where("level", "<=", user.level * 3));
+  const levelQuerySnap = await getDocs(levelQuery);
+  const rivals = [];
+  levelQuerySnap.forEach((doc) => {
+    if (doc.id != id) {
+      rivals.push(doc.data());
+    }
+  });
+
+  const rival = rivals[Math.floor(Math.random() * rivals.length)];
+
+  console.log(rivals);
+  console.log(rival);
+
+  // Elegir uno al azar
+
+  // console.log(avatar)
+  // return rivals;
+};
+
+/* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
+export const getRivalWannaPlay = async (coleccion, id) => {
+  // Traer data del usuario actual
+  const user = await getDocumento("users", id);
+
+  // Elegir usuarios dispuestos a jugar
+  const usersRef = collection(db, coleccion);
+  const wannaPlayQuery = query(usersRef, where("wannaPlay", "==", true));
+  const wannaPlayQuerySnap = await getDocs(wannaPlayQuery);
+  // wannaPlayQuerySnap.forEach((doc) => {
+  //   console.log(doc.id, " => ", doc.data());
+  // });
+
+  // Query combinada wannaPlay + filtro Level
+  const wannaPlayLevelQuery = query(
+    usersRef,
+    where("wannaPlay", "==", true),
+    where("level", "<=", user.level * 2)
+  );
+
+  // Filtrar por niveles
+  const wannaPlayLevelQuerySnap = await getDocs(wannaPlayLevelQuery);
+  wannaPlayLevelQuerySnap.forEach((doc) => {
+    console.log(doc.id, " => ", doc.data());
+  });
+
+  // Elegir uno al azar
+
+  // console.log(avatar)
+  // return rivals;
+}; */
