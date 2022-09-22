@@ -77,15 +77,30 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
-// Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
+// Matchmaking: buscar con mismo rango de nivel
 export const getRival = async (coleccion, id) => {
+  // Redondear de 10 en 10 (para arriba)
+  function roundDecimalUp(value) {
+    return Math.ceil(value / 10) * 10;
+  }
+  // Redondear de 10 en 10 (para abajo)
+  function roundDecimalDown(value) {
+    return Math.floor(value / 10) * 10;
+  }
+
   // Traer data del usuario actual
   const user = await getDocumento("users", id);
 
   // Filtrar por niveles
   const usersRef = collection(db, coleccion);
-  const levelQuery = query(usersRef, where("level", "<=", user.level * 3));
+  const levelQuery = query(
+    usersRef,
+    where("level", "<=", roundDecimalUp(user.level)),
+    where("level", ">=", roundDecimalDown(user.level))
+  );
   const levelQuerySnap = await getDocs(levelQuery);
+
+  // Agregar cada rival a un arreglo
   const rivals = [];
   levelQuerySnap.forEach((doc) => {
     if (doc.id != id) {
@@ -93,12 +108,11 @@ export const getRival = async (coleccion, id) => {
     }
   });
 
+  // Elegir rival al azar
   const rival = rivals[Math.floor(Math.random() * rivals.length)];
 
   console.log(rivals);
   console.log(rival);
-
-  // Elegir uno al azar
 
   // console.log(avatar)
   // return rivals;
