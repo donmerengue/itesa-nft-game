@@ -50,7 +50,7 @@ const TestToken = () => {
     const confirmFunding = async () => {
       // if (txEjecutada === "false") {
       if (txEjecutada === "false") {
-        if (isSignInWithEmailLink(auth, window.location.href)) {
+        if (isSignInWithEmailLink(auth, router.asPath)) {
           console.log("testeando cuantas veces se imprime");
           setTxEjecutada(true);
           // console.log("txEjecutada dentro del isSignIn", txEjecutada);
