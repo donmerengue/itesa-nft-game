@@ -5,6 +5,7 @@ import {
   getData,
   getDocumento,
   updateData,
+  getId
 } from "../fetchData/controllers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase-config";
@@ -60,9 +61,15 @@ const TestPage = () => {
       </button>
       <button
         onClick={() => {
-          getDocumento("users", "8reEa96yYeNOBAp7pfYc");
+          getDocumento("users", auth.currentUser.uid);
         }}>
         Traer un documento
+      </button>
+      <button
+        onClick={() => {
+          getId("userAvatar", auth.currentUser.uid);
+        }}>
+        Traer un documento por id
       </button>
     </div>
   );

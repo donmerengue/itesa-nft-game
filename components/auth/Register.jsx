@@ -144,10 +144,10 @@ const Register = () => {
     setPhrase("");
     setKey("");
     // Hacer el airdrop (enviar tokens iniciales)
-    sendTokens(address, "1");
+    sendTokens(address, "10");
     // Redirigir a las intrucciones de la wallet
     // TODO: 20/9 redirigir a /avatar o /createAvatar
-    router.push("/wallet");
+    router.push("/user/createavatar");
   };
 
   return (

@@ -1,3 +1,4 @@
+import { Stack, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import React from "react";
 import Navbar from "../../components/layout/Navbar";
 import Balance from "../../components/tokens/Balance";
@@ -6,12 +7,27 @@ import Withdraw from "../../components/tokens/Withdraw";
 
 const TokensPage = () => {
   return (
-    <div>
+    <>
       <Navbar />
-      <Balance />
-      <Funding />
-      <Withdraw />
-    </div>
+      <Tabs mt={10} isFitted variant="enclosed" >
+        <TabList mb="1em" >
+          <Tab>Balance</Tab>
+          <Tab>Funding</Tab>
+          <Tab>Withdraw</Tab>
+        </TabList>
+        <TabPanels > 
+          <TabPanel>
+            <Balance />
+          </TabPanel>
+          <TabPanel  >
+            <Funding />
+          </TabPanel>
+          <TabPanel>
+            <Withdraw />
+          </TabPanel>
+        </TabPanels>
+      </Tabs>
+    </>
   );
 };
 
