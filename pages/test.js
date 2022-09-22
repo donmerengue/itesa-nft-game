@@ -5,17 +5,18 @@ import {
   getData,
   getDocumento,
   updateData,
-  getId
+  getId,
+  setNewDoc,
 } from "../fetchData/controllers";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../firebase/firebase-config";
 import useAuth from "../hooks/useAuth";
-import {  useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const TestPage = () => {
-  const user = useSelector(state=>state.user)
+  const user = useSelector((state) => state.user);
 
-  useAuth()
+  useAuth();
 
   //Ejemplo de data
   const userData = {
@@ -26,6 +27,25 @@ const TestPage = () => {
     walletAddress: "asdsa68923sadsgsf",
     isActive: true,
   };
+  // Data NFT
+  const nftData = {
+    image: "url",
+    type: "attack", // attack defense luck
+    power: "3",
+    nftAddress: "",
+    user: "2TrHnyokeoUlDS0r5MkAdnT3LYz1", // auth.currentUser?.uid o hardcoded
+    equipped: false,
+  };
+
+  // Data user-stats
+  const userStatsData = {
+    battlesLost: 0,
+    battlesTotal: 0,
+    battlesWon: 0,
+    experience: 0,
+    level: 1,
+  };
+
   const updatedData = {
     lastName: "Mechi actualizado",
     name: "MEchi Actualizado",
@@ -45,6 +65,26 @@ const TestPage = () => {
         }}>
         Ejecutar addNewDoc
       </button>
+      <br />
+      <button
+        onClick={() => {
+          addNewDoc("nft", nftData);
+        }}>
+        Ejecutar addNewNFT
+      </button>
+      <br />
+      <button
+        onClick={() => {
+          setNewDoc(
+            "user-stats",
+            userStatsData,
+            "2TrHnyokeoUlDS0r5MkAdnT3LYz1"
+          );
+        }}>
+        Ejecutar addNewUser-stats
+      </button>
+      <br />
+
       <button onClick={handlerGet}> Ejecutar getDocs</button>
       <button
         onClick={() => {

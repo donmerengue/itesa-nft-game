@@ -16,21 +16,51 @@ export const getDefense = (nftDefense) =>
 export const getLuck = (nftLuck) => getRandomArbitrary(0.2, 1) * nftLuck;
 // console.log("luck is:", getLuck(4))
 
+// // Obtener poder final
+// export const getPower = (nftAttack, nftDefense, nftLuck) =>
+//   getAttack(nftAttack) + getDefense(nftDefense) + getLuck(nftLuck);
 // Obtener poder final
-export const getPower = (nftAttack, nftDefense, nftLuck) =>
-  getAttack(nftAttack) + getDefense(nftDefense) + getLuck(nftLuck);
+export const getPower = (ntfPower) => ntfPower.reduce((a, b) => a + b);
 
 // Testeando poder de dos usuarios
 // const powerUserOne = getPower(4, 4, 4);
 // const powerUserTwo = getPower(4, 4, 4);
 
 // Obtener el usuario con mayor poder
-export const getWinner = (powerUserOne, powerUserTwo) =>
-  powerUserOne > powerUserTwo
-    ? `Winner: User One (${powerUserOne}), Loser: User Two (${powerUserTwo})`
-    : `Winner: User Two (${powerUserTwo}), Loser: User One (${powerUserOne})`;
+export const getWinnerPower = (ownPower, rivalPower) =>
+  ownPower > rivalPower ? ownPower : rivalPower;
 
-// console.log(getWinner(powerUserOne, powerUserTwo));
+export const getWinnerUser = (ownPower, ownUid, rivalPower, rivalUid) =>
+  ownPower > rivalPower ? ownUid : rivalUid;
+
+export const getLoserUser = (ownPower, ownUid, rivalPower, rivalUid) =>
+  ownPower < rivalPower ? ownUid : rivalUid;
+
+//// Obtener el usuario con mayor poder descrito
+// export const getWinnerData = (powerUserOne, powerUserTwo) =>
+// powerUserOne > powerUserTwo
+//   ? `Winner: User One (${powerUserOne}), Loser: User Two (${powerUserTwo})`
+//   : `Winner: User Two (${powerUserTwo}), Loser: User One (${powerUserOne})`;
+
+//
+export const getTotalPower = (nftItems) => {
+  const nftPower = [];
+  for (const item of nftItems) {
+    console.log(item);
+    switch (item.type) {
+      case "attack":
+        nftPower.push(getAttack(item.power));
+        break;
+      case "defense":
+        nftPower.push(getDefense(item.power));
+        break;
+      case "luck":
+        nftPower.push(getLuck(item.power));
+        break;
+    }
+  }
+  return getPower(nftPower);
+};
 
 /* // TODO: 20/9-> borrar cuando ya esté implementado Funciones de prueba
 // Contar cantidad de victorias de cada usuario

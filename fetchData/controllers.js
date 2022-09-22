@@ -52,15 +52,20 @@ export const getDocumento = async (coleccion, id) => {
 export const updateData = async (coleccion, id, data) => {
   const dataDoc = doc(db, coleccion, id);
   await updateDoc(dataDoc, data);
-  console.log("ok");
 };
 
 // Actualizar cantidad de tokens
 export const updateTokenQuant = async (coleccion, id, value) => {
   const dataDoc = doc(db, coleccion, id);
   await updateDoc(dataDoc, { tokenQuantity: increment(value) });
-  console.log("ok");
 };
+
+
+// // Actualizar experiencia
+// export const updateExperienceLevel = async (id, value) => {
+//   const dataDoc = doc(db, "user-stats", id);
+//   await updateDoc(dataDoc, { experience: increment(value) });
+// };
 
 //Borrar Información
 export const deleteData = async (coleccion, id) => {
@@ -77,32 +82,74 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
-// Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
+// Matchmaking: buscar rival con mismo rango de nivel
 export const getRival = async (coleccion, id) => {
+  // Redondear de 10 en 10 (para arriba)
+  function roundDecimalUp(value) {
+    return Math.ceil(value / 10) * 10;
+  }
+  // Redondear de 10 en 10 (para abajo)
+  function roundDecimalDown(value) {
+    return Math.floor(value / 10) * 10;
+  }
+
   // Traer data del usuario actual
   const user = await getDocumento("users", id);
 
   // Filtrar por niveles
   const usersRef = collection(db, coleccion);
-  const levelQuery = query(usersRef, where("level", "<=", user.level * 3));
+  const levelQuery = query(
+    usersRef,
+    where("level", "<=", roundDecimalUp(user.level)),
+    where("level", ">=", roundDecimalDown(user.level))
+  );
   const levelQuerySnap = await getDocs(levelQuery);
+
+  // Agregar cada rival a un arreglo
   const rivals = [];
   levelQuerySnap.forEach((doc) => {
     if (doc.id != id) {
-      rivals.push(doc.data());
+      // const docData = doc.data()
+      // ({ ...obj, key: 'value' })
+      rivals.push({ ...doc.data(), uid: doc.id });
     }
   });
 
+  // Elegir rival al azar
   const rival = rivals[Math.floor(Math.random() * rivals.length)];
-
-  console.log(rivals);
-  console.log(rival);
-
-  // Elegir uno al azar
-
-  // console.log(avatar)
-  // return rivals;
+  return rival;
 };
+
+// Buscar NFT-Items equipados de usuario
+export const getEqNFTitems = async (coleccion, id) => {
+  // Traer data del usuario actual
+  // const user = await getDocumento("users", id);
+
+  // Filtrar por NFTs
+  const nftRef = collection(db, coleccion);
+  const nftQuery = query(
+    nftRef,
+    where("equipped", "==", true),
+    where("user", "==", id)
+  );
+  const nftQuerySnap = await getDocs(nftQuery);
+
+  // Agregar cada nft a un arreglo
+  const nfts = [];
+  nftQuerySnap.forEach((doc) => {
+    nfts.push(doc.data());
+    // nfts.push({ ...doc.data(), uid: doc.id });
+  });
+
+  return nfts;
+};
+
+// TODO: 22/9 Equipar NFT Item
+// export const equipNFTitem = async (coleccion, id, itemStatus) => {
+//   const dataDoc = doc(db, coleccion, id);
+//   await updateDoc(dataDoc, { equipped: itemStatus });
+//   console.log("ok");
+// };
 
 /* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
 export const getRivalWannaPlay = async (coleccion, id) => {
