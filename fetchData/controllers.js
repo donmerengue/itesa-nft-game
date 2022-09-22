@@ -77,7 +77,7 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
-// Matchmaking: buscar con mismo rango de nivel
+// Matchmaking: buscar rival con mismo rango de nivel
 export const getRival = async (coleccion, id) => {
   // Redondear de 10 en 10 (para arriba)
   function roundDecimalUp(value) {
@@ -104,18 +104,39 @@ export const getRival = async (coleccion, id) => {
   const rivals = [];
   levelQuerySnap.forEach((doc) => {
     if (doc.id != id) {
-      rivals.push(doc.data());
+      // const docData = doc.data()
+      // ({ ...obj, key: 'value' })
+      rivals.push({ ...doc.data(), uid: doc.id });
     }
   });
 
   // Elegir rival al azar
   const rival = rivals[Math.floor(Math.random() * rivals.length)];
+  return rival;
+};
 
-  console.log(rivals);
-  console.log(rival);
+// Buscar NFT-Items de usuario
+export const getNFTitems = async (coleccion, id) => {
+  // Traer data del usuario actual
+  // const user = await getDocumento("users", id);
 
-  // console.log(avatar)
-  // return rivals;
+  // Filtrar por NFTs
+  const nftRef = collection(db, coleccion);
+  const nftQuery = query(
+    nftRef,
+    where("equipped", "==", true),
+    where("user", "==", id)
+  );
+  const nftQuerySnap = await getDocs(nftQuery);
+
+  // Agregar cada nft a un arreglo
+  const nfts = [];
+  nftQuerySnap.forEach((doc) => {
+    nfts.push(doc.data());
+    // nfts.push({ ...doc.data(), uid: doc.id });
+  });
+
+  return nfts;
 };
 
 /* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel

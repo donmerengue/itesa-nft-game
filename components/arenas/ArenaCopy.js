@@ -15,7 +15,7 @@ import {
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getRival } from "../../fetchData/controllers";
+import { getNFTitems, getRival } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { getAvatar } from "../../state/avatar";
 import AvatarGamer from "./avatarGamer";
@@ -58,9 +58,21 @@ const ArenaCopy = () => {
     bgLevel(images);
   }, []);
 
-  const handlePlay = () => {
+  const handlePlay = async () => {
+    // ID del usuario
     const uid = auth.currentUser.uid;
-    getRival("users", uid);
+    // NFT-items propios
+    const nftOwn = await getNFTitems("nft", uid);
+    console.log("Your equipped NFTs", nftOwn);
+
+    // Obtener rival
+    const rival = await getRival("users", uid);
+    // NFT-items del rival
+    console.warn("Your rival: ", rival);
+    // console.log("rival uid", rival.uid);
+    const nftRival = await getNFTitems("nft", rival.uid);
+    console.warn("Your rival equipped NFTs", nftRival);
+
     // console.log(rival);
   };
 

@@ -29,9 +29,11 @@ const TestPage = () => {
   // Data NFT
   const nftData = {
     image: "url",
-    type: "luck",
+    type: "attack", // attack defense luck
     power: "3",
     nftAddress: "",
+    user: "2TrHnyokeoUlDS0r5MkAdnT3LYz1", // auth.currentUser?.uid o hardcoded
+    equipped: false,
   };
 
   const updatedData = {
