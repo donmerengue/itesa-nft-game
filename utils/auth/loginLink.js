@@ -10,7 +10,6 @@ import {
   getDoc,
   getDocs,
 } from "firebase/firestore";
-import { useParams } from "react-router-dom";
 
 // Login using email/password
 const sendLoginLink = async (email) => {
