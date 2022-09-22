@@ -13,8 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
 import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
-import { async } from "@firebase/util";
-import Image from "next/image";
+import { updateData } from "../../fetchData/controllers";
+import { auth } from "../../firebase/firebase-config";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
@@ -23,7 +23,7 @@ const Navbar = () => {
   //Traer info del usuario logueado
   useAuth();
   const user = useSelector((state) => state.user);
-  
+
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
     account ? setAccount(null) : setAccount(await requestAccount());
@@ -33,11 +33,18 @@ const Navbar = () => {
     dispatch(logoutUser());
   };
 
+  // Actualizar intencion de juego del usuario
+  const handleWannaPlay = () => {
+    console.log("gatillado");
+    const uid = auth.currentUser.uid;
+    const playData = { wannaPlay: true };
+    updateData("users", uid, playData);
+  };
+
   return (
     <Box bg={"gray.900"} color={"gray.50"} px={4}>
       <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
         <Stack direction="row" spacing={4} align="center">
-
           <Link href="/">
             <Button colorScheme="gray.50" variant="ghost">
               INTERGALAXY
@@ -50,17 +57,19 @@ const Navbar = () => {
           </Link>
 
           <Link href="/marketplace">
-          <Button colorScheme="gray.50" variant="ghost">
-            MARKETPLACE
-          </Button>
+            <Button colorScheme="gray.50" variant="ghost">
+              MARKETPLACE
+            </Button>
           </Link>
 
           <Link href="/arena">
-          <Button colorScheme="gray.50" variant="ghost">
-            PLAY NOW
-          </Button>
+            <Button
+              colorScheme="gray.50"
+              variant="ghost"
+              onClick={handleWannaPlay}>
+              PLAY NOW
+            </Button>
           </Link>
-          
         </Stack>
         <Stack direction="row" spacing={4} align="center">
           {user ? (
@@ -97,7 +106,7 @@ const Navbar = () => {
             ""
           )}
 
-           {user?.isAdmin?(
+          {user?.isAdmin ? (
             <Link href="/admin/dashboard">
               <Button colorScheme="gray.50" variant="ghost">
                 ADMIN
@@ -105,8 +114,8 @@ const Navbar = () => {
             </Link>
           ) : (
             ""
-          )} 
-          
+          )}
+
           <Flex alignItems={"center"}>
             <Menu>
               <MenuButton
