@@ -96,9 +96,9 @@ const Navbar = () => {
                   PROFILE
                 </Button>
               </Link>
-              <Link href="/user/history">
+              <Link href="/user/tokens">
                 <Button colorScheme="gray.50" variant="ghost">
-                  HISTORY
+                  ITGX
                 </Button>
               </Link>
             </>
