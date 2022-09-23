@@ -7,7 +7,7 @@ import arenaReducer from "./arena";
 
 
 const store = configureStore({
-  middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
+  //middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 
     reducer:{
         user:userReducer,

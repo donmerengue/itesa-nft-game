@@ -36,13 +36,13 @@ const Dashboard = () => {
               className=" p-2 pl-5 pr-5 bg-transparent border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white"
               onClick={handleTx}
             >
-              Token-Tx
+              Token-Tx ITGX
             </button>
             <button
               className="p-2 pl-5 pr-5 bg-transparent border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4 focus:bg-gray-900 focus:text-white focus:border-white"
               onClick={handleCustodio}
             >
-              Custodio-Tx
+              Custodio-Tx BNB
             </button>
             <table className="w-full flex flex-row flex-no-wrap sm:bg-white rounded-lg overflow-hidden sm:shadow-lg my-3">
               <thead className="text-white">

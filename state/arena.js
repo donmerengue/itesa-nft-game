@@ -3,7 +3,7 @@ import { collection, getDocs, query, where } from "firebase/firestore";
 import db from "../firebase/firebase-config";
 
 export const getArena = createAsyncThunk("GET_ARENA", async (level) => {
-    console.log(level);
+    // console.log(level);
   const usersRef = collection(db, "arenas");
   const arenaQuery = await query(usersRef, where("level", ">=", level));
   const arenaQuerySnap = await getDocs(arenaQuery).then((res) => res);
