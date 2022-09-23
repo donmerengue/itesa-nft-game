@@ -7,6 +7,9 @@ import {
   Link,
   Box,
   Wrap,
+  Spinner,
+  Container,
+  Center,
 } from "@chakra-ui/react";
 import { increment } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -21,6 +24,7 @@ import {
   updateTokenQuant,
 } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
+import { getArena } from "../../state/arena";
 import { getAvatar } from "../../state/avatar";
 import {
   getLoserUser,
@@ -34,39 +38,15 @@ import AvatarRandom from "./avatarRandom";
 const ArenaCopy = () => {
   const router = useRouter();
   const avatar = useSelector((state) => state.avatar);
+  const user = useSelector((state) => state.user);
+  const arena = useSelector((state) => state.arena);
 
   const dispatch = useDispatch();
 
-  const [arena, setArena] = useState("url(https://imgur.com/qxGy6KM.jpg)");
-
-  const images = {
-    planet1: "url(https://imgur.com/qxGy6KM.jpg)",
-    planet2: "url(https://imgur.com/qeSAqBu.jpg)",
-    planet3: "url(https://imgur.com/wkT0Riu.jpg)",
-    planet4: "url(https://imgur.com/kFYGOdQ.jpg)",
-    planet5: "url(https://imgur.com/2ZImUtf.jpg)",
-  };
-
-  function bgLevel(images) {
-    if (avatar) {
-      if (avatar.level <= 10) {
-        setArena(images.planet1);
-      } else if (avatar.level > 10 && avatar.level <= 20) {
-        setArena(images.planet2);
-      } else if (avatar.level > 20 && avatar.level <= 30) {
-        setArena(images.planet3);
-      } else if (avatar.level > 30 && avatar.level <= 40) {
-        setArena(images.planet4);
-      } else if (avatar.level > 40 && avatar.level < 50) {
-        setArena(images.planet5);
-      }
-    }
-  }
-
   useEffect(() => {
-    dispatch(getAvatar("1"));
-    bgLevel(images);
-  }, []);
+    dispatch(getAvatar(auth?.currentUser?.uid));
+    dispatch(getArena(user?.level));
+  }, [user]);
 
   const handlePlay = async () => {
     // ID del usuario loggeado
@@ -143,19 +123,22 @@ const ArenaCopy = () => {
         w={"full"}
         h={"100vh"}
         backgroundSize={"cover"}
-        backgroundImage={arena}
-        backgroundPosition={"center center"}>
+        backgroundImage={arena?.planet}
+        backgroundPosition={"center center"}
+      >
         <VStack
           w={"full"}
           justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}>
+          px={useBreakpointValue({ base: 4, md: 8 })}
+        >
           <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
             <Text
               mt={10}
               color={"white"}
               fontWeight={700}
               lineHeight={1.2}
-              fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}>
+              fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
+            >
               {router.asPath === "/arena"
                 ? "ARE YOU READY TO PLAY?"
                 : "LET'S PLAY!"}
@@ -167,29 +150,34 @@ const ArenaCopy = () => {
               fontWeight={400}
               lineHeight={1}
               fontSize={useBreakpointValue({ base: "3xl", md: "3xl" })}
-              textAlign="center">
+              textAlign="center"
+            >
               {router.asPath === "/arena" && "Choose Your Equipment!"}
             </Text>
           </Stack>
         </VStack>
 
-        <Wrap justify={"center"} columns={2} spacing={300}>
-          <AvatarGamer />
-          {router.asPath === "/play" && <AvatarRandom />}
-        </Wrap>
+        {arena ? (<>
+          <Wrap justify={"center"} columns={2} spacing={300}>
+            <AvatarGamer />
+            {router.asPath === "/play" && <AvatarRandom />}
+          </Wrap>
+        
 
         <VStack
           w={"full"}
           justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}>
+          // px={useBreakpointValue({ base: 4, md: 8 })}
+        >
           <Stack direction={"row"} justify={"center"}>
-            <Link href="/">
+            <Link href="/arena/game">
               <Button
                 bg={"gray.800"}
                 rounded={"full"}
                 color={"white"}
-                _hover={{ bg: "blue.500" }}>
-                HOME
+                _hover={{ bg: "blue.500" }}
+              >
+                BACK
               </Button>
             </Link>
             {/* <Link href="/play"> */}
@@ -198,12 +186,19 @@ const ArenaCopy = () => {
               rounded={"full"}
               color={"white"}
               _hover={{ bg: "blue.500" }}
-              onClick={handlePlay}>
-              PLAY NOW
+              onClick={handlePlay}
+            >
+              START BATTLE
             </Button>
             {/* </Link> */}
-          </Stack>
+        </Stack>
         </VStack>
+        </>
+        ) : (
+          <Center>
+            <Spinner size="xl" />
+          </Center>
+        )}
       </Box>
     </>
   );

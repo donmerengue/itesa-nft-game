@@ -114,13 +114,13 @@ const GameAccessories = () => {
                                 HOME
                             </Button>
                         </Link>
-                        <Link href="/arena">
+                        <Link href="/play">
                             <Button
                                 bg={"gray.800"}
                                 rounded={"full"}
                                 color={"white"}
                                 _hover={{ bg: "blue.500" }}>
-                                PLAY NOW
+                                PLAY 
                             </Button>
                         </Link>
                     </Stack>

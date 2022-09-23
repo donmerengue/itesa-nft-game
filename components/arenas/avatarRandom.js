@@ -14,7 +14,7 @@ const AvatarRandom = () => {
   const nftRandom = [
     {
       name: "URANO",
-      level: "3",
+      level: 13,
       img: "https://imgur.com/nvD4rT2.png",
       accDefense: [
         "  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
@@ -78,7 +78,7 @@ const AvatarRandom = () => {
             </Heading>
             <Text>Level: {nftRandom[0].level}</Text>
           </Stack>
-
+{/* 
           <Stack>
             <Text fontSize={"sm"} textTransform={"uppercase"}>
               Attack
@@ -110,7 +110,7 @@ const AvatarRandom = () => {
                 Item 1
               </Checkbox>
             </Stack>
-          </Stack>
+          </Stack> */}
         </Box>
       </Center>
     </WrapItem>

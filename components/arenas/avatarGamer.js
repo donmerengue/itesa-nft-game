@@ -8,8 +8,12 @@ import {
   Image,
   Checkbox,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const AvatarGamer = () => {
+const user = useSelector(state=>state.user)
+const arena = useSelector(state=>state.arena)
+
   const nftGamer = [
     {
       name: "NEPTUNO",
@@ -19,6 +23,9 @@ const AvatarGamer = () => {
         "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
     },
   ];
+
+  const avatar = useSelector(state=>state.avatar)
+
   return (
     <WrapItem>
       <Center>
@@ -55,25 +62,25 @@ const AvatarGamer = () => {
               _after: {
                 filter: "blur(10px)",
               },
-            }}>
+            }}> 
             <Image
               rounded={"lg"}
               height={280}
               width={282}
               objectFit={"cover"}
-              src={nftGamer[0].img}
+              src={avatar?.img}
               alt={""}
             />
           </Box>
 
           <Stack pt={20} align={"center"}>
             <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
-              {nftGamer[0].name}
+              {avatar?.name}
             </Heading>
-            <Text>Level: {nftGamer[0].level}</Text>
+            <Text>Level: {user?.level}</Text>
           </Stack>
 
-          <Stack>
+          {/* <Stack>
             <Text fontSize={"sm"} textTransform={"uppercase"}>
               Attack
             </Text>
@@ -110,7 +117,7 @@ const AvatarGamer = () => {
               <Checkbox colorScheme="white">Item 2</Checkbox>
               <Checkbox colorScheme="white">Item 3</Checkbox>
             </Stack>
-          </Stack>
+          </Stack> */}
         </Box>
       </Center>
     </WrapItem>
