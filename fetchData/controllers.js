@@ -40,7 +40,7 @@ export const getDocumento = async (coleccion, id) => {
   const docSnap = await getDoc(docRef);
 
   if (docSnap.exists()) {
-    console.log("Document data:", docSnap.data());
+    // console.log("Document data:", docSnap.data());
     return docSnap.data();
   } else {
     // doc.data() will be undefined in this case
@@ -136,7 +136,7 @@ export const getEqNFTitems = async (coleccion, id) => {
 
   // Agregar cada nft a un arreglo
   const nfts = [];
-  nftQuerySnap.forEach((doc) => {
+ nftQuerySnap.forEach((doc) => {
     nfts.push(doc.data());
     // nfts.push({ ...doc.data(), uid: doc.id });
   });

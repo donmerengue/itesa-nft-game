@@ -54,14 +54,14 @@ const ArenaCopy = () => {
     // NFT-items propios
     const nftOwn = await getEqNFTitems("nft", uid);
     // Obtener total poder propio
-    const totalOwnPower = getTotalPower(nftOwn);
+    const totalOwnPower = await getTotalPower(nftOwn);
 
     // Obtener rival
     const rival = await getRival("users", uid);
     // NFT-items del rival
     const nftRival = await getEqNFTitems("nft", rival.uid);
     // Obtener total poder rival
-    const totalRivalPower = getTotalPower(nftRival);
+    const totalRivalPower = await getTotalPower(nftRival);
 
     // Usuario ganador
     const winnerUser = getWinnerUser(
@@ -78,6 +78,8 @@ const ArenaCopy = () => {
       totalRivalPower,
       rival.uid
     );
+    console.log("WINNER", winnerUser);
+    console.log("LOSER", loserUser);
 
     // Agregar registro de partida a collecion de matches (general)
     const now = new Date();
@@ -115,7 +117,11 @@ const ArenaCopy = () => {
     await updateData("user-stats", winnerUser, dataLevelExp);
     // Actualizar nivel en coleccion de users
     await updateData("users", winnerUser, { level: dataLevelExp.level });
+  
+  console.log("PARTIDA FINALIZADA");
   };
+
+
 
   return (
     <>
