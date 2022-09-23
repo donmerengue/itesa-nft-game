@@ -19,74 +19,103 @@ import { useRouter } from "next/router";
 import { isSignInWithEmailLink } from "firebase/auth";
 import { sendFunding } from "../../utils/blockchain/tokenOperations";
 import { useDispatch, useSelector } from "react-redux";
-import { getItgx } from "../../state/itgx";
-
-
+import {
+  deleteItgxTransfer,
+  getItgx,
+  postItgxTransfer,
+} from "../../state/itgx";
 
 const Funding = () => {
-  
   const [value, setValue] = useState("");
   const [bnb, setBnb] = useState("");
-  const [wei, setWei]= useState("")
-  const [loading, setLoading] = useState(false)
-  const hasRendered = useRef(null);
-  const itgx = useSelector(state=>state.itgx)
-  const router = useRouter();
-const dispatch = useDispatch()
+  // const [wei, setWei] = useState("");
+  const [loading, setLoading] = useState(false);
 
-console.log(itgx);
-  
+  const hasRendered = useRef(null);
+
+  const itgx = useSelector((state) => state.itgx);
+
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const toast = useToast();
+
+  console.log(itgx);
+
   const handleValue = (e) => {
     setValue(e.target.value);
     setBnb(e.target.value * 0.001);
     // setWei(bnb * 898117.59)
   };
-  
-  
-  const handleFunding = (e) =>{
-    e.preventDefault
-    const { email } = auth.currentUser;
+
+  const handleFunding = (e) => {
+    e.preventDefault;
+setLoading(true)
+    const { email, uid } = auth.currentUser;
+    toast({
+      description: "You will be redirected to your inbox to confirm funding.",
+      status: "info",
+      position: "top",
+      duration: 6000,
+      isClosable: true,
+    });
+
     sendLoginLink(email);
-    dispatch(getItgx(value))
+    dispatch(postItgxTransfer({ userId: uid, itgx: Number(value) }));
 
-  setTimeout(() => {
-    // Redirigir a carpeta de spam de Gmail
-    router.push("https://mail.google.com/mail/u/0/#spam");
-  }, 2500);
-}
+    setTimeout(() => {
+      // Redirigir a carpeta de spam de Gmail
+      router.push("https://mail.google.com/mail/u/0/#spam");
+    }, 3500);
+  };
 
-const confirmFunding = async () => {
-  if (isSignInWithEmailLink(auth, router.asPath)) {
-    // Enviar transaccion
-    const txFunding = await sendFunding("10000000000000");
-    // Si la transaccion fue exitosa, liberar los fondos
-    if (txFunding.to) {
-      console.log(txFunding);
-      const tokenQuantity2 = itgx;
-      // Actualizar la cantidad de tokens en la DB
-      updateTokenQuant("users", auth.currentUser.uid, tokenQuantity2);
-      console.log("Fondos actualizados");
-      return "ok";
-    } else {
-      console.log("Transaccion falló");
+  const confirmFunding = async () => {
+    if (isSignInWithEmailLink(auth, router.asPath)) {
+      setLoading(true)
+      // Enviar transaccion
+      const txFunding = await sendFunding("10000000000000");
+      // Si la transaccion fue exitosa, liberar los fondos
+      if (txFunding.to) {
+        setLoading(false)
+        await dispatch(getItgx(auth?.currentUser?.uid)).then((res) => {
+          // Actualizar la cantidad de tokens en la DB
+          updateTokenQuant("users", auth.currentUser.uid, res.payload.amount);
+        });
+        toast({
+          title: "Succesful transaction",
+          description:
+            "You will see it reflected in your balance in the next few minutes.",
+          status: "success",
+          position: "top",
+          duration: 6000,
+          isClosable: true,
+        });
+        //  dispatch(deleteItgxTransfer(auth.currentUser.uid))
+        console.log("Fondos actualizados");
+      } else {
+        setLoading(false)
+        toast({
+          title: "Failed transaction",
+          description: "Please try again",
+          status: "error",
+          position: "top",
+          duration: 6000,
+          isClosable: true,
+        });
+        console.log("Transaccion falló");
+      }
     }
-  }
-};
+  };
 
-useEffect(() => {
-  if (!hasRendered.current){
-
-    confirmFunding();
-  hasRendered.current = true
-  }
-
-
-}, []);
+  useEffect(() => {
+    if (!hasRendered.current) {
+      confirmFunding();
+      hasRendered.current = true;
+    }
+  }, []);
 
   return (
-
     <>
-       <Stack
+      <Stack
         boxShadow={"lg"}
         spacing={8}
         mx={"auto"}
@@ -100,15 +129,24 @@ useEffect(() => {
         <form>
           <FormControl>
             <FormLabel>Amount 💸</FormLabel>
-            <InputGroup size='sm'>
-            <Input required onChange={handleValue} value={value} />
-            <InputRightAddon ><span>ITGX</span></InputRightAddon>
+            <InputGroup size="sm">
+              <Input required onChange={handleValue} value={value} />
+              <InputRightAddon>
+                <span>ITGX</span>
+              </InputRightAddon>
             </InputGroup>
-            <Divider my={5}/>
+            <Divider my={5} />
             <FormLabel>How many BNB will it cost you?</FormLabel>
-            <InputGroup size='sm'>
-            <Input disabled onChange={handleValue} value={bnb} placeholder={bnb}/>
-            <InputRightAddon ><span>BNB</span></InputRightAddon>
+            <InputGroup size="sm">
+              <Input
+                disabled
+                onChange={handleValue}
+                value={bnb}
+                placeholder={bnb}
+              />
+              <InputRightAddon>
+                <span>BNB</span>
+              </InputRightAddon>
             </InputGroup>
           </FormControl>
           <Stack boxSize={"fit-content"} mt={8} justify={"end"}>
