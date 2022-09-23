@@ -15,35 +15,16 @@ import {
     Link,
     useBreakpointValue
 } from '@chakra-ui/react';
+import nftData from '../../../assets/nftData'
 
-const ItemPage = () => {
 
-    /* AVATAR */
-    /*  const nfts = [
-         {
-             name: 'TIERRA',
-             categoria: 'Avatar',
-             img: 'https://imgur.com/Au723mw.png',
-             description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-             price: '280'
-         }
-     ] */
+const ItemPage = ({ item }) => {
+    console.log('itempage---->', item)
 
-    const nfts = [
-        {
-            name: "Sword",
-            description: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-            type: "Attack",
-            power: 3,
-            material: "Steel",
-            handle: "Gold",
-            img: "https://imgur.com/Y9USM7O.jpg",
-            price: 40,
-        },
-    ]
+    const nft = nftData.filter((nft) => nft.name === item)
+    /* console.log('nft.attributes---->', nft[0].attributes) */
 
     return (
-
         <Container maxW={'7xl'}>
             <SimpleGrid
                 columns={{ base: 1, lg: 2 }}
@@ -52,8 +33,8 @@ const ItemPage = () => {
                 <Flex>
                     <Image
                         rounded={'md'}
-                        alt={nfts[0].name}
-                        src={nfts[0].img}
+                        alt={nft[0]?.img}
+                        src={nft[0]?.img}
                         fit={'cover'}
                         align={'center'}
                         justify={'center'}
@@ -68,13 +49,13 @@ const ItemPage = () => {
                             lineHeight={1.1}
                             fontWeight={500}
                             fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-                            {nfts[0].name}
+                            {nft[0]?.name}
                         </Heading>
                         <Text
                             color={'gray.900'}
                             fontWeight={300}
                             fontSize={'2xl'}>
-                            ${nfts[0].price}
+                            ITGX: {nft[0]?.price}
                         </Text>
                     </Box>
 
@@ -91,10 +72,10 @@ const ItemPage = () => {
                                 color={'gray.500'}
                                 fontSize={'2xl'}
                                 fontWeight={'250'}>
-                                {nfts[0].categoria}
+                                {/* nfts[0].categoria */}
                             </Text>
                             <Text fontSize={'lg'}>
-                                {nfts[0].description}
+                                {nft[0]?.description}
                             </Text>
                         </VStack>
 
@@ -108,35 +89,32 @@ const ItemPage = () => {
                                 Properties
                             </Text>
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                                <List spacing={2} >
-                                    <ListItem>
-                                        <Text as={'span'} fontWeight={'bold'}>
-                                        
-                                        </Text>{' '}
-                                        {nfts[0].type}
-                                    </ListItem>
-                                    <ListItem>
-                                        <Text as={'span'} fontWeight={'bold'}>
-                                            CLOTHING:
-                                        </Text>{' '}
-                                        {nfts[0].power}
-                                    </ListItem>
-                                    <ListItem>
-                                        <Text as={'span'} fontWeight={'bold'}>
-                                            EYES:
-                                        </Text>{' '}
-                                        {nfts[0].material}
-                                    </ListItem>
-                                </List>
-                                <List spacing={2} >
-                                    <ListItem>
-                                        <Text as={'span'} fontWeight={'bold'}>
-                                            MOUTH:
-                                        </Text>{' '}
-                                        {nfts[0].handle}
-                                    </ListItem>
-                                   
-                                </List>
+                               {/*  {nft?.map((a, i) => ( */}
+                                    <>
+                                    <List spacing={2} >
+                                        <ListItem>
+                                            <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
+                                              TYPE:
+                                            </Text>{' '}
+                                         Attak
+                                        </ListItem>
+                                        <ListItem>
+                                            <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
+                                              POWER:
+                                            </Text>{' '}
+                                         3
+                                        </ListItem>
+                                    </List>
+                                    <List spacing={2} >
+                                        <ListItem>
+                                            <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
+                                              MATERIAL:
+                                            </Text>{' '}
+                                            Steel
+                                        </ListItem>
+                                    </List>
+                                    </>
+                               {/*  ))} */}
                             </SimpleGrid>
                         </Box>
 
@@ -150,23 +128,24 @@ const ItemPage = () => {
                                 justifyContent={'center'}>
                                 Details
                             </Text>
+
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
                                 <List spacing={2} >
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Contract Address
+                                            Contract Address:
                                         </Text>{' '}
                                         0x191a...2e8c{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Token ID:
+                                            Token ID:
                                         </Text>{' '}
                                         2{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Token Standard:
+                                            Token Standard:
                                         </Text>{' '}
                                         ERC-721{' '}
                                     </ListItem>
@@ -174,44 +153,48 @@ const ItemPage = () => {
                                 <List spacing={2} >
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Blockchain:
+                                            Blockchain:
                                         </Text>{' '}
                                         BSC Testnet{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Last Updated:
+                                            Last Updated:
                                         </Text>{' '}
                                         7 minutes ago{' '}
                                     </ListItem>
                                     <ListItem>
                                         <Text as={'span'} fontWeight={'bold'}>
-                                        Creator Earnings:
+                                            Creator Earnings:
                                         </Text>{' '}
                                         0%{' '}
                                     </ListItem>
                                 </List>
                             </SimpleGrid>
+
                         </Box>
                     </Stack>
+
+                    <Box>
+                        <VStack
+                            w={"full"}
+                            justify={"center"}
+                            mt={'10'}
+                            px={useBreakpointValue({ base: 4, md: 8 })}>
+                            <Stack direction={"row"} justify={'center'}>
+                                <Link href="">
+                                    <Button
+                                        bg={"gray.800"}
+                                        rounded={"full"}
+                                        color={"white"}
+                                        _hover={{ bg: "blue.500" }}>
+                                        BUY NOW
+                                    </Button>
+                                </Link>
+                            </Stack>
+                        </VStack>
+                    </Box>
                 </Stack>
-              
-                <VStack
-                    w={"full"}
-                    justify={"center"}
-                    px={useBreakpointValue({ base: 4, md: 8 })}>
-                    <Stack direction={"row"} justify={'center'}>
-                        <Link href="">
-                            <Button
-                                bg={"gray.800"}
-                                rounded={"full"}
-                                color={"white"}
-                                _hover={{ bg: "blue.500" }}>
-                                BUY NOW
-                            </Button>
-                        </Link>
-                    </Stack>
-                </VStack>
 
             </SimpleGrid>
         </Container>

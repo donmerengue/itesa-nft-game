@@ -2,14 +2,14 @@ import { Box, Center, Flex, Heading, Image, Stack, Text, Wrap, WrapItem, Link } 
 import nftData from '../../../assets/nftData'
 
 const GridMarket = () => {
-
+console.log('nftData--->', nftData)
     return (
         <>
             <Wrap ml={7} marginRight={7} columns={4} spacing={5}>
 
                 {nftData.map(nft => ( 
                     <>
-                        <Link href={'marketplace/item'}>
+                        <Link href={`marketplace/${nft.name}`}>
                             <WrapItem>
                                 <Center >
                                     <Box

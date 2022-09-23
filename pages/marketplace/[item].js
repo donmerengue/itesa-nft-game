@@ -6,12 +6,13 @@ import ItemPage from "../../components/Marketplace/itemPage";
 
 const Item = () => {
   const router = useRouter();
-  const { id } = router.query;
+  const {item} = router.query;
+/*   console.log('id---->',item) */
   /* <p>El id del item para ser renderizado: {id}</p> */
   return (
     <>
       <Navbar />
-      <ItemPage />
+      <ItemPage item={item} />
       <Footer />
     </>
 
