@@ -5,6 +5,8 @@ import {
   FormLabel,
   Heading,
   Input,
+  InputGroup,
+  InputRightAddon,
   Stack,
   useToast,
 } from "@chakra-ui/react";
@@ -17,16 +19,14 @@ const Withdraw = () => {
   const toast = useToast();
   const user = useSelector((state) => state.user);
 
-    
   // valor a enviar
   const [value, setValue] = useState("");
   // address que recibira los tokens
   const [addressReceiver, setAddressReceiver] = useState("");
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   // Seteamos la cantidad de tokens para enviar
   const handleValue = (e) => {
-
     setValue(e.target.value);
   };
 
@@ -36,24 +36,22 @@ const Withdraw = () => {
   };
 
   const onSubmit = (e) => {
-    let amount = 0
+    let amount = 0;
     e.preventDefault();
-    setLoading(true)
+    setLoading(true);
 
-
-    
     //Tiene el saldo que quiere retirar?
     user.tokenQuantity >= value
       ? //Se envian los tokens a la address ingresada
         sendTokens(addressReceiver, value).then((res) => {
           if (res === "ok") {
             //si se realizó la transaction porque el saldo y la address eran correctos
-              amount = value - (value*2)
+            amount = value - value * 2;
             //se actualiza el saldo virtual en la db
             updateTokenQuant("users", auth.currentUser.uid, amount);
             setAddressReceiver("");
             setValue("");
-            setLoading(false)
+            setLoading(false);
             toast({
               title: "Transaction successful",
               description: "Please check your wallet",
@@ -62,9 +60,7 @@ const Withdraw = () => {
               duration: 5000,
               isClosable: true,
             });
-
           } else {
-
             //si hay error es porque no existe la address
             toast({
               title: "The address doesn't exists",
@@ -77,15 +73,15 @@ const Withdraw = () => {
           }
         })
       : //si no tiene el saldo que quiere retirar
-      
-      toast({
-        title: "Insufficient balance",
-        description: "Please try again",
-        status: "error",
-        position: "top",
-        duration: 6000,
-        isClosable: true,
-      })
+
+        toast({
+          title: "Insufficient balance",
+          description: "Please try again",
+          status: "error",
+          position: "top",
+          duration: 6000,
+          isClosable: true,
+        });
   };
 
   return (
@@ -104,9 +100,13 @@ const Withdraw = () => {
         <form onSubmit={onSubmit}>
           <FormControl>
             <FormLabel>Amount 💸</FormLabel>
-            <Input required onChange={handleValue} value={value} />
-            
-            
+            <InputGroup size="sm">
+              <Input required onChange={handleValue} value={value} />
+              <InputRightAddon>
+                <span>ITGX</span>
+              </InputRightAddon>
+            </InputGroup>
+
             <FormLabel mt={5}>Address receiver</FormLabel>
             <Input
               required

@@ -28,7 +28,6 @@ const TokensPage = () => {
           </TabPanel>
         </TabPanels>
       </Tabs>
-    <Footer/>
 
     </>
   );
