@@ -3,6 +3,7 @@ import userReducer from "./user";
 import logger from "redux-logger";
 import avatarReducer from "./avatar";
 import itgxReducer from "./itgx";
+import arenaReducer from "./arena";
 
 
 const store = configureStore({
@@ -12,8 +13,7 @@ const store = configureStore({
         user:userReducer,
         avatar:avatarReducer,
         itgx:itgxReducer,
-        // battle,
-        // avatar,
+        arena:arenaReducer
         // nftItem,
         // nftItems
     }

@@ -46,6 +46,11 @@ const TestPage = () => {
     level: 1,
   };
 
+const arenaData = {
+  planet:"https://imgur.com/2ZImUtf.jpg",
+  level: 40
+}
+
   const updatedData = {
     lastName: "Mechi actualizado",
     name: "MEchi Actualizado",
@@ -68,7 +73,7 @@ const TestPage = () => {
       <br />
       <button
         onClick={() => {
-          addNewDoc("nft", nftData);
+          addNewDoc("arenas", arenaData);
         }}>
         Ejecutar addNewNFT
       </button>
