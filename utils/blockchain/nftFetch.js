@@ -21,5 +21,9 @@ const getMetaData = async () => {
   }
 }
 
-
-module.exports = { getMetaData }
+const convertImage = link => {
+  const CID = link.slice(7)
+  const linkImage = `https://ipfs.io/ipfs/${CID}`
+  return linkImage
+}
+module.exports = { getMetaData, convertImage }
