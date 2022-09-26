@@ -4,18 +4,24 @@ import logger from "redux-logger";
 import avatarReducer from "./avatar";
 import itgxReducer from "./itgx";
 import arenaReducer from "./arena";
+import nftItemsReducer from "./nftItems";
+import nftEquippedReducer from "./nftEquipped";
+import rivalReducer from "./rival";
+import rivalAvatarReducer from "./rivalAvatar";
 
 
 const store = configureStore({
-  //middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
+  middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 
     reducer:{
         user:userReducer,
         avatar:avatarReducer,
         itgx:itgxReducer,
-        arena:arenaReducer
-        // nftItem,
-        // nftItems
+        arena:arenaReducer,
+        nftItems:nftItemsReducer,
+        nftEquipped:nftEquippedReducer,
+        rival:rivalReducer,
+        rivalAvatar:rivalAvatarReducer
     }
 })
 

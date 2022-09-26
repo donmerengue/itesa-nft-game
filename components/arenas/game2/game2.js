@@ -19,7 +19,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAvatar } from "../../../state/avatar";
+import { auth } from "../../../firebase/firebase-config";
+import { getAvatar, getUserAvatar } from "../../../state/avatar";
 import Game2Avatar from "../game1/gameAvatar"
 import Game2Chat from "./game2Chat";
 import Game2Random from "./game2Random";
@@ -62,7 +63,7 @@ const PlayGame2 = () => {
     }
 
     useEffect(() => {
-        dispatch(getAvatar('1'))
+        dispatch(getUserAvatar(auth.currentUser?.uid))
         bgLevel(images)
     }, [])
 

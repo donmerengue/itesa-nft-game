@@ -21,37 +21,36 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../../firebase/firebase-config";
-import { getAvatar } from "../../../state/avatar";
+import { getAvatar, getUserAvatar } from "../../../state/avatar";
 import { getArena } from "../../../state/arena";
 
 import AvatarGamer from "../avatarGamer";
-import GameAvatar from "../game1/gameAvatar"
 import GameAccessories from "./gameAccessories";
+import { getItems } from "../../../state/nftItems";
+import { getItemsEquipped } from "../../../state/nftEquipped";
 
 const PlayGame = () => {
 
-    const avatar = useSelector(state => state.avatar)
     const arena = useSelector(state => state.arena)
     const user = useSelector(state => state.user)
+    const nftItems = useSelector(state => state.nftItems)
+
 
     const dispatch = useDispatch()
 
-    const nftGamer = [
-        {
-            name: 'NEPTUNO',
-            level: '7',
-            img: 'https://imgur.com/rjuWPzD.png',
-            accessories: 'Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor',
-        }
-    ]
-
 
     useEffect(() => {
-        dispatch(getAvatar(auth?.currentUser?.uid));
-
+        //Traer Avatar con el uid que nos da auth
+        dispatch(getUserAvatar(auth?.currentUser?.uid));
+        //Traer NFT Items con el uid que nos da auth
+        dispatch(getItems(auth.currentUser?.uid))
+        //Setear Arena dependiendo del nivel del user
         dispatch(getArena(user?.level));
+        //Traer nfts equipados
+        dispatch(getItemsEquipped(auth.currentUser?.uid))
     }, [user])
 
+//    console.log(nftItems);
     
     return (
         <>
