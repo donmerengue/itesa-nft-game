@@ -1,0 +1,20 @@
+{
+"name": "Horned",
+  "description": "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Luck"
+    },
+    {
+      "trait_type": "Material",
+      "value": "Steel and Animal's horns"
+    },
+    {
+      "display_type": "boost_number",
+      "trait_type": "Luck",
+      "value": 10
+    }
+  ],
+  "image": "ipfs://bafkreihxcinmsf5rnev4wohprsox76dqv27ftrg6mhycb2tdydqnzsjs5y"
+}
