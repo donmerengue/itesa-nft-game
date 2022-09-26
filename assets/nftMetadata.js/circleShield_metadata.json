@@ -1,0 +1,20 @@
+{
+"name": "Circle Shield",
+  "description": "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
+  "attributes": [
+    {
+      "trait_type": "Type",
+      "value": "Defense"
+    },
+    {
+      "trait_type": "Material",
+      "value": "Steel, wood and Bronze"
+    },
+    {
+      "display_type": "boost_number",
+      "trait_type": "Defense",
+      "value": 8
+    }
+  ],
+  "image": "ipfs://bafkreidvmdw4k3ahuhmfemzbim7xeszuvw6tw35wrrhdbeaoy6pzstyel4"
+}
