@@ -152,7 +152,7 @@ const ArenaCopy = () => {
                 lineHeight={1.2}
                 // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
               >
-                LET'S PLAY!
+               { "LET'S PLAY!"}
               </Heading>
             ) : (
               <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
