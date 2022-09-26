@@ -24,7 +24,7 @@ const TestNfts = () => {
       <ol>
         {JSON.parse(nftMetadata[1].metadata).attributes.map(obj => {
           return (
-            <li>
+            <li key={obj.value}>
               {obj.trait_type}: {obj.value}
             </li>
           )
