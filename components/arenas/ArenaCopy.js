@@ -1,15 +1,15 @@
 import {
   Stack,
   Button,
-  Text,
   VStack,
   useBreakpointValue,
   Link,
   Box,
   Wrap,
   Spinner,
-  Container,
   Center,
+  Heading,
+  Image,
 } from "@chakra-ui/react";
 import { increment } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -19,13 +19,14 @@ import {
   addNewDoc,
   getDocumento,
   getEqNFTitems,
-  getRival,
   updateData,
   updateTokenQuant,
 } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
 import { getArena } from "../../state/arena";
-import { getAvatar } from "../../state/avatar";
+import { getUserAvatar } from "../../state/avatar";
+import { getRivalData } from "../../state/rival";
+import { getRivalAvatar } from "../../state/rivalAvatar";
 import {
   getLoserUser,
   getTotalPower,
@@ -37,29 +38,34 @@ import AvatarRandom from "./avatarRandom";
 
 const ArenaCopy = () => {
   const router = useRouter();
-  const avatar = useSelector((state) => state.avatar);
   const user = useSelector((state) => state.user);
   const arena = useSelector((state) => state.arena);
+  const rival = useSelector((state) => state.rival);
+  const [winner, setWinner] = useState(false);
 
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(getAvatar(auth?.currentUser?.uid));
+    dispatch(getUserAvatar(auth?.currentUser?.uid));
     dispatch(getArena(user?.level));
+    dispatch(getRivalData(auth.currentUser?.uid));
   }, [user]);
+
+  useEffect(() => {
+    dispatch(getRivalAvatar(rival?.uid));
+  }, [rival]);
 
   const handlePlay = async () => {
     // ID del usuario loggeado
     const uid = auth.currentUser.uid;
     // NFT-items propios
-    const nftOwn = await getEqNFTitems("nft", uid);
+    const nftOwn = await getEqNFTitems(uid);
+
     // Obtener total poder propio
     const totalOwnPower = await getTotalPower(nftOwn);
 
-    // Obtener rival
-    const rival = await getRival("users", uid);
     // NFT-items del rival
-    const nftRival = await getEqNFTitems("nft", rival.uid);
+    const nftRival = await getEqNFTitems(rival.uid);
     // Obtener total poder rival
     const totalRivalPower = await getTotalPower(nftRival);
 
@@ -80,6 +86,8 @@ const ArenaCopy = () => {
     );
     console.log("WINNER", winnerUser);
     console.log("LOSER", loserUser);
+
+    setWinner(winnerUser);
 
     // Agregar registro de partida a collecion de matches (general)
     const now = new Date();
@@ -117,11 +125,9 @@ const ArenaCopy = () => {
     await updateData("user-stats", winnerUser, dataLevelExp);
     // Actualizar nivel en coleccion de users
     await updateData("users", winnerUser, { level: dataLevelExp.level });
-  
-  console.log("PARTIDA FINALIZADA");
+
+    console.log("PARTIDA FINALIZADA");
   };
-
-
 
   return (
     <>
@@ -138,68 +144,102 @@ const ArenaCopy = () => {
           px={useBreakpointValue({ base: 4, md: 8 })}
         >
           <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
-            <Text
-              mt={10}
-              color={"white"}
-              fontWeight={700}
-              lineHeight={1.2}
-              fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
-            >
-              {router.asPath === "/arena"
-                ? "ARE YOU READY TO PLAY?"
-                : "LET'S PLAY!"}
-            </Text>
-
-            <Text
-              mt={8}
-              color={"white"}
-              fontWeight={400}
-              lineHeight={1}
-              fontSize={useBreakpointValue({ base: "3xl", md: "3xl" })}
-              textAlign="center"
-            >
-              {router.asPath === "/arena" && "Choose Your Equipment!"}
-            </Text>
+            {!winner ? (
+              <Heading
+                mt={10}
+                color={"white"}
+                fontWeight={700}
+                lineHeight={1.2}
+                // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
+              >
+               { "LET'S PLAY!"}
+              </Heading>
+            ) : (
+              <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
+                <Heading
+                  mt={10}
+                  color={"white"}
+                  fontWeight={700}
+                  lineHeight={1.2}
+                  // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
+                >
+                  {winner === auth.currentUser?.uid ? (
+                    <>
+                      GANASTE PAPÁ!
+                      <Center>
+                        <Image
+                          mt={5}
+                          boxSize="100px"
+                          src="https://imgur.com/8Y4nDNr.png"
+                        />
+                      </Center>
+                    </>
+                  ) : (
+                    <>
+                      PERDISTE BOBY
+                      <Center>
+                        <Image
+                          mt={5}
+                          boxSize="100px"
+                          src="https://i.imgur.com/GkTTm2z.png"
+                        />
+                      </Center>
+                    </>
+                  )}
+                </Heading>
+              </Stack>
+            )}
           </Stack>
         </VStack>
 
-        {arena ? (<>
-          <Wrap justify={"center"} columns={2} spacing={300}>
-            <AvatarGamer />
-            {router.asPath === "/play" && <AvatarRandom />}
-          </Wrap>
-        
+        {arena ? (
+          <>
+            <Wrap justify={"center"} columns={2} spacing={300}>
+              <AvatarGamer />
+              {router.asPath === "/play" && <AvatarRandom />}
+            </Wrap>
 
-        <VStack
-          w={"full"}
-          justify={"center"}
-          // px={useBreakpointValue({ base: 4, md: 8 })}
-        >
-          <Stack direction={"row"} justify={"center"}>
-            <Link href="/arena/game">
-              <Button
-                bg={"gray.800"}
-                rounded={"full"}
-                color={"white"}
-                _hover={{ bg: "blue.500" }}
-              >
-                BACK
-              </Button>
-            </Link>
-            {/* <Link href="/play"> */}
-            <Button
-              bg={"gray.800"}
-              rounded={"full"}
-              color={"white"}
-              _hover={{ bg: "blue.500" }}
-              onClick={handlePlay}
+            <VStack
+              w={"full"}
+              justify={"center"}
+              // px={useBreakpointValue({ base: 4, md: 8 })}
             >
-              START BATTLE
-            </Button>
-            {/* </Link> */}
-        </Stack>
-        </VStack>
-        </>
+              <Stack direction={"row"} justify={"center"}>
+                <Link href="/arena/game">
+                  <Button
+                    bg={"gray.800"}
+                    rounded={"full"}
+                    color={"white"}
+                    _hover={{ bg: "blue.500" }}
+                  >
+                    BACK
+                  </Button>
+                </Link>
+                {!winner ? (
+                  <Button
+                    bg={"gray.800"}
+                    rounded={"full"}
+                    color={"white"}
+                    _hover={{ bg: "blue.500" }}
+                    onClick={handlePlay}
+                  >
+                    START BATTLE
+                  </Button>
+                ) : (
+                  <Link href="/play">
+                    <Button
+                      bg={"gray.800"}
+                      rounded={"full"}
+                      color={"white"}
+                      _hover={{ bg: "blue.500" }}
+                    >
+                      PLAY AGAIN
+                    </Button>
+                  </Link>
+                )}
+              </Stack>
+            </VStack>
+          </>
         ) : (
           <Center>
             <Spinner size="xl" />

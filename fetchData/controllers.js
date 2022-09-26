@@ -60,7 +60,6 @@ export const updateTokenQuant = async (coleccion, id, value) => {
   await updateDoc(dataDoc, { tokenQuantity: increment(value) });
 };
 
-
 // // Actualizar experiencia
 // export const updateExperienceLevel = async (id, value) => {
 //   const dataDoc = doc(db, "user-stats", id);
@@ -78,7 +77,7 @@ export const deleteData = async (coleccion, id) => {
 export const getId = async (coleccion, id) => {
   const data = await getData(coleccion);
   const avatar = data.filter((obj) => obj.userId === id);
-   console.log(avatar)
+  console.log(avatar);
   return avatar;
 };
 
@@ -121,35 +120,75 @@ export const getRival = async (coleccion, id) => {
 };
 
 // Buscar NFT-Items equipados de usuario
-export const getEqNFTitems = async (coleccion, id) => {
+export const getEqNFTitems = async (uid) => {
   // Traer data del usuario actual
-  // const user = await getDocumento("users", id);
+  // const user = await getDocumento("users", uid);
 
   // Filtrar por NFTs
-  const nftRef = collection(db, coleccion);
+  const nftRef = collection(db, "nft");
   const nftQuery = query(
     nftRef,
     where("equipped", "==", true),
-    where("user", "==", id)
+    where("user", "==", uid)
   );
   const nftQuerySnap = await getDocs(nftQuery);
 
   // Agregar cada nft a un arreglo
   const nfts = [];
- nftQuerySnap.forEach((doc) => {
-    nfts.push(doc.data());
-    // nfts.push({ ...doc.data(), uid: doc.id });
+  nftQuerySnap.forEach((doc) => {
+    // nfts.push(doc.data());
+    nfts.push({ ...doc.data(), id: doc.id });
   });
 
   return nfts;
 };
 
-// TODO: 22/9 Equipar NFT Item
-// export const equipNFTitem = async (coleccion, id, itemStatus) => {
-//   const dataDoc = doc(db, coleccion, id);
-//   await updateDoc(dataDoc, { equipped: itemStatus });
-//   console.log("ok");
-// };
+//Buscar todos los items de un usuario
+export const getNFTItems = async (uid) => {
+  const nftRef = collection(db, "nft");
+  const nftQuery = query(nftRef, where("user", "==", uid));
+  const nftQuerySnap = await getDocs(nftQuery);
+
+  // Agregar cada nft a un arreglo
+  const nfts = [];
+  nftQuerySnap.forEach((doc) => {
+    // nfts.push(doc.data());
+    nfts.push({ ...doc.data(), id: doc.id });
+  });
+
+  return nfts;
+};
+
+// Equipar NFT Item
+export const equipNFTitem = async (nftId) => {
+  // Traer el item actual por id
+  const dataDoc = doc(db, "nft", nftId);
+  const docSnap = await getDoc(dataDoc);
+
+  // Estado actual del item (equipado o no)
+  const itemStatus = docSnap.data().equipped;
+  // Actualizar el estado del item toggleandolo
+  await updateDoc(dataDoc, { equipped: !itemStatus });
+};
+
+export const getAvatar = async (userId) => {
+  const usersRef = collection(db, "userAvatar");
+  const avatarQuery = query(usersRef, where("userId", "==", userId));
+  const avatarQuerySnap = await getDocs(avatarQuery).then((res) => res);
+
+  // Agregar cada avatar a un arreglo
+  const avatar = [];
+
+  avatarQuerySnap.forEach((doc) => {
+    if (doc.id != userId) {
+      // const docData = doc.data()
+      // ({ ...obj, key: 'value' })
+      avatar.push({ ...doc.data(), uid: doc.id });
+    }
+  });
+  console.log("avatar", avatar)
+  return avatar[0];
+};
 
 /* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
 export const getRivalWannaPlay = async (coleccion, id) => {

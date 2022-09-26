@@ -46,7 +46,6 @@ export const getLoserUser = (ownPower, ownUid, rivalPower, rivalUid) =>
 export const getTotalPower = (nftItems) => {
   const nftPower = [];
   for (const item of nftItems) {
-    console.log(item);
     switch (item.type) {
       case "attack":
         nftPower.push(getAttack(item.power));

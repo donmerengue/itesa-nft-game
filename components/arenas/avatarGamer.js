@@ -12,18 +12,6 @@ import { useSelector } from "react-redux";
 
 const AvatarGamer = () => {
 const user = useSelector(state=>state.user)
-const arena = useSelector(state=>state.arena)
-
-  const nftGamer = [
-    {
-      name: "NEPTUNO",
-      level: "7",
-      img: "https://imgur.com/rjuWPzD.png",
-      accessories:
-        "Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
-    },
-  ];
-
   const avatar = useSelector(state=>state.avatar)
 
   return (
@@ -79,45 +67,6 @@ const arena = useSelector(state=>state.arena)
             </Heading>
             <Text>Level: {user?.level}</Text>
           </Stack>
-
-          {/* <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Attack
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-              <Checkbox colorScheme="white">Item 2</Checkbox>
-              <Checkbox colorScheme="white">Item 3</Checkbox>
-            </Stack>
-          </Stack>
-
-          <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Defense
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-              <Checkbox colorScheme="white">Item 2</Checkbox>
-              <Checkbox colorScheme="white">Item 3</Checkbox>
-            </Stack>
-          </Stack>
-
-          <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Luck
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-              <Checkbox colorScheme="white">Item 2</Checkbox>
-              <Checkbox colorScheme="white">Item 3</Checkbox>
-            </Stack>
-          </Stack> */}
         </Box>
       </Center>
     </WrapItem>

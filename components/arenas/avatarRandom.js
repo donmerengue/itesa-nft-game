@@ -9,8 +9,14 @@ import {
   Flex,
   Checkbox,
 } from "@chakra-ui/react";
+import { useSelector } from "react-redux";
 
 const AvatarRandom = () => {
+
+  const rival = useSelector(state=>state.rival)
+  const rivalAvatar = useSelector(state=>state.rivalAvatar)
+
+console.log(rivalAvatar);
   const nftRandom = [
     {
       name: "URANO",
@@ -24,6 +30,7 @@ const AvatarRandom = () => {
       ],
     },
   ];
+
 
   return (
     <WrapItem>
@@ -67,16 +74,16 @@ const AvatarRandom = () => {
               height={280}
               width={282}
               objectFit={"cover"}
-              src={nftRandom[0].img}
+              src={rivalAvatar?.img}
               alt={""}
             />
           </Box>
 
           <Stack pt={20} align={"center"}>
             <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
-              {nftRandom[0].name}
+              {rivalAvatar?.name}
             </Heading>
-            <Text>Level: {nftRandom[0].level}</Text>
+            <Text>Level: {rival?.level}</Text>
           </Stack>
 {/* 
           <Stack>

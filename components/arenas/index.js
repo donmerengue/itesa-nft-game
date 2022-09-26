@@ -54,7 +54,7 @@ const ArenaOne = () => {
   }
 
   useEffect(() => {
-    dispatch(getAvatar("1"));
+    dispatch(getUserAvatar("1"));
     bgLevel(images);
   }, []);
 
