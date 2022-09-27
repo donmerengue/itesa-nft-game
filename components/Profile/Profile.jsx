@@ -5,16 +5,17 @@ import styled from "styled-components";
 import { auth } from "../../firebase/firebase-config";
 import { getId } from "../../fetchData/controllers";
 import { Img } from "@chakra-ui/react";
+import Link from "next/link";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState({});
-  const [stats,setStats]= useState("")
+  const [stats, setStats] = useState("");
   const [activate, setActivate] = useState(false);
   const handleAvatar = (id) => {
     getId("userAvatar", id).then((res) => {
       setAvatar(res);
       setActivate(true);
-      setStats(id)
+      setStats(id);
     });
   };
 
@@ -28,11 +29,15 @@ const UserProfile = () => {
               <p className="lg:w-6/12 lg:mx-auto">
                 Here you can find your user stats and personal data! <br />
                 {activate ? (
-                  ""
+                  <Link href={"/user/edit"}>
+                    <button className=" p-2 pl-5 pr-5 bg-violet-500 border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white">
+                      Edit User
+                    </button>
+                  </Link>
                 ) : (
                   <button
                     className=" p-2 pl-5 pr-5 bg-violet-500 border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white"
-                    onClick={()=>handleAvatar(auth.currentUser.uid)}
+                    onClick={() => handleAvatar(auth.currentUser.uid)}
                   >
                     User
                   </button>
@@ -63,7 +68,7 @@ const UserProfile = () => {
               </div>
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
                 {activate ? (
-                  <CartStatistics  activate={activate} stats={stats}/>
+                  <CartStatistics activate={activate} stats={stats} />
                 ) : (
                   <>
                     <Img
