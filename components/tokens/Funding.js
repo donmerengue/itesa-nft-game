@@ -1,6 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
 import { auth } from "../../firebase/firebase-config";
-import { updateTokenQuant } from "../../fetchData/controllers";
+import {
+  deleteData,
+  getDocumento,
+  updateData,
+  updateTokenQuant,
+} from "../../fetchData/controllers";
 
 import {
   Button,
@@ -24,8 +29,10 @@ import {
   getItgx,
   postItgxTransfer,
 } from "../../state/itgx";
+import { increment } from "firebase/firestore";
 
 const Funding = () => {
+  const user = useSelector((state) => state.user);
   const [value, setValue] = useState("");
   const [bnb, setBnb] = useState("");
   // const [wei, setWei] = useState("");
@@ -38,18 +45,20 @@ const Funding = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const toast = useToast();
+  const convertDecimal = (n) => Number(n) * 1000000000000000000;
 
-  console.log(itgx);
-
+  let bnbDecimal;
   const handleValue = (e) => {
     setValue(e.target.value);
     setBnb(e.target.value * 0.001);
     // setWei(bnb * 898117.59)
   };
+  bnbDecimal = convertDecimal(bnb);
+  console.log("bnbDecimal debajo del handleValue ", bnbDecimal);
 
   const handleFunding = (e) => {
     e.preventDefault;
-setLoading(true)
+    setLoading(true);
     const { email, uid } = auth.currentUser;
     toast({
       description: "You will be redirected to your inbox to confirm funding.",
@@ -59,8 +68,11 @@ setLoading(true)
       isClosable: true,
     });
 
+    //mandar link
     sendLoginLink(email);
-    dispatch(postItgxTransfer({ userId: uid, itgx: Number(value) }));
+    dispatch(
+      postItgxTransfer({ userId: uid, itgx: Number(value), bnb: bnbDecimal })
+    );
 
     setTimeout(() => {
       // Redirigir a carpeta de spam de Gmail
@@ -69,41 +81,48 @@ setLoading(true)
   };
 
   const confirmFunding = async () => {
-    if (isSignInWithEmailLink(auth, router.asPath)) {
-      setLoading(true)
-      // Enviar transaccion
-      const txFunding = await sendFunding("10000000000000");
-      // Si la transaccion fue exitosa, liberar los fondos
-      if (txFunding.to) {
-        setLoading(false)
-        await dispatch(getItgx(auth?.currentUser?.uid)).then((res) => {
-          // Actualizar la cantidad de tokens en la DB
-          updateTokenQuant("users", auth.currentUser.uid, res.payload.amount);
-        });
-        toast({
-          title: "Succesful transaction",
-          description:
-            "You will see it reflected in your balance in the next few minutes.",
-          status: "success",
-          position: "top",
-          duration: 6000,
-          isClosable: true,
-        });
-        //  dispatch(deleteItgxTransfer(auth.currentUser.uid))
-        console.log("Fondos actualizados");
-      } else {
-        setLoading(false)
-        toast({
-          title: "Failed transaction",
-          description: "Please try again",
-          status: "error",
-          position: "top",
-          duration: 6000,
-          isClosable: true,
-        });
-        console.log("Transaccion falló");
+    setTimeout(async () => {
+      if (isSignInWithEmailLink(auth, router.asPath)) {
+        setLoading(true);
+        //traer de la db la cantidad de bnb a depositar
+        const transfer = await getDocumento("transfers",auth?.currentUser?.uid);
+
+        // Enviar transaccion
+        const txFunding = await sendFunding(transfer.bnb.toString(16));
+
+        // Si la transaccion fue exitosa, liberar los fondos
+        if (txFunding.to) {
+          setLoading(false);
+          // Actualizar la cantidad de tokens del usuario en la DB
+          updateTokenQuant("users", auth.currentUser.uid, transfer.amount);
+          // Actualizar nuestro saldo virtual
+          updateData("virtualBalance", "1", {
+            ITGX: increment(-transfer.amount),
+          });
+
+          toast({
+            title: "Succesful transaction",
+            description:
+              "You will see it reflected in your balance in the next few minutes.",
+            status: "success",
+            position: "top",
+            duration: 6000,
+            isClosable: true,
+          });
+        } else {
+          setLoading(false);
+          toast({
+            title: "Failed transaction",
+            description: "Please try again",
+            status: "error",
+            position: "top",
+            duration: 6000,
+            isClosable: true,
+          });
+        }
+        deleteData("transfers",auth.currentUser.uid)
       }
-    }
+    }, 1000);
   };
 
   useEffect(() => {

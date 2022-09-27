@@ -36,6 +36,7 @@ export const getData = async (coleccion) => {
 
 //Traer un solo doc
 export const getDocumento = async (coleccion, id) => {
+  console.log("parametros desde getDocumento", coleccion, id)
   const docRef = doc(db, coleccion, id);
   const docSnap = await getDoc(docRef);
 

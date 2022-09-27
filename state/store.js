@@ -11,7 +11,7 @@ import rivalAvatarReducer from "./rivalAvatar";
 
 
 const store = configureStore({
-  middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
+  // middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 
     reducer:{
         user:userReducer,
