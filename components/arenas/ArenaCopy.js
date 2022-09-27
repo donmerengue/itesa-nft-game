@@ -84,8 +84,7 @@ const ArenaCopy = () => {
       totalRivalPower,
       rival.uid
     );
-    console.log("WINNER", winnerUser);
-    console.log("LOSER", loserUser);
+
 
     setWinner(winnerUser);
 
@@ -113,8 +112,14 @@ const ArenaCopy = () => {
     };
     updateData("user-stats", loserUser, dataBattlesLoser);
 
+    
     // Prize per win
-    await updateTokenQuant("users", winnerUser, 2);
+    const prizePerWin = 2
+    await updateTokenQuant("users", winnerUser, prizePerWin);
+     // Actualizar nuestro saldo virtual
+     updateData("virtualBalance", "1", {
+      ITGX: increment(-prizePerWin),
+    });
 
     // Determinar aumento de experiencia y nivel
     const dataLevelExp = levelUp(

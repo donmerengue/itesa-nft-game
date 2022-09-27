@@ -5,11 +5,8 @@ export const getItgx = createAsyncThunk("GET_ITGX", (userId) => {
     return getDocumento("transfers", userId);
   });
   
-  export const postItgxTransfer = createAsyncThunk("POST_ITGX", ({userId, itgx}) => {
-    console.log("ESTO LLEGA",itgx);
-    console.log("ESTO TAMBIEN",userId);
-
-    return setNewDoc("transfers",{amount:itgx},userId);
+  export const postItgxTransfer = createAsyncThunk("POST_ITGX", ({userId, itgx, bnb}) => {
+    return setNewDoc("transfers",{amount:itgx, bnb:bnb},userId);
   });
 
   export const deleteItgxTransfer = createAsyncThunk("DELETE_ITGX", (amount) => {
@@ -18,7 +15,10 @@ export const getItgx = createAsyncThunk("GET_ITGX", (userId) => {
 
 
 const itgxReducer = createReducer(null, {
-  [getItgx.fulfilled]: (state, action) => action.payload,
+  [getItgx.fulfilled]: (state, action) => {
+    console.log(action.payload)
+
+    return action.payload},
   [postItgxTransfer.fulfilled]: (state, action) => action.payload,
  
 
