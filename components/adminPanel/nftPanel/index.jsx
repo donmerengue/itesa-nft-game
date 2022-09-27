@@ -1,10 +1,13 @@
-import React from 'react'
 import Sidebar from '../SideBar/Sidebar'
+import NftPanel from './NftPanel'
+
+
 const index = () => {
   return (
     <>
-    <div className="flex overflow-hidden bg-white pt-16 h-[100vh]">
+    <div className="flex overflow-hidden bg-white">
     <Sidebar/>
+    <NftPanel/>
     </div>
     </>
   )
