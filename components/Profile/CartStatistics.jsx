@@ -1,15 +1,28 @@
-import Image from "next/image";
+import { Img } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { useState } from "react";
+import { getDocumento } from "../../fetchData/controllers";
 
-const CartStatistics = ({stats}) => {
-  console.log(stats)
+const CartStatistics = ({ stats, activate }) => {
+  const [userStats, setUSerStats] = useState({});
+
+  //funcion que trae las estadisticas del usuario
+  const estadisticas = async () =>
+    setUSerStats(await getDocumento("user-stats", stats));
+
+  useEffect(() => {
+    estadisticas();
+  }, [activate]);
+
+  console.log(userStats);
   return (
     <>
-      <Image
-        src="https://i.imgur.com/5YHuZ4g.gif"
+      <Img
+        src="https://imgur.com/6KjlLkr.gif"
         alt="art cover"
         loading="lazy"
-        width="750"
-        height="667"
+        width="1000"
+        height="450"
         className="h-56 sm:h-full w-full sm:w-5/12 object-cover object-top rounded-lg transition duration-500 group-hover:rounded-xl"
       />
       <div className="sm:w-7/12 pl-0 p-5">
@@ -18,11 +31,21 @@ const CartStatistics = ({stats}) => {
             <h4 className=" text-2xl font-semibold bg-cyan-900 rounded-xl text-white">
               STATISTICS
             </h4>
-            <p className="font-semibold text-gray-600">LEVEL: 25</p>
-            <p className="font-semibold text-gray-600">EXPERIENCE: 95%</p>
-            <p className="font-semibold text-gray-600">WON BATTLES: 15</p>
-            <p className="font-semibold text-gray-600">LOST BATTLES: 3</p>
-            <p className="font-semibold text-gray-600">TOTAL BATTLES: 18</p>
+            <p className="font-semibold text-gray-600">
+              LEVEL: {userStats.level}
+            </p>
+            <p className="font-semibold text-gray-600">
+              EXPERIENCE: {userStats.experience}
+            </p>
+            <p className="font-semibold text-gray-600">
+              WON BATTLES: {userStats.battlesWon}
+            </p>
+            <p className="font-semibold text-gray-600">
+              LOST BATTLES: {userStats.battlesLost}
+            </p>
+            <p className="font-semibold text-gray-600">
+              TOTAL BATTLES: {userStats.battlesTotal}
+            </p>
           </div>
         </div>
       </div>
