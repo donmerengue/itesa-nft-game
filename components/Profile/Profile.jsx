@@ -63,7 +63,7 @@ const UserProfile = () => {
               </div>
               <div className="p-1 rounded-xl group sm:flex space-x-6 bg-white bg-opacity-80 shadow-xl hover:rounded-2xl">
                 {activate ? (
-                  <CartStatistics  stats={stats}/>
+                  <CartStatistics  activate={activate} stats={stats}/>
                 ) : (
                   <>
                     <Img
