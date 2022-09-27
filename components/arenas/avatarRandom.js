@@ -16,7 +16,6 @@ const AvatarRandom = () => {
   const rival = useSelector(state=>state.rival)
   const rivalAvatar = useSelector(state=>state.rivalAvatar)
 
-console.log(rivalAvatar);
   const nftRandom = [
     {
       name: "URANO",

@@ -36,7 +36,6 @@ export const getData = async (coleccion) => {
 
 //Traer un solo doc
 export const getDocumento = async (coleccion, id) => {
-  console.log("parametros desde getDocumento", coleccion, id)
   const docRef = doc(db, coleccion, id);
   const docSnap = await getDoc(docRef);
 
@@ -107,6 +106,9 @@ export const getRival = async (coleccion, id) => {
 
   // Agregar cada rival a un arreglo
   const rivals = [];
+
+    // Si el usuario quiere apostar (wannaBet)
+
   levelQuerySnap.forEach((doc) => {
     if (doc.id != id) {
       // const docData = doc.data()
@@ -119,6 +121,48 @@ export const getRival = async (coleccion, id) => {
   const rival = rivals[Math.floor(Math.random() * rivals.length)];
   return rival;
 };
+
+// Matchmaking: buscar rival con mismo rango de nivel y que quiera apostar
+export const getRivalBet = async (coleccion, id, wannaBet) => {
+  // Redondear de 10 en 10 (para arriba)
+  function roundDecimalUp(value) {
+    return Math.ceil(value / 10) * 10;
+  }
+  // Redondear de 10 en 10 (para abajo)
+  function roundDecimalDown(value) {
+    return Math.floor(value / 10) * 10;
+  }
+
+  // Traer data del usuario actual
+  const user = await getDocumento("users", id);
+
+  // Filtrar por niveles
+  const usersRef = collection(db, coleccion);
+  const levelQuery = query(
+    usersRef,
+    where("level", "<=", roundDecimalUp(user.level)),
+    where("level", ">=", roundDecimalDown(user.level))
+  );
+  const levelQuerySnap = await getDocs(levelQuery);
+
+  // Agregar cada rival a un arreglo
+  const rivals = [];
+
+    // Si el usuario quiere apostar (wannaBet)
+
+  levelQuerySnap.forEach((doc) => {
+    if (doc.id != id) {
+      // const docData = doc.data()
+      // ({ ...obj, key: 'value' })
+      rivals.push({ ...doc.data(), uid: doc.id });
+    }
+  });
+
+  // Elegir rival al azar
+  const rival = rivals[Math.floor(Math.random() * rivals.length)];
+  return rival;
+};
+
 
 // Buscar NFT-Items equipados de usuario
 export const getEqNFTitems = async (uid) => {
@@ -172,6 +216,7 @@ export const equipNFTitem = async (nftId) => {
   await updateDoc(dataDoc, { equipped: !itemStatus });
 };
 
+// Obtener el avatar del usuario
 export const getAvatar = async (userId) => {
   const usersRef = collection(db, "userAvatar");
   const avatarQuery = query(usersRef, where("userId", "==", userId));
@@ -187,9 +232,39 @@ export const getAvatar = async (userId) => {
       avatar.push({ ...doc.data(), uid: doc.id });
     }
   });
-  console.log("avatar", avatar)
   return avatar[0];
 };
+
+// Determinar cantidad de batallas diarias
+export const getDailyMatches = async (uid) => {
+  // Filtrar por partidas de cada dia del usuario loggeado
+  const now = new Date();
+  const fullfecha = `${now.getDate()}/${
+    now.getMonth() + 1
+  }/${now.getFullYear()}`;
+  console.log(fullfecha);
+
+  const matchesRef = collection(db, "matches");
+  const matchesQuery = query(
+    matchesRef,
+    where("date", "==", fullfecha),
+    where("user1", "==", uid)
+  );
+  const matchesQuerySnap = await getDocs(matchesQuery);
+
+  // Agregar cada match a un arreglo
+  const matches = [];
+  matchesQuerySnap.forEach((doc) => {
+    matches.push(doc.data());
+    // matches.push({ ...doc.data(), id: doc.id });
+  });
+
+  console.log(matches);
+
+  return matches;
+};
+
+// TODO: 27/9 Elegir usuarios dipuestos a apostar (wannaBet = true)
 
 /* // Matchmaking: buscar usuarios con wannaPlay: true y mismo rango de nivel
 export const getRivalWannaPlay = async (coleccion, id) => {
