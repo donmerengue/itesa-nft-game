@@ -8,22 +8,7 @@ const Sidebar = () => {
         <div className="relative flex-1 flex flex-col  border-r border-gray-200 bg-white ">
            <div className="flex-1 flex flex-col pt-5 pb-4  overflow-y-auto">
               <div className="flex-1 px-3 bg-white divide-y space-y-1">
-                 <ul className="space-y-2 pb-2">
-                  {/*Buscador */}
-                    {/* <li>
-                     
-                       <form action="#" method="GET" >
-                          <label  className="sr-only">Search</label>
-                          <div className="relative">
-                             <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <svg className="w-5 h-5 text-gray-500" fillRule="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-                                   <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path>
-                                </svg>
-                             </div>
-                             <input type="text"   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg  focus:ring-cyan-600 block w-full pl-10 p-2.5" placeholder="Search"/>
-                          </div>
-                       </form>
-                    </li> */}
+                 <ul className="space-y-2 pb-2">    
                     <li>
                         <Link href="/admin/dashboard">
                        <a  className="text-base text-gray-900 font-normal rounded-lg flex items-center p-2 hover:bg-orange-100 group">
@@ -53,6 +38,28 @@ const Sidebar = () => {
                           </svg>
                           <span className="ml-3 flex-1 whitespace-nowrap">Accesories
                           Nfts</span>
+                       </a>
+                       </Link>
+                    </li>
+                    <li>
+                        <Link href="/admin/nfts">
+                       <a  className="text-base text-gray-900 font-normal rounded-lg hover:bg-orange-100 flex items-center p-2 group ">
+                          <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fillRule="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                             <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd"></path>
+                          </svg>
+                          <span className="ml-3 flex-1 whitespace-nowrap">
+                          Arenas</span>
+                       </a>
+                       </Link>
+                    </li>
+                    <li>
+                        <Link href="/admin/nfts">
+                       <a  className="text-base text-gray-900 font-normal rounded-lg hover:bg-orange-100 flex items-center p-2 group ">
+                          <svg className="w-6 h-6 text-gray-500 flex-shrink-0 group-hover:text-gray-900 transition duration-75" fillRule="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                             <path fillRule="evenodd" d="M10 2a4 4 0 00-4 4v1H5a1 1 0 00-.994.89l-1 9A1 1 0 004 18h12a1 1 0 00.994-1.11l-1-9A1 1 0 0015 7h-1V6a4 4 0 00-4-4zm2 5V6a2 2 0 10-4 0v1h4zm-6 3a1 1 0 112 0 1 1 0 01-2 0zm7-1a1 1 0 100 2 1 1 0 000-2z" clipRule="evenodd"></path>
+                          </svg>
+                          <span className="ml-3 flex-1 whitespace-nowrap">
+                          Avatars</span>
                        </a>
                        </Link>
                     </li>
