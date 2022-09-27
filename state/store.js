@@ -8,10 +8,11 @@ import nftItemsReducer from "./nftItems";
 import nftEquippedReducer from "./nftEquipped";
 import rivalReducer from "./rival";
 import rivalAvatarReducer from "./rivalAvatar";
+import dailyMatchesReducer from "./dailyMatches"
 
 
 const store = configureStore({
-  // middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
+  middleware:(getDefaultMiddleware)=>getDefaultMiddleware().concat(logger),
 
     reducer:{
         user:userReducer,
@@ -21,7 +22,8 @@ const store = configureStore({
         nftItems:nftItemsReducer,
         nftEquipped:nftEquippedReducer,
         rival:rivalReducer,
-        rivalAvatar:rivalAvatarReducer
+        rivalAvatar:rivalAvatarReducer,
+        dailyMatches:dailyMatchesReducer
     }
 })
 

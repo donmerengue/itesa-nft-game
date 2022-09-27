@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addNewDoc,
+  getDailyMatches,
   getDocumento,
   getEqNFTitems,
   updateData,
@@ -85,18 +86,24 @@ const ArenaCopy = () => {
       rival.uid
     );
 
-
     setWinner(winnerUser);
+
+    
 
     // Agregar registro de partida a collecion de matches (general)
     const now = new Date();
+    const fullfecha = `${now.getDate()}/${
+      now.getMonth() + 1
+    }/${now.getFullYear()}`;
+
     const matchesData = {
-      date: now,
+      date: fullfecha,
       user1: uid,
       user2: rival.uid,
       winner: winnerUser,
     };
     await addNewDoc("matches", matchesData);
+
     // Traer data del usuario
     const winnerUserStats = await getDocumento("user-stats", winnerUser);
     // TODO: Actualizar estadisticas de batalla del usuario
@@ -112,14 +119,18 @@ const ArenaCopy = () => {
     };
     updateData("user-stats", loserUser, dataBattlesLoser);
 
-    
-    // Prize per win
-    const prizePerWin = 2
+    // Prize per win (hasta 5 batallas)
+    const prizePerWin = 2;
     await updateTokenQuant("users", winnerUser, prizePerWin);
-     // Actualizar nuestro saldo virtual
-     updateData("virtualBalance", "1", {
+    // Actualizar nuestro saldo virtual
+    updateData("virtualBalance", "1", {
       ITGX: increment(-prizePerWin),
     });
+
+    // Prize per win apuestas (post 5 batallas)
+    // Chequear en tabla de matches si el usuario jugo mas de 5 partidas ese dia
+    // Dar la opcion de wannaBet (para que el usuario pueda jugar mas de 5 partidas por dia pagando una apuesta)
+    // Cada usuario despues de las 5 partidas solo puede jugar con otro que tenga wannaBet = true y haya superado las 5 partidas
 
     // Determinar aumento de experiencia y nivel
     const dataLevelExp = levelUp(
@@ -141,13 +152,11 @@ const ArenaCopy = () => {
         h={"100vh"}
         backgroundSize={"cover"}
         backgroundImage={arena?.planet}
-        backgroundPosition={"center center"}
-      >
+        backgroundPosition={"center center"}>
         <VStack
           w={"full"}
           justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}
-        >
+          px={useBreakpointValue({ base: 4, md: 8 })}>
           <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
             {!winner ? (
               <Heading
@@ -157,7 +166,7 @@ const ArenaCopy = () => {
                 lineHeight={1.2}
                 // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
               >
-               { "LET'S PLAY!"}
+                {"LET'S PLAY!"}
               </Heading>
             ) : (
               <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
@@ -215,8 +224,7 @@ const ArenaCopy = () => {
                     bg={"gray.800"}
                     rounded={"full"}
                     color={"white"}
-                    _hover={{ bg: "blue.500" }}
-                  >
+                    _hover={{ bg: "blue.500" }}>
                     BACK
                   </Button>
                 </Link>
@@ -226,8 +234,7 @@ const ArenaCopy = () => {
                     rounded={"full"}
                     color={"white"}
                     _hover={{ bg: "blue.500" }}
-                    onClick={handlePlay}
-                  >
+                    onClick={handlePlay}>
                     START BATTLE
                   </Button>
                 ) : (
@@ -236,8 +243,7 @@ const ArenaCopy = () => {
                       bg={"gray.800"}
                       rounded={"full"}
                       color={"white"}
-                      _hover={{ bg: "blue.500" }}
-                    >
+                      _hover={{ bg: "blue.500" }}>
                       PLAY AGAIN
                     </Button>
                   </Link>
