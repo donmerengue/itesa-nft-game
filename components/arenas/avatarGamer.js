@@ -7,16 +7,54 @@ import {
   Text,
   Image,
   Checkbox,
+  Switch,
+  Divider,
+  FormControl,
+  FormLabel,
+  useToast,
 } from "@chakra-ui/react";
+import { async } from "@firebase/util";
 import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import { updateData } from "../../fetchData/controllers";
+import { auth } from "../../firebase/firebase-config";
 
 const AvatarGamer = () => {
+  const [toggled, setToggled] = useState(false);
   const router = useRouter();
+  const toast = useToast();
 
   const dailyMatches = useSelector((state) => state.dailyMatches);
   const user = useSelector((state) => state.user);
   const avatar = useSelector((state) => state.avatar);
+
+
+  // console.log(user.wannaBet );
+  // user.wannaBet = "hola" 
+  // console.log(user.wannaBet);
+
+  const handlerBetToggler = async () => {
+
+user.wannaBet = !user.wannaBet
+    
+    await updateData("users", auth.currentUser?.uid, {
+      wannaBet: user?.wannaBet,
+    });
+
+
+    if (user?.wannaBet) {
+      toast({
+        title: "Toggle succesful",
+        description: "Now you can bet after your 5 daily battles",
+        status: "success",
+        position: "top",
+        duration: 5000,
+        isClosable: true,
+      });
+    }
+
+  };
 
 
   return (
@@ -74,7 +112,23 @@ const AvatarGamer = () => {
             </Heading>
             <Text>Level: {user?.level}</Text>
             {router.pathname === "/arena/game" && (
-              <Text>Matches played today: {dailyMatches?.length}</Text>
+              <>
+                <Text>Matches played today: {dailyMatches?.length}</Text>
+                <Divider py={5} />
+                <Center>
+                  <FormControl p={5}>
+                    <FormLabel>
+                      I want to bet{" "}
+                      <Switch
+                        ml={2}
+                        size={"lg"}
+                        defaultChecked={user?.wannaBet}
+                        onChange={handlerBetToggler}
+                      />
+                    </FormLabel>
+                  </FormControl>
+                </Center>
+              </>
             )}
           </Stack>
         </Box>
