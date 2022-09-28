@@ -30,10 +30,12 @@ import { Fade, ScaleFade, Slide, SlideFade,useDisclosure } from '@chakra-ui/reac
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { equipNFTitem } from "../../../fetchData/controllers";
+import { equipNFTitem, updateData } from "../../../fetchData/controllers";
+import { auth } from "../../../firebase/firebase-config";
 
 const GameAccessories = () => {
 const router = useRouter()
+const [loading, setLoading] = useState(false)
 
 
 
@@ -102,6 +104,13 @@ const handlerPlay = ( ) =>{
     router.push("/play")
   }
   else onOpen()
+}
+
+const handlerPlayAnyway = async () => {
+
+  setLoading(true)
+  await updateData("users", auth.currentUser?.uid, {wannaBet: true})
+  router.push("/play")
 }
 
   const { isOpen,onOpen,onClose, onToggle } = useDisclosure()
@@ -238,7 +247,6 @@ const handlerPlay = ( ) =>{
                   HOME
                 </Button>
               </Link>
-              {/* <Link href="/play"> */}
                 <Button
                   bg={"gray.800"}
                   rounded={"full"}
@@ -248,22 +256,21 @@ const handlerPlay = ( ) =>{
                 >
                   PLAY
                 </Button>
-              {/* </Link> */}
               </Stack>
               <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>You have already made your 5 free daily fights available. </ModalHeader>
+          <ModalHeader mr={6}>You have already made your 5 free daily fights available. </ModalHeader>
           <ModalCloseButton />
           <ModalBody pb={5}>
             <Divider/>
           </ModalBody>
-<Text  p={6}>To fight again you can place a bet of 3 ITGX. If you win, you get the reward, otherwise you lose your bet.</Text>
-<Text  p={6}>Are you sure you want to bet?</Text>
+<Text  p={6}>To fight again you can place a bet of <strong>3 ITGX</strong>. If you win, you get the reward, otherwise you lose your bet.</Text>
+<Text  p={6}>Are you sure you want to bet 3 ITGX?</Text>
 
           <ModalFooter>
             <Button onClick={onClose}>Cancel</Button>
-            <Button colorScheme='blue' ml={3}>
+            <Button colorScheme='blue' ml={3} onClick={handlerPlayAnyway} isLoading={loading}>
               Play anyway
             </Button>
           </ModalFooter>
