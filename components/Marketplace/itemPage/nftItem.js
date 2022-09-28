@@ -78,7 +78,7 @@ const NftItem = ({ nfts, id, data, active }) => {
                 >
                   {meta.name}
                 </Heading>
-                Blockchain: BSC Testnet
+               ITGX:  COMING SOON
               </Box>
 
               <Stack
