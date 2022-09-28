@@ -18,7 +18,6 @@ const AvatarGamer = () => {
   const user = useSelector((state) => state.user);
   const avatar = useSelector((state) => state.avatar);
 
-  console.log(router.pathname);
 
   return (
     <WrapItem>
