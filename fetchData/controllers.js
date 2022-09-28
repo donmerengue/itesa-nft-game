@@ -1,3 +1,4 @@
+import { cookieStorageManager } from "@chakra-ui/react";
 import { async } from "@firebase/util";
 import {
   collection,
@@ -81,6 +82,25 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
+const getRivalsBet = async (rivals) => {
+  console.log("rivals en funcion", rivals);
+  const rivalsBet = [];
+
+  rivals.forEach((rival) => {
+    if (rival.wannaBet) {
+      getDailyMatches(rival.uid).then((dailyMatchesRival) => {
+        console.log("respuesta de .then", dailyMatchesRival);
+
+        if (dailyMatchesRival.length >= 5) {
+          rivalsBet.push(dailyMatchesRival);
+          console.log("rivals bet new dentro del for each", rivalsBet);
+        }
+      });
+    }
+  });
+  return rivalsBet;
+};
+
 // Matchmaking: buscar rival con mismo rango de nivel
 export const getRival = async (coleccion, id) => {
   // Redondear de 10 en 10 (para arriba)
@@ -107,8 +127,6 @@ export const getRival = async (coleccion, id) => {
   // Agregar cada rival a un arreglo
   const rivals = [];
 
-    // Si el usuario quiere apostar (wannaBet)
-
   levelQuerySnap.forEach((doc) => {
     if (doc.id != id) {
       // const docData = doc.data()
@@ -117,52 +135,74 @@ export const getRival = async (coleccion, id) => {
     }
   });
 
+  //// Matchmaking de peleas con apuestas
+  // Daily Matches propias
+  const dailyMatches = await getDailyMatches(id);
+  console.log("partidas propias jugadas hoy:", dailyMatches);
+
+  // Daily Matches rivales
+  // const rivalsBet = await getRivalsBet(rivals);
+
+  // console.log("LLAMANDO FUNCION", getRivalsBet(rivals));
+
+  // console.log("Rivals bet new (+5 peleas y wannaBet):", rivalsBet);
+
+  console.warn("-------------------------------");
+  // Si el usuario lleva mas de 5 peleas
+  if (dailyMatches.length >= 5) {
+    // console.log("rivalbet[0]", rivalsBet[0]);
+
+    console.log("partidas jugadas hoy:", dailyMatches);
+    // Y quiere apostar para continuar jugando
+    if (user.wannaBet) {
+      console.log("queres apostar, te vamos a buscar un rival");
+      // Buscar un rival random que quiera apostar
+      const rivalsBet = rivals.filter((rival) => rival.wannaBet === true);
+      console.log("rivalsBet", rivalsBet);
+      const rivalBet =
+        rivalsBet[Math.floor(Math.random() * rivals.length)] ||
+        rivalsBet[0];
+      console.log("rivalBet random", rivalBet);
+      return rivalBet;
+    } else if (!user.wannaBet) {
+      alert(
+        "Como ya jugaste 5 peleas y no queres apostar, no podras jugar mas por hoy"
+      );
+    }
+  }
+
   // Elegir rival al azar
   const rival = rivals[Math.floor(Math.random() * rivals.length)];
+
   return rival;
 };
 
-// Matchmaking: buscar rival con mismo rango de nivel y que quiera apostar
-export const getRivalBet = async (coleccion, id, wannaBet) => {
-  // Redondear de 10 en 10 (para arriba)
-  function roundDecimalUp(value) {
-    return Math.ceil(value / 10) * 10;
-  }
-  // Redondear de 10 en 10 (para abajo)
-  function roundDecimalDown(value) {
-    return Math.floor(value / 10) * 10;
-  }
+// Determinar cantidad de batallas diarias
+export const getDailyMatches = async (uid) => {
+  // Obtener el dia actual en formato dia/mes/año
+  const now = new Date();
+  const fullfecha = `${now.getDate()}/${
+    now.getMonth() + 1
+  }/${now.getFullYear()}`;
 
-  // Traer data del usuario actual
-  const user = await getDocumento("users", id);
-
-  // Filtrar por niveles
-  const usersRef = collection(db, coleccion);
-  const levelQuery = query(
-    usersRef,
-    where("level", "<=", roundDecimalUp(user.level)),
-    where("level", ">=", roundDecimalDown(user.level))
+  // Filtrar por partidas de cada dia del usuario loggeado
+  const matchesRef = collection(db, "matches");
+  const matchesQuery = query(
+    matchesRef,
+    where("date", "==", fullfecha),
+    where("user1", "==", uid)
   );
-  const levelQuerySnap = await getDocs(levelQuery);
+  const matchesQuerySnap = await getDocs(matchesQuery);
 
-  // Agregar cada rival a un arreglo
-  const rivals = [];
-
-    // Si el usuario quiere apostar (wannaBet)
-
-  levelQuerySnap.forEach((doc) => {
-    if (doc.id != id) {
-      // const docData = doc.data()
-      // ({ ...obj, key: 'value' })
-      rivals.push({ ...doc.data(), uid: doc.id });
-    }
+  // Agregar cada match a un arreglo
+  const matches = [];
+  matchesQuerySnap.forEach((doc) => {
+    matches.push(doc.data());
+    // matches.push({ ...doc.data(), id: doc.id });
   });
 
-  // Elegir rival al azar
-  const rival = rivals[Math.floor(Math.random() * rivals.length)];
-  return rival;
+  return matches;
 };
-
 
 // Buscar NFT-Items equipados de usuario
 export const getEqNFTitems = async (uid) => {
@@ -233,35 +273,6 @@ export const getAvatar = async (userId) => {
     }
   });
   return avatar[0];
-};
-
-// Determinar cantidad de batallas diarias
-export const getDailyMatches = async (uid) => {
-  // Filtrar por partidas de cada dia del usuario loggeado
-  const now = new Date();
-  const fullfecha = `${now.getDate()}/${
-    now.getMonth() + 1
-  }/${now.getFullYear()}`;
-  console.log(fullfecha);
-
-  const matchesRef = collection(db, "matches");
-  const matchesQuery = query(
-    matchesRef,
-    where("date", "==", fullfecha),
-    where("user1", "==", uid)
-  );
-  const matchesQuerySnap = await getDocs(matchesQuery);
-
-  // Agregar cada match a un arreglo
-  const matches = [];
-  matchesQuerySnap.forEach((doc) => {
-    matches.push(doc.data());
-    // matches.push({ ...doc.data(), id: doc.id });
-  });
-
-  console.log(matches);
-
-  return matches;
 };
 
 // TODO: 27/9 Elegir usuarios dipuestos a apostar (wannaBet = true)
