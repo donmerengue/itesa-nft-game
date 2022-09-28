@@ -24,19 +24,34 @@ const ItemPage = ({ id }) => {
   const [nfts, setNfts] = useState({});
   const [details, setDetails] = useState({});
   const [active, setActive] = useState(false);
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    getMetaData().then((res) => {
+      setNfts(res);
+      setActive(true);
+    });
+  }, []);
 
   useEffect(() => {
     getMetaData()
       .then((res) => res.map((nft) => JSON.parse(nft.metadata)))
       .then((res) => {
-        setNfts(res);
-        setActive(true);
+        setData(res);
       });
-  }, []);
+  }, [active]);
 
- 
+  
 
-  return <>{active ? <NftItem nfts={nfts} id={id} active={active}  /> : ""}</>;
+  return (
+    <>
+      {active ? (
+        <NftItem nfts={nfts} id={id} active={active} data={data} />
+      ) : (
+        ""
+      )}
+    </>
+  );
 };
 
 export default ItemPage;
