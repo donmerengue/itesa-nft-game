@@ -7,17 +7,13 @@ import {
   Stack,
   WrapItem,
   Text,
-  Image,
-  Checkbox,
   SimpleGrid,
   List,
   Radio,
-  ListItem,
   VStack,
   Button,
   RadioGroup,
   Divider,
-  Collapse,
   Modal,
   ModalOverlay,
   ModalContent,
@@ -25,23 +21,25 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
+  useToast,
 } from "@chakra-ui/react";
 import { Fade, ScaleFade, Slide, SlideFade,useDisclosure } from '@chakra-ui/react'
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { equipNFTitem, updateData } from "../../../fetchData/controllers";
+import { equipNFTitem, getDocumento, updateData } from "../../../fetchData/controllers";
 import { auth } from "../../../firebase/firebase-config";
 
 const GameAccessories = () => {
 const router = useRouter()
+const toast = useToast()
 const [loading, setLoading] = useState(false)
-
-
-
+const [betPerBattle, setBetPerBattle] = useState("")
 
   const nftItems = useSelector((state) => state.nftItems);
+  
   const nftEquipped = useSelector((state) => state.nftEquipped);
+  const user = useSelector((state) => state.user);
   //Cantidad de peleas diarias
   const dailyMatches = useSelector(state=>state.dailyMatches)
 
@@ -62,6 +60,10 @@ const [loading, setLoading] = useState(false)
   const [anteriorLuck, setAnteriorLuck] = useState(initialLuck?.id);
 
   
+  useEffect(() => {
+    getDocumento("gameParams", "prizeParams").then(res=> setBetPerBattle(res.betPerBattle))
+  }, []);
+
   // Setear los estados en la DB
   useEffect(() => {
     if (defense !== anteriorDef) {
@@ -109,8 +111,18 @@ const handlerPlay = ( ) =>{
 const handlerPlayAnyway = async () => {
 
   setLoading(true)
-  await updateData("users", auth.currentUser?.uid, {wannaBet: true})
-  router.push("/play")
+if(user.wannaBet) router.push("/play")
+else {
+  toast({
+    title: "Error",
+    description: "Please allow the bet option",
+    status: "error",
+    position: "top",
+    duration: 5000,
+    isClosable: true,
+  });
+  setLoading(false)
+}
 }
 
   const { isOpen,onOpen,onClose, onToggle } = useDisclosure()
@@ -265,8 +277,8 @@ const handlerPlayAnyway = async () => {
           <ModalBody pb={5}>
             <Divider/>
           </ModalBody>
-<Text  p={6}>To fight again you can place a bet of <strong>3 ITGX</strong>. If you win, you get the reward, otherwise you lose your bet.</Text>
-<Text  p={6}>Are you sure you want to bet 3 ITGX?</Text>
+<Text  p={6}>To fight again you can place a bet of <strong>{betPerBattle} ITGX</strong>. If you win, you get the reward, otherwise you lose your bet.</Text>
+<Text  p={6}>Are you sure you want to bet {betPerBattle} ITGX?</Text>
 
           <ModalFooter>
             <Button onClick={onClose}>Cancel</Button>
