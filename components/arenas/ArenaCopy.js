@@ -26,6 +26,7 @@ import {
 import { auth } from "../../firebase/firebase-config";
 import { getArena } from "../../state/arena";
 import { getUserAvatar } from "../../state/avatar";
+import dailyMatchesReducer from "../../state/dailyMatches";
 import { getRivalData } from "../../state/rival";
 import { getRivalAvatar } from "../../state/rivalAvatar";
 import {
@@ -88,8 +89,6 @@ const ArenaCopy = () => {
 
     setWinner(winnerUser);
 
-    
-
     // Agregar registro de partida a collecion de matches (general)
     const now = new Date();
     const fullfecha = `${now.getDate()}/${
@@ -106,36 +105,68 @@ const ArenaCopy = () => {
 
     // Traer data del usuario
     const winnerUserStats = await getDocumento("user-stats", winnerUser);
-    // TODO: Actualizar estadisticas de batalla del usuario
+    // Actualizar estadisticas de batalla del usuario ganador
     const dataBattlesWinner = {
       battlesTotal: increment(1),
       battlesWon: increment(1),
     };
     updateData("user-stats", winnerUser, dataBattlesWinner);
 
+    // Actualizar estadisticas de batalla del usuario perdedor
     const dataBattlesLoser = {
       battlesTotal: increment(1),
       battlesLost: increment(1),
     };
     updateData("user-stats", loserUser, dataBattlesLoser);
 
+    // Obtener cantidad de batallas diarias del usuario
+    const dailyMatches = await getDailyMatches(uid);
+    console.log("today's matches", dailyMatches);
+
     // Prize per win (hasta 5 batallas) solo para quien inicio la batalla
-    // TODO: modificar logica para que aplique si el winnerUser es user1
-    const prizePerWin = 2;
-    await updateTokenQuant("users", winnerUser, prizePerWin);
-    // Actualizar nuestro saldo virtual
-    updateData("virtualBalance", "1", {
-      ITGX: increment(-prizePerWin),
-    });
+    const prizeParams = await getDocumento("gameParams", "prizeParams");
+    if (dailyMatches.length < 5) {
+      const { prizePerWin } = prizeParams;
+
+      // Actualizar saldo del usuario ganador si fue el que inició la batalla
+      if (winnerUser == uid) {
+        await updateTokenQuant("users", winnerUser, prizePerWin);
+        // Actualizar nuestro saldo virtual
+        updateData("virtualBalance", "1", {
+          ITGX: increment(-prizePerWin),
+        });
+      }
+    }
 
     // Prize per win apuestas (post 5 batallas)
-    // Chequear en tabla de matches si el usuario jugo mas de 5 partidas ese dia
-    // Dar la opcion de wannaBet (para que el usuario pueda jugar mas de 5 partidas por dia pagando una apuesta)
-    // Cada usuario despues de las 5 partidas solo puede jugar con otro que tenga wannaBet = true y haya superado las 5 partidas
+    if (dailyMatches.length >= 5) {
+      // Parametros de premios
+      const { betPerBattle } = prizeParams; // Apuesta de cada jugador por batalla
+      const { feePerBattle } = prizeParams; // Fee (tasa) retenida por el juego por batalla
+      const { prizePerWinBet } = prizeParams; // Pozo de ganancia por batalla
+      const totalWonBet = prizePerWinBet - betPerBattle; // Ganancia total neta por batalla
+      console.log("bet per battle", betPerBattle);
+      console.log("fee per battle", feePerBattle);
+      console.log("prize per battle won", prizePerWinBet);
+      console.log(" Ganancia total neta por batalla", totalWonBet);
+
+      // Actualizar saldos virtuales de cada jugador
+      await updateTokenQuant("users", winnerUser, totalWonBet);
+      await updateTokenQuant("users", loserUser, -betPerBattle);
+
+      // Actualizar nuestro saldo virtual
+      updateData("virtualBalance", "1", {
+        ITGX: increment(feePerBattle),
+      });
+    }
 
     // Determinar aumento de experiencia y nivel
+    const battleParams = await getDocumento("gameParams", "battleParams");
+    const { expPerWin } = battleParams;
+    console.log("exp per win", expPerWin);
+
     const dataLevelExp = levelUp(
-      winnerUserStats.experience + 1,
+      winnerUserStats.experience + expPerWin,
       winnerUserStats.level
     );
     // Actualizar nivel en coleccion de user-stats

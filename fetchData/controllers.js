@@ -14,6 +14,7 @@ import {
   query,
 } from "firebase/firestore";
 import db from "../firebase/firebase-config";
+import { getRivalsBet } from "../utils/gameplay/matchmaking";
 
 //Agregar un nuevo documento a una colección
 export const addNewDoc = async (coleccion, data) => {
@@ -82,25 +83,6 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
-// Obtener los rivals que quieran apostar y hayan peleado 5 veces o mas
-const getRivalsBet = async (rivals) => {
-  const rivalsBet = [];
-
-  for await (const rival of rivals) {
-    // Si el rival quiere apostar
-    if (rival.wannaBet) {
-      // Obtener cantidad de peleas de cada rival
-      const dailyMatchesRival = await getDailyMatches(rival.uid);
-
-      // Si son mas de 5, postularlo como posible rival
-      if (dailyMatchesRival.length >= 5) {
-        rivalsBet.push(rival);
-      }
-    }
-  }
-  return rivalsBet;
-};
-
 // Matchmaking: buscar rival con mismo rango de nivel
 export const getRival = async (coleccion, id) => {
   // Redondear de 10 en 10 (para arriba)
@@ -144,22 +126,21 @@ export const getRival = async (coleccion, id) => {
     // Buscar rivales que quieren apostar y superaron las 5 peleas diarias
     const rivalsBet = await getRivalsBet(rivals);
 
-    // Si no hay rivales que cumplan la condicion,
+    // Si no hay rivales que cumplan la condicion alertar
     if (rivalsBet.length === 0) {
       alert("NO TENES RIVAL, PAPU VICIOSO");
+      return "No rival";
     }
     // Si el usuario quiere apostar para continuar jugando
     if (user.wannaBet) {
-      console.log("queres apostar, te vamos a buscar un rival");
-
       // Buscar un solo rival random que quiera apostar
       const rivalBet =
         rivalsBet[Math.floor(Math.random() * rivals.length)] ||
         rivalsBet[0];
-
-      console.log("rivalBet random", rivalBet);
       return rivalBet;
-    } else if (!user.wannaBet) {
+    }
+    // Alertar si el usuario no quiere apostar despues de jugar 5 peleas
+    else if (!user.wannaBet) {
       alert(
         "Como ya jugaste 5 peleas y no queres apostar, no podras jugar mas por hoy"
       );

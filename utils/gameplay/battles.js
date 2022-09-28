@@ -5,26 +5,16 @@ export const getRandomArbitrary = (min, max) =>
 // Aplicar aleatoriedad al ataque para obtener poder final
 export const getAttack = (nftAttack) =>
   getRandomArbitrary(0.7, 1) * nftAttack;
-// console.log("attack is:", getAttack(4))
 
 // Aplicar aleatoriedad a la defensa para obtener poder final
 export const getDefense = (nftDefense) =>
   getRandomArbitrary(0.75, 0.95) * nftDefense;
-// console.log("defense is:", getDefense(4))
 
 // Aplicar aleatoriedad a la suerte para obtener poder final
 export const getLuck = (nftLuck) => getRandomArbitrary(0.2, 1) * nftLuck;
-// console.log("luck is:", getLuck(4))
 
-// // Obtener poder final
-// export const getPower = (nftAttack, nftDefense, nftLuck) =>
-//   getAttack(nftAttack) + getDefense(nftDefense) + getLuck(nftLuck);
 // Obtener poder final
 export const getPower = (ntfPower) => ntfPower.reduce((a, b) => a + b);
-
-// Testeando poder de dos usuarios
-// const powerUserOne = getPower(4, 4, 4);
-// const powerUserTwo = getPower(4, 4, 4);
 
 // Obtener el usuario con mayor poder
 export const getWinnerPower = (ownPower, rivalPower) =>
@@ -35,12 +25,6 @@ export const getWinnerUser = (ownPower, ownUid, rivalPower, rivalUid) =>
 
 export const getLoserUser = (ownPower, ownUid, rivalPower, rivalUid) =>
   ownPower < rivalPower ? ownUid : rivalUid;
-
-//// Obtener el usuario con mayor poder descrito
-// export const getWinnerData = (powerUserOne, powerUserTwo) =>
-// powerUserOne > powerUserTwo
-//   ? `Winner: User One (${powerUserOne}), Loser: User Two (${powerUserTwo})`
-//   : `Winner: User Two (${powerUserTwo}), Loser: User One (${powerUserOne})`;
 
 //
 export const getTotalPower = (nftItems) => {
