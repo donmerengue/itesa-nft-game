@@ -8,7 +8,14 @@ import {
   Spinner,
   WrapItem,
   Wrap,
+  Highlight,
+  Container,
+  Text,
+  Divider,
+  useDisclosure,
+  Button,
 } from "@chakra-ui/react";
+import { Fade, ScaleFade, Slide, SlideFade } from '@chakra-ui/react'
 // Components
 import { getArena } from "../../../state/arena";
 import AvatarGamer from "../avatarGamer";
@@ -41,6 +48,9 @@ const PlayGame = () => {
     // Consultar cantidad de partidas diarias del usuario
     dispatch(getMatches(auth.currentUser?.uid));
   }, [user]);
+
+  const { isOpen, onToggle } = useDisclosure()
+
 
   return (
     <>
@@ -82,3 +92,46 @@ const PlayGame = () => {
   );
 };
 export default PlayGame;
+
+{/* <Box
+     mt={10}
+     mb={10}
+     role={"group"}
+     p={6}
+     maxW={"330px"}
+     w={"full"}
+     bg={"gray.800"}
+     color={"white"}
+     boxShadow={"2xl"}
+     rounded={"lg"}
+     align={"center"}
+     justifyContent={"center"}
+>
+
+<Text fontSize="3xl">
+<Highlight
+  query={["bet", "3 ITGX", "unlimited fee fights."]}
+  styles={{ px: "2", py: "1", rounded: "full", bg: "red.100" }}
+  >
+ You have already made your 5 free daily fights available. 
+  You have unlimited fee fights.
+</Highlight>
+</Text>
+<Divider my={5}/>
+<Text fontSize={"2xl"}>
+To fight again you can place a bet of 3 ITGX. If you win, you get the reward, otherwise you lose your bet.
+</Text>
+<Button onClick={onToggle}>Click Me</Button>
+<Fade in={isOpen}>
+<Box
+p='40px'
+color='white'
+mt='4'
+bg='teal.500'
+rounded='md'
+shadow='md'
+>
+Fade
+</Box>
+</Fade>
+  </Box> */}

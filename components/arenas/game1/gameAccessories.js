@@ -17,14 +17,31 @@ import {
   Button,
   RadioGroup,
   Divider,
+  Collapse,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  ModalFooter,
 } from "@chakra-ui/react";
+import { Fade, ScaleFade, Slide, SlideFade,useDisclosure } from '@chakra-ui/react'
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { equipNFTitem } from "../../../fetchData/controllers";
 
 const GameAccessories = () => {
+const router = useRouter()
+
+
+
+
   const nftItems = useSelector((state) => state.nftItems);
   const nftEquipped = useSelector((state) => state.nftEquipped);
+  //Cantidad de peleas diarias
+  const dailyMatches = useSelector(state=>state.dailyMatches)
 
   const [initialDefense] = nftEquipped.filter((nft) => nft.type === "defense");
   const [initialAttack] = nftEquipped.filter((nft) => nft.type === "attack");
@@ -33,7 +50,7 @@ const GameAccessories = () => {
   const defItems = nftItems.filter((nft) => nft.type === "defense");
   const attItems = nftItems.filter((nft) => nft.type === "attack");
   const luckItems = nftItems.filter((nft) => nft.type === "luck");
-
+  
   // Estados para elegir un nft item por tipo
   const [defense, setDefense] = useState(initialDefense?.id);
   const [anteriorDef, setAnteriorDef] = useState(initialDefense?.id);
@@ -42,6 +59,7 @@ const GameAccessories = () => {
   const [luck, setLuck] = useState(initialLuck?.id);
   const [anteriorLuck, setAnteriorLuck] = useState(initialLuck?.id);
 
+  
   // Setear los estados en la DB
   useEffect(() => {
     if (defense !== anteriorDef) {
@@ -78,6 +96,16 @@ const GameAccessories = () => {
     setAnteriorLuck(luck);
     setLuck(e);
   };
+
+const handlerPlay = ( ) =>{
+  if(dailyMatches.length < 5){
+    router.push("/play")
+  }
+  else onOpen()
+}
+
+  const { isOpen,onOpen,onClose, onToggle } = useDisclosure()
+   
 
   return (
     <WrapItem>
@@ -210,17 +238,37 @@ const GameAccessories = () => {
                   HOME
                 </Button>
               </Link>
-              <Link href="/play">
+              {/* <Link href="/play"> */}
                 <Button
                   bg={"gray.800"}
                   rounded={"full"}
                   color={"white"}
                   _hover={{ bg: "blue.500" }}
+                  onClick={handlerPlay}
                 >
                   PLAY
                 </Button>
-              </Link>
-            </Stack>
+              {/* </Link> */}
+              </Stack>
+              <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>You have already made your 5 free daily fights available. </ModalHeader>
+          <ModalCloseButton />
+          <ModalBody pb={5}>
+            <Divider/>
+          </ModalBody>
+<Text  p={6}>To fight again you can place a bet of 3 ITGX. If you win, you get the reward, otherwise you lose your bet.</Text>
+<Text  p={6}>Are you sure you want to bet?</Text>
+
+          <ModalFooter>
+            <Button onClick={onClose}>Cancel</Button>
+            <Button colorScheme='blue' ml={3}>
+              Play anyway
+            </Button>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
           </VStack>
         </Box>
       </Center>
