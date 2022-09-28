@@ -15,16 +15,30 @@ import {
     Link,
     useBreakpointValue
 } from '@chakra-ui/react';
-import nftData from '../../../assets/nftData'
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { getMetaData, convertImage } from '../../../utils/blockchain/nftFetch'
+import NftItem from './nftItem';
 
+const ItemPage = ({ id }) => {
 
-const ItemPage = ({ item }) => {
-    console.log('itempage---->', item)
+    const [nfts, setNfts] = useState({})
+    const [nft, setNft] = useState({})
+    const [data, setData] = useState([])
+    const [active, setActive] = useState(false)
 
-    const nft = nftData.filter((nft) => nft.name === item)
-    /* console.log('nft.attributes---->', nft[0].attributes) */
+    useEffect(() => {
+        getMetaData()
+            .then(res => res.map((nft) => JSON.parse(nft.metadata)))
+            .then(res => res.filter((data) => data.name === id))
+            .then(res => console.log(res))
+            .catch((error) => console.log(error))
+        setActive(true)
+    }, [])
 
-    return (
+  
+
+/*     return (
         <Container maxW={'7xl'}>
             <SimpleGrid
                 columns={{ base: 1, lg: 2 }}
@@ -33,14 +47,14 @@ const ItemPage = ({ item }) => {
                 <Flex>
                     <Image
                         rounded={'md'}
-                        alt={nft[0]?.img}
-                        src={nft[0]?.img}
+                        alt={}
+                        src={}
                         fit={'cover'}
                         align={'center'}
                         justify={'center'}
                         w={'100%'}
                         h={{ base: '100%', sm: '500px', lg: '600px' }}
-                    />
+                    /> 
                 </Flex>
 
                 <Stack spacing={{ base: 4, md: 5 }}>
@@ -49,13 +63,13 @@ const ItemPage = ({ item }) => {
                             lineHeight={1.1}
                             fontWeight={500}
                             fontSize={{ base: '2xl', sm: '4xl', lg: '5xl' }}>
-                            {nft[0]?.name}
+                            {data[0]?.name}
                         </Heading>
                         <Text
                             color={'gray.900'}
                             fontWeight={300}
                             fontSize={'2xl'}>
-                            ITGX: {nft[0]?.price}
+                            ITGX: {}
                         </Text>
                     </Box>
 
@@ -72,10 +86,10 @@ const ItemPage = ({ item }) => {
                                 color={'gray.500'}
                                 fontSize={'2xl'}
                                 fontWeight={'250'}>
-                                {/* nfts[0].categoria */}
+                                { }
                             </Text>
                             <Text fontSize={'lg'}>
-                                {nft[0]?.description}
+                                {data[0]?.description}
                             </Text>
                         </VStack>
 
@@ -89,32 +103,32 @@ const ItemPage = ({ item }) => {
                                 Properties
                             </Text>
                             <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-                               {/*  {nft?.map((a, i) => ( */}
-                                    <>
+                                { }
+                                <>
                                     <List spacing={2} >
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
-                                              TYPE:
+                                                TYPE:
                                             </Text>{' '}
-                                         Attak
+                                            Attak
                                         </ListItem>
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
-                                              POWER:
+                                                POWER:
                                             </Text>{' '}
-                                         3
+                                            3
                                         </ListItem>
                                     </List>
                                     <List spacing={2} >
                                         <ListItem>
                                             <Text as={'span'} fontWeight={'bold'} textTransform={'uppercase'}>
-                                              MATERIAL:
+                                                MATERIAL:
                                             </Text>{' '}
                                             Steel
                                         </ListItem>
                                     </List>
-                                    </>
-                               {/*  ))} */}
+                                </>
+                                { }
                             </SimpleGrid>
                         </Box>
 
@@ -198,7 +212,7 @@ const ItemPage = ({ item }) => {
 
             </SimpleGrid>
         </Container>
-    );
+    ) */
 }
 
 export default ItemPage

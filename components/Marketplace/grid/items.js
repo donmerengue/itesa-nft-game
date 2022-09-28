@@ -17,8 +17,6 @@ const Items = ({nft, active }) => {
    }
   }, [nftData])
 
-console.log(nftImage)
-
   return (
     <>
       <Link href={`marketplace/${nftData?.name}`}>

@@ -4,19 +4,19 @@ import Navbar from "../../components/layout/Navbar";
 import ItemPage from "../../components/Marketplace/itemPage";
 
 
-const Item = () => {
+const Id = () => {
   const router = useRouter();
-  const {item} = router.query;
+  const {id} = router.query;
 /*   console.log('id---->',item) */
   /* <p>El id del item para ser renderizado: {id}</p> */
   return (
     <>
       <Navbar />
-      <ItemPage item={item} />
+      <ItemPage id={id} />
       <Footer />
     </>
 
   )
 };
 
-export default Item;
+export default Id;

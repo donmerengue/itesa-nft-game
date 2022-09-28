@@ -4,7 +4,7 @@ const API_KEY =
 
 const options = {
   method: "GET",
-  url: "https://deep-index.moralis.io/api/v2/nft/0xa8cf99020aF1BbfB904AB33a055C08354082DDe4?chain=bsc%20testnet&format=decimal",
+  url: "https://deep-index.moralis.io/api/v2/nft/0xD41e4536aFf36F604199dd9148Ae73b87614B66f?chain=bsc%20testnet&format=decimal",
   headers: {
     accept: "application/json",
     "X-API-Key": API_KEY,
