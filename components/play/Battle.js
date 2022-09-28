@@ -10,6 +10,7 @@ import {
   Center,
   Heading,
   Image,
+  Text,
 } from "@chakra-ui/react";
 import { increment } from "firebase/firestore";
 import { useRouter } from "next/router";
@@ -36,7 +37,7 @@ import {
 } from "../../utils/gameplay/battles";
 import { levelUp } from "../../utils/gameplay/levelUp";
 import AvatarGamer from "./UserAvatar";
-import AvatarRandom from "./RivalAvatar";
+import RivalAvatar from "./RivalAvatar";
 
 const ArenaCopy = () => {
   const router = useRouter();
@@ -44,6 +45,7 @@ const ArenaCopy = () => {
   const arena = useSelector((state) => state.arena);
   const rival = useSelector((state) => state.rival);
   const [winner, setWinner] = useState(false);
+  const [reward, setReward] = useState(0);
 
   const dispatch = useDispatch();
 
@@ -149,6 +151,7 @@ const ArenaCopy = () => {
       console.log("fee per battle", feePerBattle);
       console.log("prize per battle won", prizePerWinBet);
       console.log(" Ganancia total neta por batalla", totalWonBet);
+      setReward(totalWonBet);
 
       // Actualizar saldos virtuales de cada jugador
       await updateTokenQuant("users", winnerUser, totalWonBet);
@@ -184,11 +187,13 @@ const ArenaCopy = () => {
         h={"100vh"}
         backgroundSize={"cover"}
         backgroundImage={arena?.planet}
-        backgroundPosition={"center center"}>
+        backgroundPosition={"center center"}
+      >
         <VStack
           w={"full"}
           justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}>
+          px={useBreakpointValue({ base: 4, md: 8 })}
+        >
           <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
             {!winner ? (
               <Heading
@@ -219,6 +224,7 @@ const ArenaCopy = () => {
                           src="https://imgur.com/8Y4nDNr.png"
                         />
                       </Center>
+                      {reward ? <Text>You won {reward} ITGX</Text> : ""}
                     </>
                   ) : (
                     <>
@@ -230,6 +236,7 @@ const ArenaCopy = () => {
                           src="https://i.imgur.com/GkTTm2z.png"
                         />
                       </Center>
+                      {reward ? <Text>You lost the bet </Text>:""}
                     </>
                   )}
                 </Heading>
@@ -242,21 +249,24 @@ const ArenaCopy = () => {
           <>
             <Wrap justify={"center"} columns={2} spacing={300}>
               <AvatarGamer />
-              {router.asPath === "/play" && <AvatarRandom />}
+              {router.asPath === "/play" && rival ? (
+                <RivalAvatar />
+              ) : (
+                <Center>
+                  <Spinner size="xl" />
+                </Center>
+              )}
             </Wrap>
 
-            <VStack
-              w={"full"}
-              justify={"center"}
-              // px={useBreakpointValue({ base: 4, md: 8 })}
-            >
+            <VStack w={"full"} justify={"center"}>
               <Stack direction={"row"} justify={"center"}>
                 <Link href="/arena">
                   <Button
                     bg={"gray.800"}
                     rounded={"full"}
                     color={"white"}
-                    _hover={{ bg: "blue.500" }}>
+                    _hover={{ bg: "blue.500" }}
+                  >
                     BACK
                   </Button>
                 </Link>
@@ -266,7 +276,8 @@ const ArenaCopy = () => {
                     rounded={"full"}
                     color={"white"}
                     _hover={{ bg: "blue.500" }}
-                    onClick={handlePlay}>
+                    onClick={handlePlay}
+                  >
                     START BATTLE
                   </Button>
                 ) : (
@@ -275,7 +286,8 @@ const ArenaCopy = () => {
                       bg={"gray.800"}
                       rounded={"full"}
                       color={"white"}
-                      _hover={{ bg: "blue.500" }}>
+                      _hover={{ bg: "blue.500" }}
+                    >
                       PLAY AGAIN
                     </Button>
                   </Link>

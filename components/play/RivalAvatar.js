@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
-const AvatarRandom = () => {
+const RivalAvatar = () => {
 
   const rival = useSelector(state=>state.rival)
   const rivalAvatar = useSelector(state=>state.rivalAvatar)
@@ -73,4 +73,4 @@ const AvatarRandom = () => {
   );
 };
 
-export default AvatarRandom;
+export default RivalAvatar;
