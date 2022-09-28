@@ -25,11 +25,29 @@ const createAccount = async ({ name, lastname, email, password }) => {
       name,
       walletAddress: "",
       isActive: true,
-      wannaPlay: false,
+      wannaBet: false,
+      level: 1,
+      tokenQuantity: 0,
     };
-    await sendEmailVerification(auth.currentUser);
+
+    // Redirigir a creacion de avatar luego de verificar mail
+    const location = window.location;
+    let url;
+    if (
+      location.pathname === "/login" &&
+      location.origin === "http://localhost:3000"
+    )
+      url = "http://localhost:3000/user/createavatar";
+    else url = "https://itesa-nft-game.vercel.app/user/createavatar";
+
+    const actionCodeSettings = {
+      // URL you want to redirect back to
+      url,
+    };
+
+    await sendEmailVerification(auth.currentUser, actionCodeSettings);
     await setNewDoc("users", userData, userCredential.user.uid);
-    // TODO: 20/9 ver si esto es necesario (hablar con Marcos)
+
     return getDocumento("users", userCredential.user.uid);
   } catch (error) {
     return error;
