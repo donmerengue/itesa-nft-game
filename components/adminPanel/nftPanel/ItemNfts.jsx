@@ -18,7 +18,6 @@ const ItemNfts = ({ nft, active }) => {
     ;
   }, [data]);
 
- console.log(data);
   return (
     <tbody className="flex-1 sm:flex-none">
       <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
