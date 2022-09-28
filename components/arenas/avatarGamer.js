@@ -8,11 +8,17 @@ import {
   Image,
   Checkbox,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 
 const AvatarGamer = () => {
-const user = useSelector(state=>state.user)
-  const avatar = useSelector(state=>state.avatar)
+  const router = useRouter();
+
+  const dailyMatches = useSelector((state) => state.dailyMatches);
+  const user = useSelector((state) => state.user);
+  const avatar = useSelector((state) => state.avatar);
+
+  console.log(router.pathname);
 
   return (
     <WrapItem>
@@ -29,7 +35,8 @@ const user = useSelector(state=>state.user)
           boxShadow={"2xl"}
           rounded={"lg"}
           pos={"relative"}
-          zIndex={1}>
+          zIndex={1}
+        >
           <Box
             rounded={"lg"}
             mt={-12}
@@ -50,7 +57,8 @@ const user = useSelector(state=>state.user)
               _after: {
                 filter: "blur(10px)",
               },
-            }}> 
+            }}
+          >
             <Image
               rounded={"lg"}
               height={280}
@@ -66,6 +74,9 @@ const user = useSelector(state=>state.user)
               {avatar?.name}
             </Heading>
             <Text>Level: {user?.level}</Text>
+            {router.pathname === "/arena/game" && (
+              <Text>Matches played today: {dailyMatches?.length}</Text>
+            )}
           </Stack>
         </Box>
       </Center>

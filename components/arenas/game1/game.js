@@ -77,7 +77,6 @@ const PlayGame = () => {
             </VStack>
 
             <Wrap mt={20} justify={"center"} columns={2} spacing={200}>
-              {/* <GameAvatar/> */}
               <AvatarGamer />
               <GameAccessories />
             </Wrap>
@@ -92,46 +91,3 @@ const PlayGame = () => {
   );
 };
 export default PlayGame;
-
-{/* <Box
-     mt={10}
-     mb={10}
-     role={"group"}
-     p={6}
-     maxW={"330px"}
-     w={"full"}
-     bg={"gray.800"}
-     color={"white"}
-     boxShadow={"2xl"}
-     rounded={"lg"}
-     align={"center"}
-     justifyContent={"center"}
->
-
-<Text fontSize="3xl">
-<Highlight
-  query={["bet", "3 ITGX", "unlimited fee fights."]}
-  styles={{ px: "2", py: "1", rounded: "full", bg: "red.100" }}
-  >
- You have already made your 5 free daily fights available. 
-  You have unlimited fee fights.
-</Highlight>
-</Text>
-<Divider my={5}/>
-<Text fontSize={"2xl"}>
-To fight again you can place a bet of 3 ITGX. If you win, you get the reward, otherwise you lose your bet.
-</Text>
-<Button onClick={onToggle}>Click Me</Button>
-<Fade in={isOpen}>
-<Box
-p='40px'
-color='white'
-mt='4'
-bg='teal.500'
-rounded='md'
-shadow='md'
->
-Fade
-</Box>
-</Fade>
-  </Box> */}
