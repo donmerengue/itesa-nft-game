@@ -82,22 +82,22 @@ export const getId = async (coleccion, id) => {
   return avatar;
 };
 
+// Obtener los rivals que quieran apostar y hayan peleado 5 veces o mas
 const getRivalsBet = async (rivals) => {
-  console.log("rivals en funcion", rivals);
   const rivalsBet = [];
 
-  rivals.forEach((rival) => {
+  for await (const rival of rivals) {
+    // Si el rival quiere apostar
     if (rival.wannaBet) {
-      getDailyMatches(rival.uid).then((dailyMatchesRival) => {
-        console.log("respuesta de .then", dailyMatchesRival);
+      // Obtener cantidad de peleas de cada rival
+      const dailyMatchesRival = await getDailyMatches(rival.uid);
 
-        if (dailyMatchesRival.length >= 5) {
-          rivalsBet.push(dailyMatchesRival);
-          console.log("rivals bet new dentro del for each", rivalsBet);
-        }
-      });
+      // Si son mas de 5, postularlo como posible rival
+      if (dailyMatchesRival.length >= 5) {
+        rivalsBet.push(rival);
+      }
     }
-  });
+  }
   return rivalsBet;
 };
 
@@ -138,30 +138,25 @@ export const getRival = async (coleccion, id) => {
   //// Matchmaking de peleas con apuestas
   // Daily Matches propias
   const dailyMatches = await getDailyMatches(id);
-  console.log("partidas propias jugadas hoy:", dailyMatches);
 
-  // Daily Matches rivales
-  // const rivalsBet = await getRivalsBet(rivals);
-
-  // console.log("LLAMANDO FUNCION", getRivalsBet(rivals));
-
-  // console.log("Rivals bet new (+5 peleas y wannaBet):", rivalsBet);
-
-  console.warn("-------------------------------");
   // Si el usuario lleva mas de 5 peleas
   if (dailyMatches.length >= 5) {
-    // console.log("rivalbet[0]", rivalsBet[0]);
+    // Buscar rivales que quieren apostar y superaron las 5 peleas diarias
+    const rivalsBet = await getRivalsBet(rivals);
 
-    console.log("partidas jugadas hoy:", dailyMatches);
-    // Y quiere apostar para continuar jugando
+    // Si no hay rivales que cumplan la condicion,
+    if (rivalsBet.length === 0) {
+      alert("NO TENES RIVAL, PAPU VICIOSO");
+    }
+    // Si el usuario quiere apostar para continuar jugando
     if (user.wannaBet) {
       console.log("queres apostar, te vamos a buscar un rival");
-      // Buscar un rival random que quiera apostar
-      const rivalsBet = rivals.filter((rival) => rival.wannaBet === true);
-      console.log("rivalsBet", rivalsBet);
+
+      // Buscar un solo rival random que quiera apostar
       const rivalBet =
         rivalsBet[Math.floor(Math.random() * rivals.length)] ||
         rivalsBet[0];
+
       console.log("rivalBet random", rivalBet);
       return rivalBet;
     } else if (!user.wannaBet) {
