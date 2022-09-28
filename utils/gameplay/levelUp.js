@@ -1,5 +1,5 @@
-// La experiencia necesaria para pasar de nivel es 10 veces el nivel actual
-export const experienceLimitPerLevel = (level) => 10 * level;
+// La experiencia necesaria para pasar de nivel es 7.5 veces el nivel actual
+export const experienceLimitPerLevel = (level) => 7.5 * level;
 
 // Cada batalla ganada suma un punto de experiencia
 export const experiencePerBattle = (experience) => experience++;

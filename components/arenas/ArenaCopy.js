@@ -119,7 +119,8 @@ const ArenaCopy = () => {
     };
     updateData("user-stats", loserUser, dataBattlesLoser);
 
-    // Prize per win (hasta 5 batallas)
+    // Prize per win (hasta 5 batallas) solo para quien inicio la batalla
+    // TODO: modificar logica para que aplique si el winnerUser es user1
     const prizePerWin = 2;
     await updateTokenQuant("users", winnerUser, prizePerWin);
     // Actualizar nuestro saldo virtual
