@@ -62,7 +62,7 @@ const Description = () => {
               ) : (
                 ""
               )}
-              <Link href="/arena/game">
+              <Link href="/arena">
                 <Button
                   bg={"blue.400"}
                   rounded={"full"}

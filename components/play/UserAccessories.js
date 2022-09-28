@@ -27,8 +27,8 @@ import { Fade, ScaleFade, Slide, SlideFade,useDisclosure } from '@chakra-ui/reac
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { equipNFTitem, getDocumento, updateData } from "../../../fetchData/controllers";
-import { auth } from "../../../firebase/firebase-config";
+import { equipNFTitem, getDocumento, updateData } from "../../fetchData/controllers";
+import { auth } from "../../firebase/firebase-config";
 
 const GameAccessories = () => {
 const router = useRouter()

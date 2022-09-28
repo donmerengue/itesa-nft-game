@@ -62,7 +62,7 @@ const Navbar = () => {
             </Button>
           </Link>
 
-          <Link href="/arena/game">
+          <Link href="/arena">
             <Button
               colorScheme="gray.50"
               variant="ghost"

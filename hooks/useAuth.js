@@ -11,7 +11,7 @@ const useAuth = () => {
 
   useEffect(() => {
     if (!loading) {
-      dispatch(getUser(user.uid));
+      dispatch(getUser(user?.uid));
     }
   }, [user]);
 };

@@ -17,19 +17,19 @@ import {
 } from "@chakra-ui/react";
 import { Fade, ScaleFade, Slide, SlideFade } from '@chakra-ui/react'
 // Components
-import { getArena } from "../../../state/arena";
-import AvatarGamer from "../avatarGamer";
-import GameAccessories from "./gameAccessories";
+import { getArena } from "../../state/arena";
+import AvatarGamer from "./UserAvatar";
+import GameAccessories from "./UserAccessories";
 // Firebase
-import { auth } from "../../../firebase/firebase-config";
+import { auth } from "../../firebase/firebase-config";
 // React
 import { useEffect } from "react";
 // Redux Store
 import { useDispatch, useSelector } from "react-redux";
-import { getUserAvatar } from "../../../state/avatar";
-import { getItems } from "../../../state/nftItems";
-import { getItemsEquipped } from "../../../state/nftEquipped";
-import { getMatches } from "../../../state/dailyMatches";
+import { getUserAvatar } from "../../state/avatar";
+import { getItems } from "../../state/nftItems";
+import { getItemsEquipped } from "../../state/nftEquipped";
+import { getMatches } from "../../state/dailyMatches";
 
 const PlayGame = () => {
   const dispatch = useDispatch();
