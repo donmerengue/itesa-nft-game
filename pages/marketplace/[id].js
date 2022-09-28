@@ -7,7 +7,7 @@ import ItemPage from "../../components/Marketplace/itemPage";
 const Id = () => {
   const router = useRouter();
   const {id} = router.query;
-/*   console.log('id---->',item) */
+  
   /* <p>El id del item para ser renderizado: {id}</p> */
   return (
     <>
