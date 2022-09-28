@@ -15,14 +15,47 @@ import { logoutUser } from "../../state/user";
 import useAuth from "../../hooks/useAuth";
 import { updateData } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
+  const [verificado, setVerificado] = useState(false);
   const dispatch = useDispatch();
+  const router = useRouter();
 
   //Traer info del usuario logueado
   useAuth();
   const user = useSelector((state) => state.user);
+  // Chequear si el usuario verificó el mail al registarse
+  // Traer data de Auth del usuario
+
+  const path = router.pathname;
+
+  useEffect(() => {
+    if (auth.currentUser) {
+      if (
+        !auth.currentUser?.emailVerified &&
+        path != "/" &&
+        path != "/login" &&
+        path != "/register" &&
+        path != "/login2fa"
+      ) {
+        router.push("/verify");
+      }
+    } 
+
+    // TODO: 29/9 ->ver usuario no autenticado
+    // else if (
+    //   path != "/" &&
+    //   path != "/login" &&
+    //   path != "/register" &&
+    //   path != "/login2fa"
+    // ) {
+    //   router.push("/login");
+    // }
+  }, [auth.currentUser]);
 
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
