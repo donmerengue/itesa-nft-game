@@ -19,7 +19,7 @@ const Items = ({nft, active }) => {
 
   return (
     <>
-      <Link href={`marketplace/${nftData?.name}`}>
+      <Link href={`marketplace/${nft?.token_id}`}>
         <WrapItem>
           <Center >
             <Box
