@@ -35,8 +35,8 @@ import {
   getWinnerUser,
 } from "../../utils/gameplay/battles";
 import { levelUp } from "../../utils/gameplay/levelUp";
-import AvatarGamer from "./avatarGamer";
-import AvatarRandom from "./avatarRandom";
+import AvatarGamer from "./UserAvatar";
+import AvatarRandom from "./RivalAvatar";
 
 const ArenaCopy = () => {
   const router = useRouter();
@@ -251,7 +251,7 @@ const ArenaCopy = () => {
               // px={useBreakpointValue({ base: 4, md: 8 })}
             >
               <Stack direction={"row"} justify={"center"}>
-                <Link href="/arena/game">
+                <Link href="/arena">
                   <Button
                     bg={"gray.800"}
                     rounded={"full"}

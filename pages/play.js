@@ -1,6 +1,5 @@
 import React from "react";
-import ArenaOne from "../components/arenas";
-import ArenaCopy from "../components/arenas/ArenaCopy";
+import ArenaCopy from "../components/play/Battle";
 import Navbar from "../components/layout/Navbar";
 import Footer from "../components/layout/Footer";
 

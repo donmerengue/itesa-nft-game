@@ -6,16 +6,14 @@ import {
   WrapItem,
   Text,
   Image,
-  Checkbox,
   Switch,
   Divider,
   FormControl,
   FormLabel,
   useToast,
 } from "@chakra-ui/react";
-import { async } from "@firebase/util";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 import { updateData } from "../../fetchData/controllers";
 import { auth } from "../../firebase/firebase-config";
@@ -28,11 +26,6 @@ const AvatarGamer = () => {
   const dailyMatches = useSelector((state) => state.dailyMatches);
   const user = useSelector((state) => state.user);
   const avatar = useSelector((state) => state.avatar);
-
-
-  // console.log(user.wannaBet );
-  // user.wannaBet = "hola" 
-  // console.log(user.wannaBet);
 
   const handlerBetToggler = async () => {
 
@@ -111,7 +104,7 @@ user.wannaBet = !user.wannaBet
               {avatar?.name}
             </Heading>
             <Text>Level: {user?.level}</Text>
-            {router.pathname === "/arena/game" && (
+            {router.pathname === "/arena" && (
               <>
                 <Text>Matches played today: {dailyMatches?.length}</Text>
                 <Divider py={5} />

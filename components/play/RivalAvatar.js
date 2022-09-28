@@ -6,8 +6,6 @@ import {
   WrapItem,
   Text,
   Image,
-  Flex,
-  Checkbox,
 } from "@chakra-ui/react";
 import { useSelector } from "react-redux";
 
@@ -15,21 +13,6 @@ const AvatarRandom = () => {
 
   const rival = useSelector(state=>state.rival)
   const rivalAvatar = useSelector(state=>state.rivalAvatar)
-
-  const nftRandom = [
-    {
-      name: "URANO",
-      level: 13,
-      img: "https://imgur.com/nvD4rT2.png",
-      accDefense: [
-        "  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
-      ],
-      accAttack: [
-        "  Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor",
-      ],
-    },
-  ];
-
 
   return (
     <WrapItem>
@@ -84,39 +67,6 @@ const AvatarRandom = () => {
             </Heading>
             <Text>Level: {rival?.level}</Text>
           </Stack>
-{/* 
-          <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Attack
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-            </Stack>
-          </Stack>
-
-          <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Defense
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-            </Stack>
-          </Stack>
-
-          <Stack>
-            <Text fontSize={"sm"} textTransform={"uppercase"}>
-              Luck
-            </Text>
-            <Stack spacing={5} direction="row">
-              <Checkbox colorScheme="white" defaultChecked>
-                Item 1
-              </Checkbox>
-            </Stack>
-          </Stack> */}
         </Box>
       </Center>
     </WrapItem>
