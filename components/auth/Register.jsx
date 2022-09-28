@@ -326,7 +326,7 @@ const Register = () => {
                         minLength: {
                           value: 8,
                           message:
-                            "Weak password2, minimum length should be 8.",
+                            "Weak password, minimum length should be 8.",
                         },
                       })}
                     />
