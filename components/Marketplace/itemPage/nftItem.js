@@ -16,14 +16,31 @@ import {
   ListItem,
   Link,
 } from "@chakra-ui/react";
+import {
+  Divider,
+  Modal,
+  ModalBody,
+  ModalCloseButton,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
+  useDisclosure,
+} from "@chakra-ui/react";
+
+import { nftPrice } from "../../../utils/marketplace/nftPrice";
+import ModalBuy from "./modalBuy";
 
 const NftItem = ({ nfts, id, data, active }) => {
+  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+
   const [nftImage, setNftImage] = useState("");
   const [nftDetail, setNftDetail] = useState([]);
   const [nft, setNft] = useState([]);
   const [meta, setMeta] = useState({});
   const [nftAttribute, setNftAttribute] = useState();
   const [complete, setComplete] = useState(false);
+  const [modal, setModal] = useState(false);
 
   useEffect(() => {
     setNftDetail(nfts.filter((nft) => nft.token_id === id));
@@ -41,11 +58,15 @@ const NftItem = ({ nfts, id, data, active }) => {
       setNftImage(convertImage(meta.image));
     }
     if (meta.attributes !== undefined) {
-      setNftAttribute(meta.attributes)
+      setNftAttribute(meta.attributes);
     }
     setComplete(true);
   }, [nft]);
 
+  const handlerBuy = () => {
+    setModal((modal) => !modal);
+    onOpen();
+  };
 
   return (
     <>
@@ -78,7 +99,10 @@ const NftItem = ({ nfts, id, data, active }) => {
                 >
                   {meta.name}
                 </Heading>
-               ITGX:  COMING SOON
+                ITGX:{" "}
+                {nftAttribute !== undefined
+                  ? nftPrice(nftAttribute[2]?.value)
+                  : ""}
               </Box>
 
               <Stack
@@ -115,7 +139,9 @@ const NftItem = ({ nfts, id, data, active }) => {
                           >
                             Type:
                           </Text>{" "}
-                          {nftAttribute !== undefined ? nftAttribute[0]?.value : ""}
+                          {nftAttribute !== undefined
+                            ? nftAttribute[0]?.value
+                            : ""}
                         </ListItem>
                         <ListItem>
                           <Text
@@ -125,7 +151,9 @@ const NftItem = ({ nfts, id, data, active }) => {
                           >
                             POWER:
                           </Text>{" "}
-                          {nftAttribute !== undefined ? nftAttribute[2]?.value : ""}
+                          {nftAttribute !== undefined
+                            ? nftAttribute[2]?.value
+                            : ""}
                         </ListItem>
                       </List>
                       <List spacing={2}>
@@ -137,7 +165,9 @@ const NftItem = ({ nfts, id, data, active }) => {
                           >
                             MATERIAL:
                           </Text>{" "}
-                          {nftAttribute !== undefined ? nftAttribute[1]?.value : ""}
+                          {nftAttribute !== undefined
+                            ? nftAttribute[1]?.value
+                            : ""}
                         </ListItem>
                       </List>
                     </>
@@ -193,18 +223,26 @@ const NftItem = ({ nfts, id, data, active }) => {
               <Box>
                 <VStack w={"full"} justify={"center"} mt={"10"}>
                   <Stack direction={"row"} justify={"center"}>
-                    <Link href="">
-                      <Button
-                        bg={"gray.800"}
-                        rounded={"full"}
-                        color={"white"}
-                        _hover={{ bg: "blue.500" }}
-                      >
-                        BUY NOW
-                      </Button>
-                    </Link>
+                    <Button
+                      bg={"gray.800"}
+                      rounded={"full"}
+                      color={"white"}
+                      _hover={{ bg: "blue.500" }}
+                      onClick={handlerBuy}
+                    >
+                      BUY NOW
+                    </Button>
                   </Stack>
                 </VStack>
+                {nftAttribute !== undefined ? (
+                  <ModalBuy
+                    open={modal}
+                    price={nftPrice(nftAttribute[2]?.value)}
+                    id={nft[0].token_id}
+                  />
+                ) : (
+                  ""
+                )}
               </Box>
             </Stack>
           </SimpleGrid>
