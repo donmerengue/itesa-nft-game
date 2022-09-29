@@ -37,7 +37,7 @@ const CreateAvatar = () => {
           </section>
         </div>
       ) : (
-        "tuvieja"
+        ""
       )}
     </>
   );
