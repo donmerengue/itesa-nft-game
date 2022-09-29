@@ -10,7 +10,7 @@ const CartDetails = ({avatar}) => {
   return (
     <>
       <Img
-        src={`${avatar[0].img}`}
+        src={`${avatar[0]?.img}`}
         alt="art cover"
         loading="lazy"
         width="1000"
@@ -50,7 +50,7 @@ const CartDetails = ({avatar}) => {
                 <p className="text-gray-600 font-extrabold">
                   Avatar Name:
                   <span className="text-cyan-900 font-mono">
-                    {avatar[0].name}
+                    {avatar[0]?.name}
                   </span>
                 </p>
               </>
