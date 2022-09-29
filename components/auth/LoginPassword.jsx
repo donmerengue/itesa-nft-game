@@ -85,8 +85,8 @@ const LoginPassword = () => {
                         message: "Complete this field to login.",
                       },
                       minLength: {
-                        value: 8,
-                        message: "Minimum length should be 8",
+                        value: 6,
+                        message: "Minimum length should be 6",
                       },
                     })}
                   />
