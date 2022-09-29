@@ -1,19 +1,19 @@
-import { Center, Spinner, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
+import { Center, Table, TableContainer, Tbody, Td, Th, Thead, Tr } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../firebase/firebase-config";
 import { getNfts } from "../../state/myNfts";
 
 
-
 const NtfBought = () => {
 
     const myNfts = useSelector(state => state.myNfts)
+    const user = useSelector(state => state.user)
     const dispatch = useDispatch()
 
     useEffect(() => {
         dispatch(getNfts(auth.currentUser?.uid))
-    }, [myNfts])
+    }, [user])
 
 
     return (
@@ -24,7 +24,6 @@ const NtfBought = () => {
                     bg={"gray.200"}
                     rounded={"lg"}
                     minW={'6xl'}
-
                 >
                     <Table variant='simple'>
                         <Thead>
@@ -36,36 +35,15 @@ const NtfBought = () => {
                             </Tr>
                         </Thead>
                         <Tbody>
-                            {/*   {active ? (
-                                nfts?.map((nft, i) => ( */}
-                            <Tr >
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                            </Tr>
-                            <Tr >
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                            </Tr>
-                            <Tr >
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                            </Tr>
-                            <Tr >
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                                <Td>hola </Td>
-                            </Tr>
-                            {/*     ))
-                            ) : (
-                                <Spinner size="lg" />
-                            )} */}
+                            {myNfts?.map((nft, i) => {
+                                return <Tr key={i} >
+                                    <Td>{nft.tokenId} </Td>
+                                    <Td>{nft.name}</Td>
+                                    <Td>{nft.power} </Td>
+                                    <Td>{nft.type} </Td>
+                                </Tr>
+                            }
+                            )}
                         </Tbody>
                     </Table>
                 </TableContainer>
