@@ -6,7 +6,7 @@ import { async } from "@firebase/util";
 const AddAvatars = () => {
   const [url, setUrl] = useState("");
   const [id, setId] = useState("");
-  const [data, setData] = useState({ id: "", url: "" });
+  const [data, setData] = useState({ avatar: "", url: "" });
   const [activate, setActivate] = useState(false);
   const router = useRouter();
 
@@ -22,15 +22,15 @@ const AddAvatars = () => {
 
   const handleNewData = (e) => {
     e.preventDefault();
-    setData({ id: id, url: url });
-    if (data.url && data.id) {
+    setData({ avatar: id, url: url });
+    if (data.url && data.avatar) {
       setActivate(true);
     }
   };
   const handleDefinitive = (e) => {
     e.preventDefault();
-    setData({ id: id, url: url });
-    if (data.url && data.id) {
+    setData({ avatar: id, url: url });
+    if (data.url && data.avatar) {
       setActivate(true);
     }
   };

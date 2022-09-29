@@ -16,7 +16,7 @@ console.log(avatar)
       <tbody className="flex-1 sm:flex-none">
         <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
           <td className="text-center border-grey-light border hover:bg-gray-100 p-3 truncate">
-            {avatar.id}
+            {avatar.avatar}
           </td>
           <td className="text-center border-grey-light border hover:bg-gray-100 p-3 truncate">
             {avatar.url}
