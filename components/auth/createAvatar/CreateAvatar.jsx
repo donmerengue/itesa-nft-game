@@ -1,11 +1,14 @@
 import Avatars from "./Avatars";
 import { auth } from "../../../firebase/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
+import { getData, getDocumento } from "../../../fetchData/controllers";
+import { useEffect, useState } from "react";
 
 const CreateAvatar = () => {
-  // Traer data de Auth del usuario 
+  // Traer data de Auth del usuario
   const [user, loading, error] = useAuthState(auth);
- 
+  const [avatarsDB, setAvatarsDB] = useState([]);
+
   const avatars = [
     { img: "https://imgur.com/rjuWPzD.png" },
     { img: "https://imgur.com/nvD4rT2.png" },
@@ -17,9 +20,20 @@ const CreateAvatar = () => {
     { img: "https://imgur.com/GZNo6Af.png" },
   ];
 
+  useEffect(() => {
+    const getAvatars = async () => {
+      const avatars = await getData("avatars");
+      setAvatarsDB(avatars);
+    };
+
+    getAvatars();
+  }, []);
+
+  console.log(avatarsDB);
+
   return (
     <>
-    {/* Renderizar solo si el usuario esta verificado */}
+      {/* Renderizar solo si el usuario esta verificado */}
       {user?.emailVerified ? (
         <div className="flex">
           <section className="bg-white dark:bg-gray-900">
@@ -29,7 +43,7 @@ const CreateAvatar = () => {
               </h1>
               <p>Select your avatar to start this adventure</p>
               <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
-                {avatars.map((avatar, i) => (
+                {avatarsDB.map((avatar, i) => (
                   <Avatars avatar={avatar} key={i} />
                 ))}
               </div>
