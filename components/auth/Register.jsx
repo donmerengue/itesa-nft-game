@@ -8,7 +8,11 @@ import { useForm } from "react-hook-form";
 // Utils
 import { registerUser } from "../../state/user";
 // Controllers
-import { setNewDoc, updateData } from "../../fetchData/controllers";
+import {
+  getDocumento,
+  setNewDoc,
+  updateData,
+} from "../../fetchData/controllers";
 // Tokens
 import {
   createWallet,
@@ -59,6 +63,9 @@ const Register = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  // Estado Airdrop
+  const [airdropTokens, setAirdropTokens] = useState(0);
+
   // Estados de la wallet
   const [address, setAddress] = useState();
   const [phrase, setPhrase] = useState();
@@ -97,12 +104,22 @@ const Register = () => {
 
       // Si se acaba de registrar un usuario
       if (userCreation) {
-        // Actualizar aidrop en base de datos
-        const tokenQuantity = 100;
+        // Traer airdrop de la DB
+        const marketplaceParams = await getDocumento(
+          "gameParams",
+          "marketplaceParams"
+        );
+        const { airdrop } = marketplaceParams;
+        setAirdropTokens(airdrop);
+
+        // Actualizar airdrop del usuario en base de datos
         updateData("users", auth.currentUser?.uid, {
-          tokenQuantity,
+          tokenQuantity: airdrop,
         });
-        updateData("virtualBalance","1",{ITGX:increment(-tokenQuantity)})
+        // Descontar airdrop de nuestro saldo virtual en base de datos
+        updateData("virtualBalance", "1", {
+          ITGX: increment(-airdrop),
+        });
         console.log("Airdrop dado");
 
         // Data user-stats
@@ -114,8 +131,11 @@ const Register = () => {
           level: 1,
         };
 
-        await setNewDoc("user-stats", userStatsData, auth.currentUser?.uid);
-
+        await setNewDoc(
+          "user-stats",
+          userStatsData,
+          auth.currentUser?.uid
+        );
 
         // TODO: 20/9 -> Por el momento queda pendiente la creacion de la wallet
         /* // Creacion de wallet
@@ -150,7 +170,7 @@ const Register = () => {
   };
 
   // FIXME: 20/9 ->esto ya no se maneja asi
-  const handlerClose = () => {
+  const handlerClose = async () => {
     // TODO: 15/9 AGREGAR COUNTDOWN EN CLOSE Y LUEGO CONFIRMACION AL CLIQUEAR
     // Cerrar modal
     onClose();
@@ -158,7 +178,13 @@ const Register = () => {
     setPhrase("");
     setKey("");
     // Hacer el airdrop (enviar tokens iniciales)
-    sendTokens(address, "10");
+    // const marketplaceParams = await getdocumento(
+    //   "gameParams",
+    //   "marketplaceParams"
+    // );
+    // const { airdrop } = marketplaceParams;
+
+    // sendTokens(address, airdrop);
     // Redirigir a las intrucciones de la wallet
     // TODO: 20/9 redirigir a /avatar o /createAvatar
     router.push("/user/createavatar");
@@ -167,7 +193,11 @@ const Register = () => {
   return (
     <>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <Flex minH={"100vh"} align={"center"} justify={"center"} bg={"gray.50"}>
+        <Flex
+          minH={"100vh"}
+          align={"center"}
+          justify={"center"}
+          bg={"gray.50"}>
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
             <Stack align={"center"}>
               <Heading fontSize={"4xl"} textAlign={"center"}>
@@ -184,8 +214,7 @@ const Register = () => {
                     <FormControl
                       id="firstName"
                       isInvalid={errors.name}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>First Name</FormLabel>
                       <Input
                         type="text"
@@ -219,8 +248,7 @@ const Register = () => {
                     <FormControl
                       id="lastname"
                       isInvalid={errors.lastname}
-                      isRequired
-                    >
+                      isRequired>
                       <FormLabel>Last Name</FormLabel>
                       <Input
                         type="text"
@@ -251,7 +279,10 @@ const Register = () => {
                     </FormControl>
                   </Box>
                 </HStack>
-                <FormControl id="email" isInvalid={errors.email} isRequired>
+                <FormControl
+                  id="email"
+                  isInvalid={errors.email}
+                  isRequired>
                   <FormLabel>Email address</FormLabel>
                   <Input
                     type="email"
@@ -275,8 +306,7 @@ const Register = () => {
                 <FormControl
                   id="password"
                   isInvalid={errors.password}
-                  isRequired
-                >
+                  isRequired>
                   <FormLabel>Password</FormLabel>
                   <InputGroup>
                     <Input
@@ -289,7 +319,8 @@ const Register = () => {
                         },
                         minLength: {
                           value: 8,
-                          message: "Weak password, minimum length should be 8.",
+                          message:
+                            "Weak password, minimum length should be 8.",
                         },
                       })}
                     />
@@ -298,8 +329,7 @@ const Register = () => {
                         variant={"ghost"}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
-                        }
-                      >
+                        }>
                         {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                       </Button>
                     </InputRightElement>
@@ -311,8 +341,7 @@ const Register = () => {
                 <FormControl
                   id="password2"
                   isInvalid={errors.password2}
-                  isRequired
-                >
+                  isRequired>
                   <FormLabel>Confirm your password</FormLabel>
                   <InputGroup>
                     <Input
@@ -335,8 +364,7 @@ const Register = () => {
                         variant={"ghost"}
                         onClick={() =>
                           setShowPassword((showPassword) => !showPassword)
-                        }
-                      >
+                        }>
                         {showPassword ? <IoMdEye /> : <IoMdEyeOff />}
                       </Button>
                     </InputRightElement>
@@ -355,8 +383,7 @@ const Register = () => {
                       bg: "blue.500",
                     }}
                     isLoading={isSubmitting}
-                    type="submit"
-                  >
+                    type="submit">
                     Sign up
                   </Button>
                 </Stack>
@@ -381,11 +408,12 @@ const Register = () => {
           <ModalCloseButton />
           <ModalBody>
             <Heading size={"md"}>
-              We have gifted you with 1 ITGX (Intergalaxy Coin)
+              We have gifted you with {airdropTokens} ITGX (Intergalaxy Coin)
             </Heading>
             <Divider my={"20px"} />
             <Text>
-              You can use these token to buy NFT equipments in the marketplace
+              You can use these token to buy NFT equipments in the
+              marketplace
             </Text>
             <Divider my={"20px"} />
             <Text> Continue to create your Avatar</Text>
