@@ -9,6 +9,7 @@ import nftEquippedReducer from "./nftEquipped";
 import rivalReducer from "./rival";
 import rivalAvatarReducer from "./rivalAvatar";
 import dailyMatchesReducer from "./dailyMatches"
+import myNftsReducer from "./myNfts";
 
 
 const store = configureStore({
@@ -20,6 +21,8 @@ const store = configureStore({
         itgx:itgxReducer,
         arena:arenaReducer,
         nftItems:nftItemsReducer,
+        //nfts reales
+        myNfts:myNftsReducer,
         nftEquipped:nftEquippedReducer,
         rival:rivalReducer,
         rivalAvatar:rivalAvatarReducer,

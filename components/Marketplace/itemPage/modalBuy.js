@@ -17,12 +17,15 @@ import {
   useToast,
   Input,
 } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { increment } from "firebase/firestore";
+import React, {  useState } from "react";
 import { useSelector } from "react-redux";
+import { addNewDoc, updateData, updateTokenQuant } from "../../../fetchData/controllers";
+import { auth } from "../../../firebase/firebase-config";
 import { transferNft } from "../../../utils/blockchain/nftOps";
 
-const ModalBuy = ({ open, price, id }) => {
-  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+const ModalBuy = ({ isOpen,onClose, price, id, nftData, name }) => {
+//   const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
 
   const toast = useToast();
   const user = useSelector((state) => state.user);
@@ -35,20 +38,22 @@ const ModalBuy = ({ open, price, id }) => {
 
   const [loading, setLoading] = useState(false);
 
+
+
   // Seteamos la cantidad de tokens para enviar
   const handleValue = (e) => {
     setValue(e.target.value);
-    console.log(value);
+    // console.log(value);
   };
 
   // Seteamos el address del receptor
   const handleAddressReceiver = (e) => {
     setAddressReceiver(e.target.value);
-    console.log(addressReceiver);
+    // console.log(addressReceiver);
   };
   const handleConfirmAddress = (e) => {
     setConfirmAddress(e.target.value);
-    console.log(confirmAddress);
+    // console.log(confirmAddress);
   };
 
   const onSubmit = (data) => {
@@ -58,6 +63,18 @@ const ModalBuy = ({ open, price, id }) => {
   };
 
   const buyItem = async () => {
+
+const data = {
+    tokenId:id,
+    type: nftData.trait_type    , // attack defense luck
+    power: nftData.value,
+    user: auth.currentUser?.uid, // auth.currentUser?.uid o hardcoded
+    equipped: false,
+    name: name
+
+}
+
+
     setLoading(true);
     if (addressReceiver !== confirmAddress) {
       setLoading(false);
@@ -73,14 +90,19 @@ const ModalBuy = ({ open, price, id }) => {
       if (user?.tokenQuantity >= price) {
         const tx = await transferNft(addressReceiver, id);
         setLoading(false);
-        if (tx.to) {
-          toast({
-            title: "Transaction successful",
-            description: "Please check your wallet",
-            status: "success",
-            position: "top",
-            duration: 5000,
-            isClosable: true,
+        onClose()
+        if (tx?.to) {
+
+           await updateTokenQuant("users", auth.currentUser?.uid, -price);
+           updateData("virtualBalance","1",{ITGX:increment(price)})
+           await addNewDoc("nftBought", data)
+
+            toast({
+                title: "Transaction successful",
+                status: "success",
+                position: "top",
+                duration: 5000,
+                isClosable: true,
           });
         } else {
           toast({
@@ -106,9 +128,6 @@ const ModalBuy = ({ open, price, id }) => {
     }
   };
 
-  useEffect(() => {
-    onOpen();
-  }, [open]);
 
   return (
     <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={onClose}>
