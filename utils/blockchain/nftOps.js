@@ -64,7 +64,7 @@ const custodio = "0x52Ec083D30192691872B60334bFDd1450C1826d9"
 // const addres2 = "0x073aDdE0dFCA0F57CDE5dc82AF34636CD648732E"
 
 // Transferir propiedad NFT
-const transferNft = async (custodio, to, id) => {
+const transferNft = async (to, id) => {
   try {
     const tx = contractSigned["safeTransferFrom(address,address,uint256)"](
       custodio,
@@ -72,7 +72,7 @@ const transferNft = async (custodio, to, id) => {
       id
     )
     const response = await tx
-    console.log(response)
+    return response
   } catch (error) {
     console.log(error)
   }

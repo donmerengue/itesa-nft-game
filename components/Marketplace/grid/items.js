@@ -1,6 +1,7 @@
-import { WrapItem, Link, Center, Box, Stack, Image, Heading, Text } from '@chakra-ui/react'
+import { WrapItem, Link, Center, Box, Stack, Image, Heading, Text, Spinner } from '@chakra-ui/react'
 import React, { useEffect, useState } from 'react'
 import { convertImage } from '../../../utils/blockchain/nftFetch'
+import { nftPrice } from '../../../utils/marketplace/nftPrice'
 
 const Items = ({nft, active }) => {
 
@@ -17,8 +18,11 @@ const Items = ({nft, active }) => {
    }
   }, [nftData])
 
+  console.log(nftData?.attributes);
+
   return (
     <>
+    {nftData?.attributes?
       <Link href={`marketplace/${nft?.token_id}`}>
         <WrapItem>
           <Center >
@@ -70,17 +74,24 @@ const Items = ({nft, active }) => {
                   {nftData?.name}
                 </Heading>
                 <Text>{}</Text>
+          
                 <Text align={'center'} color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
-                {nftData?.description}
+                {nftData?.attributes[2].trait_type || ""}
+                </Text>
+                <Text align={'center'} color={'gray.500'} fontSize={'sm'} textTransform={'uppercase'}>
+               POWER {nftData?.attributes[2].value || ""}
                 </Text>
                 <Text color={'gray.200'} fontSize={'2xl'} fontFamily={'body'} fontWeight={500}>
-                  COMING SOON!
+                 {nftPrice(nftData?.attributes[2].value)} ITGX
                 </Text>
               </Stack>
             </Box>
           </Center>
         </WrapItem>
       </Link>
+      : 
+      ""
+      }
     </>
   )
 }

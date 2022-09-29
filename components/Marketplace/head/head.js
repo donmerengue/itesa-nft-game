@@ -39,16 +39,7 @@ const HeadMarket = () => {
                         Explore, collect, and sell NFTs
                     </Text>
                 </Stack>
-                <Flex>
-                    <IconButton handleSearchNfts={handleSearchNfts} href={''}
-                        bg={'blue.400'}
-                        color={'white'}
-                        _hover={{ bg: 'blue.500' }}
-                        aria-label='Search database'
-                        icon={<SearchIcon />}
-                    />
-                    <Input color={'gray.400'} placeholder='Search items, collections, avatars' />
-                </Flex>
+               
             </VStack>
         </Flex>
     )
