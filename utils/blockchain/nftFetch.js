@@ -24,7 +24,7 @@ const getMetaData = async () => {
 const convertImage = link => {
   const CID = link.slice(7)
   const linkImage = `https://ipfs.io/ipfs/${CID}`
-  console.log(linkImage)
+  // console.log(linkImage)
   return linkImage
 
 }

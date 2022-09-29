@@ -12,6 +12,7 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
+import { getData } from "../../../fetchData/controllers";
 import { getMetaData, convertImage } from "../../../utils/blockchain/nftFetch";
 import Items from "./items";
 
