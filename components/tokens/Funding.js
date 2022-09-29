@@ -103,7 +103,7 @@ const Funding = () => {
           toast({
             title: "Succesful transaction",
             description:
-              "You will see it reflected in your balance in the next few minutes.",
+              "You will see it reflected in your balance in the next few minutes",
             status: "success",
             position: "top",
             duration: 6000,
@@ -113,7 +113,7 @@ const Funding = () => {
           setLoading(false);
           toast({
             title: "Failed transaction",
-            description: "Please try again",
+            description: "Check your Metamask connection",
             status: "error",
             position: "top",
             duration: 6000,

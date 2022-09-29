@@ -1,13 +1,25 @@
 import db, { auth } from "../../firebase/firebase-config";
-import { isSignInWithEmailLink, sendSignInLinkToEmail } from "firebase/auth";
-import { collection, query, where, getDoc, getDocs } from "firebase/firestore";
+import {
+  isSignInWithEmailLink,
+  sendSignInLinkToEmail,
+} from "firebase/auth";
+import {
+  collection,
+  query,
+  where,
+  getDoc,
+  getDocs,
+} from "firebase/firestore";
 
 // Login using email/password
 const sendLoginLink = async (email) => {
   // Buscar si existe usuario por email en la DB
   let userExists = false;
 
-  const docRef = query(collection(db, "users"), where("email", "==", email));
+  const docRef = query(
+    collection(db, "users"),
+    where("email", "==", email)
+  );
   const querySnapshot = await getDocs(docRef);
   // Existe el usuario
   querySnapshot.forEach((doc) => {
@@ -21,13 +33,19 @@ const sendLoginLink = async (email) => {
   }
 
   const location = window.location;
-  console.log(location);
 
   let url;
-  if (location.pathname === "/testToken") url = "http://localhost:3000/testToken";
-  if (location.pathname === "/user/tokens") url = "http://localhost:3000//user/tokens";
-  if (location.pathname === "/login" && location.origin === "http://localhost:3000" ) url = "http://localhost:3000/login2fa"
-  else url = "https://itesa-nft-game.vercel.app/login2fa"
+  if (location.pathname === "/testToken")
+    url = "http://localhost:3000/testToken";
+  else if (location.pathname === "/user/tokens")
+    url = "http://localhost:3000/user/tokens";
+  else if (
+    location.pathname === "/login" &&
+    location.origin === "http://localhost:3000"
+  )
+    url = "http://localhost:3000/login2fa";
+  // Redirigir a Vercel si no se cumplen las anteriores
+  else url = "https://itesa-nft-game.vercel.app/login2fa";
 
   // Si existe el usuario, mandar el mail
   const actionCodeSettings = {
