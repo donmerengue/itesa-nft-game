@@ -10,7 +10,6 @@ const NftPanel = () => {
     setNfts(await getMetaData());
     setActive(true);
   };
- 
 
   return (
     <>
@@ -32,6 +31,7 @@ const NftPanel = () => {
                 <th className="p-3 text-center ">TYPE</th>
                 <th className="p-3 text-center ">POWER</th>
                 <th className="p-3 text-center ">NFT NAME</th>
+                <th className="p-3 text-center ">PRICE</th>
                 <th className="p-3 text-center" width="110px">
                   ACTIVE
                 </th>
@@ -39,8 +39,9 @@ const NftPanel = () => {
             </thead>
             {active
               ? nfts.map((nft, i) => (
-                
-                  <ItemNfts nft={nft} active={active} key={i} />
+                  <>
+                    <ItemNfts nft={nft} active={active} key={i} />
+                  </>
                 ))
               : ""}
           </table>
