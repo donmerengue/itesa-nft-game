@@ -16,12 +16,21 @@ const key = "8b9d24eae4dd47e51544868ec4056fa2ad305168a8f571c31b68d580aca89c94"
 
 const nftAddress = "0xa8cf99020aF1BbfB904AB33a055C08354082DDe4"
 const nftAddressBETA = "0xD41e4536aFf36F604199dd9148Ae73b87614B66f"
+const nftAddressTokenCircle = "0x881A04306f863EE2A9491b58579e1D575fA91929"
 
-const contract = new ethers.Contract(nftAddressBETA, BEP721_ABI, bscProvider)
+const contract = new ethers.Contract(
+  nftAddressTokenCircle,
+  BEP721_ABI,
+  bscProvider
+)
 
 const signer = new ethers.Wallet(key, bscProvider)
 
-const contractSigned = new ethers.Contract(nftAddressBETA, BEP721_ABI, signer)
+const contractSigned = new ethers.Contract(
+  nftAddressTokenCircle,
+  BEP721_ABI,
+  signer
+)
 
 //############## READ ONLY ##################
 // Ver metadatos de un NFT
@@ -133,7 +142,6 @@ const safeMint = async (address, URI) => {
     console.log(error)
   }
 }
-
 
 module.exports = {
   transferNft,
