@@ -33,7 +33,7 @@ const NftPanel = () => {
                 <th className="p-3 text-center ">NFT NAME</th>
                 <th className="p-3 text-center ">PRICE</th>
                 <th className="p-3 text-center" width="110px">
-                  ACTIVE
+                 BURN
                 </th>
               </tr>
             </thead>

@@ -7,7 +7,7 @@ function Home() {
   return (
     <Box>
       <Description />
-      <References />
+      {/* <References /> */}
     </Box>
   );
 }
