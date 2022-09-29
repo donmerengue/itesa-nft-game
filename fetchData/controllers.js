@@ -62,12 +62,6 @@ export const updateTokenQuant = async (coleccion, id, value) => {
   await updateDoc(dataDoc, { tokenQuantity: increment(value) });
 };
 
-// // Actualizar experiencia
-// export const updateExperienceLevel = async (id, value) => {
-//   const dataDoc = doc(db, "user-stats", id);
-//   await updateDoc(dataDoc, { experience: increment(value) });
-// };
-
 //Borrar Información
 export const deleteData = async (coleccion, id) => {
   const userDoc = doc(db, coleccion, id);
@@ -186,7 +180,7 @@ export const getEqNFTitems = async (uid) => {
   // const user = await getDocumento("users", uid);
 
   // Filtrar por NFTs
-  const nftRef = collection(db, "nft");
+  const nftRef = collection(db, "nftBought");
   const nftQuery = query(
     nftRef,
     where("equipped", "==", true),
@@ -206,7 +200,7 @@ export const getEqNFTitems = async (uid) => {
 
 //Buscar todos los items de un usuario
 export const getNFTItems = async (uid) => {
-  const nftRef = collection(db, "nft");
+  const nftRef = collection(db, "nftBought");
   const nftQuery = query(nftRef, where("user", "==", uid));
   const nftQuerySnap = await getDocs(nftQuery);
 
@@ -223,7 +217,7 @@ export const getNFTItems = async (uid) => {
 // Equipar NFT Item
 export const equipNFTitem = async (nftId) => {
   // Traer el item actual por id
-  const dataDoc = doc(db, "nft", nftId);
+  const dataDoc = doc(db, "nftBought", nftId);
   const docSnap = await getDoc(dataDoc);
 
   // Estado actual del item (equipado o no)
