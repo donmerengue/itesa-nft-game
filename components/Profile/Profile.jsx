@@ -6,6 +6,7 @@ import { auth } from "../../firebase/firebase-config";
 import { getId } from "../../fetchData/controllers";
 import { Img } from "@chakra-ui/react";
 import Link from "next/link";
+import NtfBought from "./nftBought";
 
 const UserProfile = () => {
   const [avatar, setAvatar] = useState({});
@@ -90,6 +91,7 @@ const UserProfile = () => {
             </div>
           </div>
         </Container>
+        <NtfBought/>
       </div>
     </div>
   );
