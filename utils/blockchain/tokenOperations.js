@@ -48,7 +48,7 @@ const contractSigned = new ethers.Contract(address, BEP20_ABI, signer);
 const hashSample =
   "0x493e306e1859dbe79c9d5195de46874244d786b62f7aecc327a16c00f1a2f378";
 
-// Obtener el balance de un address en especifico.
+// Obtener el balance ITGX de un address en especifico.
 const getBalance = async (address) => {
   try {
     const balanceOf = await contract.balanceOf(address);
@@ -57,6 +57,17 @@ const getBalance = async (address) => {
     console.log(error.message);
   }
 };
+
+// Funcion para obtener balance de cuenta custodio bscProvider (en BNB)
+const getBalanceBNB = async () => {
+  try {
+    const balance = await bscProvider.getBalance(deployer);
+    return ethers.utils.formatEther(balance);
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 //Obtener el total de tokens en IGTX.
 const totalSupply = async () => {
   try {
@@ -66,15 +77,6 @@ const totalSupply = async () => {
     console.log(error.message);
   }
 };
-
-//Obtener el historial de transacciones
-//  const historial = async () => {
-//   bscProvider.getLogs(address).then((history) => {
-//     history.forEach((tx) => {
-//         console.log(tx);
-//     })
-//   });
-// }
 
 // Para enviar tokens desde el address principal
 // Metodo alternativo hasta poder mintear tokens.
@@ -158,7 +160,8 @@ const sendFunding = async (value) => {
 const addToken = async () => {
   try {
     // wasAdded es un booleano que indica si el token fue aniadido o no.
-    const { tokenAddress, tokenDecimals, tokenImage, tokenSymbol } = tokenData;
+    const { tokenAddress, tokenDecimals, tokenImage, tokenSymbol } =
+      tokenData;
     const wasAdded = await ethereum.request({
       method: "wallet_watchAsset",
       params: {
@@ -205,7 +208,9 @@ const switchNetwork = async () => {
               {
                 chainId: "0x61",
                 chainName: "Smart Chain - Testnet",
-                rpcUrls: ["https://data-seed-prebsc-1-s1.binance.org:8545/"],
+                rpcUrls: [
+                  "https://data-seed-prebsc-1-s1.binance.org:8545/",
+                ],
                 nativeCurrency: {
                   name: "BNB",
                   symbol: "BNB",
@@ -289,7 +294,7 @@ const getTotalTransactionsBNB = async () => {
     "https://api-testnet.bscscan.com/api?module=account&action=txlist&address=0x52Ec083D30192691872B60334bFDd1450C1826d9&startblock=1&endblock=99999999&sort=desc&apikey=0x52Ec083D30192691872B60334bFDd1450C1826d9"
   );
   const nuevo = await resultados.data.result;
-  return nuevo
+  return nuevo;
 };
 
 const getTokenTransactions = async () => {
@@ -302,12 +307,13 @@ const getTokenTransactions = async () => {
 
 const convertTime = (timeStamp) => {
   const dateTx = new Date(timeStamp * 1000);
- 
+
   return dateTx.toLocaleDateString("en-GB");
 };
 
 module.exports = {
   getBalance,
+  getBalanceBNB,
   totalSupply,
   requestAccount,
   sendTokens,
