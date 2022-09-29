@@ -35,7 +35,10 @@ import {
   getTotalPower,
   getWinnerUser,
 } from "../../utils/gameplay/battles";
-import { levelUp } from "../../utils/gameplay/levelUp";
+import {
+  experiencePerBattle,
+  levelUp,
+} from "../../utils/gameplay/levelUp";
 import AvatarGamer from "./UserAvatar";
 import RivalAvatar from "./RivalAvatar";
 
@@ -147,10 +150,6 @@ const ArenaCopy = () => {
       const { feePerBattle } = prizeParams; // Fee (tasa) retenida por el juego por batalla
       const { prizePerWinBet } = prizeParams; // Pozo de ganancia por batalla
       const totalWonBet = prizePerWinBet - betPerBattle; // Ganancia total neta por batalla
-      console.log("bet per battle", betPerBattle);
-      console.log("fee per battle", feePerBattle);
-      console.log("prize per battle won", prizePerWinBet);
-      console.log(" Ganancia total neta por batalla", totalWonBet);
       setReward(totalWonBet);
 
       // Actualizar saldos virtuales de cada jugador
@@ -164,12 +163,12 @@ const ArenaCopy = () => {
     }
 
     // Determinar aumento de experiencia y nivel
-    const battleParams = await getDocumento("gameParams", "battleParams");
-    const { expPerWin } = battleParams;
-    console.log("exp per win", expPerWin);
-
-    const dataLevelExp = levelUp(
-      winnerUserStats.experience + expPerWin,
+    const expAfterBattle = await experiencePerBattle(
+      winnerUserStats.experience
+    );
+    // Actualizar experiencia y nivel
+    const dataLevelExp = await levelUp(
+      expAfterBattle,
       winnerUserStats.level
     );
     // Actualizar nivel en coleccion de user-stats
@@ -187,13 +186,11 @@ const ArenaCopy = () => {
         h={"100vh"}
         backgroundSize={"cover"}
         backgroundImage={arena?.planet}
-        backgroundPosition={"center center"}
-      >
+        backgroundPosition={"center center"}>
         <VStack
           w={"full"}
           justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}
-        >
+          px={useBreakpointValue({ base: 4, md: 8 })}>
           <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
             {!winner ? (
               <Heading
@@ -236,7 +233,7 @@ const ArenaCopy = () => {
                           src="https://i.imgur.com/GkTTm2z.png"
                         />
                       </Center>
-                      {reward ? <Text>You lost the bet </Text>:""}
+                      {reward ? <Text>You lost the bet </Text> : ""}
                     </>
                   )}
                 </Heading>
@@ -265,8 +262,7 @@ const ArenaCopy = () => {
                     bg={"gray.800"}
                     rounded={"full"}
                     color={"white"}
-                    _hover={{ bg: "blue.500" }}
-                  >
+                    _hover={{ bg: "blue.500" }}>
                     BACK
                   </Button>
                 </Link>
@@ -276,8 +272,7 @@ const ArenaCopy = () => {
                     rounded={"full"}
                     color={"white"}
                     _hover={{ bg: "blue.500" }}
-                    onClick={handlePlay}
-                  >
+                    onClick={handlePlay}>
                     START BATTLE
                   </Button>
                 ) : (
@@ -286,8 +281,7 @@ const ArenaCopy = () => {
                       bg={"gray.800"}
                       rounded={"full"}
                       color={"white"}
-                      _hover={{ bg: "blue.500" }}
-                    >
+                      _hover={{ bg: "blue.500" }}>
                       PLAY AGAIN
                     </Button>
                   </Link>

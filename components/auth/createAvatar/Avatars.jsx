@@ -32,7 +32,7 @@ const Avatars = ({ avatar }) => {
       router.replace("/");
     }else{
       toast({
-        title: "Error creating avatar",
+        title: "Error creating Avatar",
         description: "Please choose a name",
         status: "error",
         position: "top",
@@ -45,7 +45,7 @@ const Avatars = ({ avatar }) => {
   return (
     <>
       <div className="lg:flex">
-        <Img width={"16rem"} height={"12rem"} src={avatar.img} alt="" />
+        <Img width={"20rem"} height={"16rem"} src={avatar.url} alt="" />
         <div className="flex flex-col justify-between py-6 lg:mx-6">
           {avatarName ? (
             <p className="text-3xl font-semibold text-gray-800  dark:text-white ">
@@ -56,7 +56,7 @@ const Avatars = ({ avatar }) => {
               <input
                 type="search"
                 className="w-full border-black  px-4 py-1 text-gray-900 "
-                placeholder="give it a name"
+                placeholder="Name your Avatar"
                 onChange={handleName}
               />
             </form>
