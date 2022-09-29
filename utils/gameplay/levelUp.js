@@ -1,14 +1,24 @@
-// La experiencia necesaria para pasar de nivel es 7.5 veces el nivel actual
-// TODO: 28/9 traer data de la DB para que la pueda modificar el Admin
-export const experienceLimitPerLevel = (level) => 7.5 * level;
+import { getDocumento } from "../../fetchData/controllers";
 
-// Cada batalla ganada suma un punto de experiencia
-// TODO: 28/9 traer data de la DB para que la pueda modificar el Admin
-export const experiencePerBattle = (experience) => experience++;
+// La experiencia necesaria para pasar de nivel es 5 veces el nivel actual
+export const experienceLimitPerLevel = async (level) => {
+  const battleParams = await getDocumento("gameParams", "battleParams");
+  const { expPerLevel } = battleParams;
+  return level * expPerLevel;
+};
+
+// Obtener total de experiencia al ganar batalla (cada batalla ganada suma un punto de experiencia)
+export const experiencePerBattle = async (experience) => {
+  const battleParams = await getDocumento("gameParams", "battleParams");
+  const { expPerWin } = battleParams;
+  console.log("expPerWin", expPerWin);
+  console.log(expPerWin + experience);
+  return experience + expPerWin;
+};
 
 // Pasar de nivel cuando la experiencia actual supera el limite
-export const levelUp = (experience, level) => {
-  if (experience >= experienceLimitPerLevel(level)) {
+export const levelUp = async (experience, level) => {
+  if (experience >= (await experienceLimitPerLevel(level))) {
     experience = 0;
     level++;
   }
