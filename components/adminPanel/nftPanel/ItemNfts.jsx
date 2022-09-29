@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useState } from "react";
+import {nftPrice} from "../../../utils/marketplace/nftPrice"
 
-const ItemNfts = ({ nft, active }) => {
+const ItemNfts = ({ nft, active, key }) => {
   const [data, setData] = useState({});
   const [attributes, setAttributes] = useState([]);
 
@@ -17,9 +18,10 @@ const ItemNfts = ({ nft, active }) => {
     }
     ;
   }, [data]);
-
+  
   return (
-    <tbody className="flex-1 sm:flex-none">
+    <>
+    <tbody className="flex-1 sm:flex-none" >
       <tr className="flex flex-col flex-no wrap sm:table-row mb-2 sm:mb-0">
         <td className="text-center border-grey-light border hover:bg-gray-100 p-3 truncate">
           {nft.token_id}
@@ -33,11 +35,15 @@ const ItemNfts = ({ nft, active }) => {
         <td className="text-center border-grey-light border hover:bg-gray-100 p-3 truncate">
           {data?.name}
         </td>
+        <td className="text-center text-orange-500 border-grey-light border hover:bg-gray-100 p-3 truncate">
+          <button>{nftPrice(attributes[2]?.value)}</button>
+        </td>
         <td className="text-center text-green-500 border-grey-light border hover:bg-gray-100 p-3 truncate">
           <button>true</button>
         </td>
       </tr>
     </tbody>
+    </>
   );
 };
 

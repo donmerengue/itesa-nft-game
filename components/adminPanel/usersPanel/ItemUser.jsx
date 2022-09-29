@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { updateData } from "../../../fetchData/controllers";
-import { getDocumento } from "../../../fetchData/controllers";
+
 
 const ItemUser = ({ user, setUpdate }) => {
   const [admin, setAdmin] = useState(false);
