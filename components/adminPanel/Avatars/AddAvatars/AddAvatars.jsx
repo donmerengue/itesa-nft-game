@@ -108,7 +108,7 @@ const AddAvatars = () => {
       )}
     </>
   );
-};id
-"hipogrifo-tucan"
+};
+
 
 export default AddAvatars;
