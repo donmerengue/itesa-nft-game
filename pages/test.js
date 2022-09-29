@@ -29,10 +29,9 @@ const TestPage = () => {
   };
   // Data NFT
   const nftData = {
-    image: "url",
+    tokenId:"200",
     type: "luck", // attack defense luck
     power: "5",
-    nftAddress: "",
     user: "xvVynXBD8De9VRhErdYJbHuaYxg2", // auth.currentUser?.uid o hardcoded
     equipped: false,
   };
@@ -73,7 +72,7 @@ const arenaData = {
       <br />
       <button
         onClick={() => {
-          addNewDoc("nft", nftData);
+          addNewDoc("nftBought", nftData);
         }}>
         Ejecutar addNewNFT
       </button>

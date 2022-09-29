@@ -14,25 +14,19 @@ import {
   StackDivider,
   List,
   ListItem,
-  Link,
 } from "@chakra-ui/react";
-import {
-  Divider,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { useDisclosure } from "@chakra-ui/react";
 
 import { nftPrice } from "../../../utils/marketplace/nftPrice";
 import ModalBuy from "./modalBuy";
+import { auth } from "../../../firebase/firebase-config";
+import { getNfts } from "../../../state/myNfts";
+import { useDispatch, useSelector } from "react-redux";
 
 const NftItem = ({ nfts, id, data, active }) => {
-  const { isOpen, onClose, onOpen, onToggle } = useDisclosure();
+  const { isOpen, onClose, onOpen } = useDisclosure();
+  const dispatch = useDispatch();
+  const myNfts = useSelector((state) => state.myNfts);
 
   const [nftImage, setNftImage] = useState("");
   const [nftDetail, setNftDetail] = useState([]);
@@ -40,15 +34,23 @@ const NftItem = ({ nfts, id, data, active }) => {
   const [meta, setMeta] = useState({});
   const [nftAttribute, setNftAttribute] = useState();
   const [complete, setComplete] = useState(false);
-  const [modal, setModal] = useState(false);
+  const [comprado, setComprado] = useState(false)
 
   useEffect(() => {
     setNftDetail(nfts.filter((nft) => nft.token_id === id));
+   
   }, [active]);
 
   useEffect(() => {
     setNft(nftDetail.filter((nft) => nft.token_id === id));
+
   }, [data]);
+
+  useEffect(() => {
+    if (nftDetail[0]?.token_id && myNfts[0]) {
+      setComprado(myNfts.find((nft) => nft.tokenId == nftDetail[0]?.token_id      ))
+    }
+  }, [myNfts]);
 
   useEffect(() => {
     if (nft[0]?.metadata !== undefined) {
@@ -60,13 +62,15 @@ const NftItem = ({ nfts, id, data, active }) => {
     if (meta.attributes !== undefined) {
       setNftAttribute(meta.attributes);
     }
+
+    dispatch(getNfts(auth.currentUser?.uid));
     setComplete(true);
   }, [nft]);
 
   const handlerBuy = () => {
-    setModal((modal) => !modal);
-    onOpen();
+onOpen()
   };
+
 
   return (
     <>
@@ -219,7 +223,7 @@ const NftItem = ({ nfts, id, data, active }) => {
                   </SimpleGrid>
                 </Box>
               </Stack>
-
+{!comprado ?
               <Box>
                 <VStack w={"full"} justify={"center"} mt={"10"}>
                   <Stack direction={"row"} justify={"center"}>
@@ -236,14 +240,18 @@ const NftItem = ({ nfts, id, data, active }) => {
                 </VStack>
                 {nftAttribute !== undefined ? (
                   <ModalBuy
-                    open={modal}
+                  isOpen={isOpen}
+                    onClose={onClose}
                     price={nftPrice(nftAttribute[2]?.value)}
                     id={nft[0].token_id}
+                    nftData={nftAttribute[2]}
+                    name={meta.name}
                   />
                 ) : (
                   ""
                 )}
               </Box>
+               :" "}
             </Stack>
           </SimpleGrid>
         </Container>
