@@ -65,7 +65,8 @@ const Avatars = ({ avatar }) => {
           <button
             onClick={() =>
               handleAvatar({
-                img: avatar.img,
+                img: avatar.url,
+                id: avatar.id,
                 name: avatarName,
                 userId: auth.currentUser.uid,
               })
