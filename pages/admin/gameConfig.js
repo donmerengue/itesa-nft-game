@@ -2,7 +2,7 @@ import React from 'react'
 import GameConfig from "../../components/adminPanel/GameConfig/index"
 import Navbar from "../../components/layout/Navbar";
 
-const marketplaceParams = () => {
+const Config = () => {
   return (
     <>
     <Navbar/>
@@ -11,4 +11,4 @@ const marketplaceParams = () => {
   )
 }
 
-export default marketplaceParams
+export default Config
