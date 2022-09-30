@@ -17,6 +17,7 @@ import {
   InputGroup,
   InputRightAddon,
   Stack,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 import sendLoginLink from "../../utils/auth/loginLink";
@@ -145,6 +146,9 @@ const Funding = () => {
         bg={"white"}
       >
         <Heading>Funding</Heading>
+
+        <Text>You will be redirected to your inbox to confirm funding.</Text>
+        <Divider/>
         <form>
           <FormControl>
             <FormLabel>Amount 💸</FormLabel>
@@ -182,7 +186,7 @@ const Funding = () => {
             >
               Continue
             </Button>
-          </Stack>
+          </Stack>            
         </form>
       </Stack>
     </>
