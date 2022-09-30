@@ -3,6 +3,7 @@ import { auth } from "../../../firebase/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { getData, getDocumento } from "../../../fetchData/controllers";
 import { useEffect, useState } from "react";
+import { Center, Wrap } from "@chakra-ui/react";
 
 const CreateAvatar = () => {
   // Traer data de Auth del usuario
@@ -22,19 +23,25 @@ const CreateAvatar = () => {
     <>
       {/* Renderizar solo si el usuario esta verificado */}
       {user?.emailVerified ? (
-        <div className="flex">
+        <div /* className="flex" */>
           <section className="bg-white dark:bg-gray-900">
             <div className="container px-6 py-10 mx-auto">
               <h1 className="text-3xl font-semibold text-gray-800 capitalize lg:text-4xl dark:text-white">
                 Avatars
               </h1>
               <p>Select your avatar to start this adventure</p>
-              <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">
+              {/* <div className="grid grid-cols-1 gap-8 mt-8 md:mt-16 md:grid-cols-2">  */}
+              <Center>
+        <Wrap ml={20} marginRight={15} columns={4}>
                 {avatarsDB.map((avatar, i) => (
                   <Avatars avatar={avatar} key={i} />
                 ))}
+                </Wrap>
+                </Center>
               </div>
-            </div>
+
+           {/*   </div>  */}
+
           </section>
         </div>
       ) : (

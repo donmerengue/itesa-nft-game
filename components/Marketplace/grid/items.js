@@ -106,10 +106,7 @@ const Items = ({ nft, active, setLoaded }) => {
                   <Text>{}</Text>
 
                   <Text
-                    align={"center"}
-                    color={"gray.500"}
-                    fontSize={"sm"}
-                    textTransform={"uppercase"}
+                    
                   >
                     {nftData?.attributes[2].trait_type || ""}
                   </Text>
