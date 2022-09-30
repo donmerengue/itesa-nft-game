@@ -19,6 +19,7 @@ import { auth } from "../../firebase/firebase-config";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import DeslogueadoPage from "../auth/DeslogueadoPage";
 
 const Navbar = () => {
   const [account, setAccount] = useState("");
@@ -30,22 +31,37 @@ const Navbar = () => {
   //Traer info del usuario logueado
   useAuth();
   const user = useSelector((state) => state.user);
+  const [userAuth, loading, error] = useAuthState(auth);
 
   const path = router.pathname;
 
   useEffect(() => {
-    if (auth.currentUser) {
-      if (
-        !auth.currentUser?.emailVerified &&
+    if (!loading) {
+      console.log(loading);
+      console.log("termino de cargar");
+      if (auth.currentUser) {
+        console.log("hay usuario");
+        if (
+          !auth.currentUser?.emailVerified &&
+          path != "/" &&
+          path != "/login" &&
+          path != "/register" &&
+          path != "/login2fa"
+        ) {
+          router.push("/verify");
+        }
+      } else if (
         path != "/" &&
         path != "/login" &&
         path != "/register" &&
-        path != "/login2fa"
+        path != "/login2fa" &&
+        path != "/resetpassword" &&
+        path != "/arena"
       ) {
-        router.push("/verify");
+        console.log("no hay usuario PAPÁ");
+        router.push("/unlogged");
       }
     }
-
     // TODO: 29/9 ->ver usuario no autenticado
     // else if (
     //   path != "/" &&
@@ -55,7 +71,7 @@ const Navbar = () => {
     // ) {
     //   router.push("/login");
     // }
-  }, [auth.currentUser]);
+  }, [loading]);
 
   // Funcionalidad baneo
   useEffect(() => {
