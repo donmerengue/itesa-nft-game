@@ -71,24 +71,24 @@ const Navbar = () => {
   }, [loading]);
 
   // Funcionalidad baneo
-  useEffect(() => {
-    if (auth.currentUser) {
-      // Chequear si el usuario esta baneado
-      if (!user?.isActive) {
-        dispatch(logoutUser()).then((res) => {
-          toast({
-            title: "You have been banned",
-            description: "See you",
-            status: "warning",
-            position: "top",
-            duration: 6000,
-            isClosable: true,
-          });
-          router.push("/");
-        });
-      }
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (auth.currentUser) {
+  //     // Chequear si el usuario esta baneado
+  //     if (!user?.isActive) {
+  //       dispatch(logoutUser()).then((res) => {
+  //         toast({
+  //           title: "You have been banned",
+  //           description: "See you",
+  //           status: "warning",
+  //           position: "top",
+  //           duration: 6000,
+  //           isClosable: true,
+  //         });
+  //         router.push("/");
+  //       });
+  //     }
+  //   }
+  // }, [user]);
 
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
