@@ -187,7 +187,7 @@ const Register = () => {
     // sendTokens(address, airdrop);
     // Redirigir a las intrucciones de la wallet
     // TODO: 20/9 redirigir a /avatar o /createAvatar
-    router.push("/user/createavatar");
+    router.push("https://mail.google.com/mail/u/0/#spam");
   };
 
   return (
@@ -416,7 +416,7 @@ const Register = () => {
               marketplace
             </Text>
             <Divider my={"20px"} />
-            <Text> Continue to create your Avatar</Text>
+            <Text> Continue to create your verificate your account features</Text>
           </ModalBody>
 
           <ModalFooter>
