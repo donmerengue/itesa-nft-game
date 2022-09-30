@@ -20,7 +20,7 @@ import {
 } from "@chakra-ui/react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 import { auth } from "../../firebase/firebase-config";
-import { sendPasswordResetEmail, updatePassword } from "firebase/auth";
+import { updatePassword } from "firebase/auth";
 
 const ResetPassword = () => {
   const dispatch = useDispatch();
