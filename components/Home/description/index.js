@@ -28,25 +28,10 @@ const Description = () => {
           <Stack maxW={"2xl"} align={"flex-start"} spacing={6}>
             <Text
               color={"white"}
-              fontWeight={700}
+              fontWeight={1000}
               lineHeight={1.2}
-              fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}>
-              WELCOME TO INTERGALAXY
-            </Text>
-
-            <Text
-              color={"white"}
-              fontWeight={500}
-              lineHeight={1.5}
-              fontSize={useBreakpointValue({ base: "3xl", md: "2xl" })}>
-              Intergalaxy is a 2D play to earn NFT game linked to Metamask.
-              Your mission will be to travel around the galaxy winning as
-              many battles as possible. Intergalaxy has 5 planets, and each
-              planet will host a different combat arena grouping fighters
-              by level. As your performance increases, you will be able to
-              buy NFT accessories, which will help you gain a greater
-              advantage over your rival. You can also sell your avatar and
-              even win NFT Prizes! What are you waiting to play?
+              fontSize={useBreakpointValue({ base: "4xl", md: "4xl" })}>
+              WELCOME TO INTERGALAXY...
             </Text>
             <Stack direction={"row"}>
               {!user ? (

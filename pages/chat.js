@@ -7,11 +7,9 @@ import Messages from "../components/chatbot/Messages"
 
 const Chat = () => {
   const [messages, setMessages] = useState([
-    { from: "computer", text: "Hi, My Name is HoneyChat" },
-    { from: "me", text: "Hey there" },
-    { from: "me", text: "Myself Ferin Patel" },
+    { from: "El Comandante:", text: "Hi, My Name is Intergalaxy" },
     {
-      from: "computer",
+      from: "El Comandante",
       text: "Nice to meet you. You can send me message and i'll reply you with same message.",
     },
   ])
