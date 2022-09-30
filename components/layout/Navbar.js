@@ -46,6 +46,7 @@ const Navbar = () => {
           path != "/" &&
           path != "/login" &&
           path != "/register" &&
+          path != "/user/createavatar" &&
           path != "/login2fa"
         ) {
           router.push("/verify");
@@ -56,6 +57,7 @@ const Navbar = () => {
         path != "/register" &&
         path != "/login2fa" &&
         path != "/resetpassword" &&
+        path != "/user/createavatar" &&
         path != "/arena"
       ) {
         console.log("no hay usuario PAPÁ");
