@@ -127,7 +127,6 @@ const Arena = () => {
 
     // Obtener cantidad de batallas diarias del usuario
     const dailyMatches = await getDailyMatches(uid);
-    console.log("today's matches", dailyMatches);
 
     // Prize per win (hasta 5 batallas) solo para quien inicio la batalla
     const prizeParams = await getDocumento("gameParams", "prizeParams");
@@ -268,7 +267,7 @@ const Arena = () => {
                     BACK
                   </Button>
                 </Link>
-                {!winner ? (
+                {!winner && rival ? (
                   <Button
                     bg={"gray.800"}
                     rounded={"full"}

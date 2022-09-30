@@ -22,14 +22,14 @@ const Avatars = ({ avatar }) => {
     if (avatarName) {
       addNewDoc("userAvatar", avatar);
       toast({
-        title: "Avatar created successfully",
-        description: "Redirecting to home",
+        title: "Redirecting to marketplace",
+        description: "Buy some NFT to start playing",
         status: "success",
         position: "top",
         duration: 5000,
         isClosable: true,
       });
-      router.replace("/");
+      router.replace("/marketplace");
     }else{
       toast({
         title: "Error creating Avatar",

@@ -9,17 +9,6 @@ const CreateAvatar = () => {
   const [user, loading, error] = useAuthState(auth);
   const [avatarsDB, setAvatarsDB] = useState([]);
 
-  const avatars = [
-    { img: "https://imgur.com/rjuWPzD.png" },
-    { img: "https://imgur.com/nvD4rT2.png" },
-    { img: "https://imgur.com/6yKQ65s.png" },
-    { img: "https://imgur.com/JuHKTlD.png" },
-    { img: "https://imgur.com/Au723mw.png" },
-    { img: "https://imgur.com/rNudYb8.png" },
-    { img: "https://imgur.com/FQdD8s4.png" },
-    { img: "https://imgur.com/GZNo6Af.png" },
-  ];
-
   useEffect(() => {
     const getAvatars = async () => {
       const avatars = await getData("avatars");
@@ -28,8 +17,6 @@ const CreateAvatar = () => {
 
     getAvatars();
   }, []);
-
-  console.log(avatarsDB);
 
   return (
     <>

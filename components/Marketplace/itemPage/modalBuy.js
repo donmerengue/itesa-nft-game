@@ -72,7 +72,7 @@ const ModalBuy = ({ isOpen, onClose, price, id, nftData, name }) => {
       type: nftData.trait_type, // attack defense luck
       power: nftData.value,
       user: auth.currentUser?.uid, // auth.currentUser?.uid o hardcoded
-      equipped: false,
+      equipped: true,
       name: name,
     };
 
@@ -141,7 +141,12 @@ const ModalBuy = ({ isOpen, onClose, price, id, nftData, name }) => {
             <FormControl>
               <FormLabel>Price</FormLabel>
               <InputGroup size="sm">
-                <Input required onChange={handleValue} value={value} disabled />
+                <Input
+                  required
+                  onChange={handleValue}
+                  value={value}
+                  disabled
+                />
                 <InputRightAddon>
                   <span>ITGX</span>
                 </InputRightAddon>
@@ -168,8 +173,7 @@ const ModalBuy = ({ isOpen, onClose, price, id, nftData, name }) => {
               colorScheme="blue"
               ml={3}
               onClick={buyItem}
-              isLoading={loading}
-            >
+              isLoading={loading}>
               Buy
             </Button>
           </ModalFooter>
