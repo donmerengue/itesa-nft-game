@@ -416,7 +416,7 @@ const Register = () => {
               marketplace
             </Text>
             <Divider my={"20px"} />
-            <Text> Continue to create your verificate your account features</Text>
+            <Text> Continue to verify your account via mail</Text>
           </ModalBody>
 
           <ModalFooter>

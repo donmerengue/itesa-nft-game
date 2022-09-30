@@ -121,7 +121,16 @@ export const getRival = async (coleccion, id) => {
 
     // Si no hay rivales que cumplan la condicion alertar
     if (rivalsBet.length === 0) {
-      alert("NO TENES RIVAL, PAPU VICIOSO");
+      alert("No rivals available, try again later");
+      // Redirigir en localhos
+      if (window.location.origin == "http://localhost:3000")
+        window.location.replace = "http://localhost:3000/arena";
+      // Redirigir en Vercel
+      else if (
+        window.location.origin == "https://itesa-nft-game.vercel.app"
+      )
+        window.location.replace =
+          "https://itesa-nft-game.vercel.app/arena";
       return "No rival";
     }
     // Si el usuario quiere apostar para continuar jugando
@@ -224,6 +233,8 @@ export const equipNFTitem = async (nftId) => {
   // Actualizar el estado del item toggleandolo
   await updateDoc(dataDoc, { equipped: !itemStatus });
 };
+
+
 
 // Obtener el avatar del usuario
 export const getAvatar = async (userId) => {
