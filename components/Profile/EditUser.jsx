@@ -36,7 +36,7 @@ const EditUser = () => {
 
   return (
     <>
-      <div className="flex flex-col items-start justify-between w-full px-10 pt-5 pb-20 lg:pt-20 lg:flex-row">
+      <div className="flex flex-col items-start justify-center w-full px-10 pt-5 pb-20 lg:pt-20 lg:flex-row">
         <div className="relative z-10 w-full max-w-2xl mt-20 lg:mt-0 lg:w-5/12">
           <div className="relative z-10 flex flex-col items-start justify-start p-10 bg-white shadow-2xl rounded-xl">
             <h4 className="w-full text-4xl font-medium leading-snug">
@@ -78,7 +78,7 @@ const EditUser = () => {
               </div>
               <div className="relative">
                 <button
-                  className="inline-block w-full px-5 py-4 text-xl font-medium text-center text-white transition duration-200 bg-orange-600 rounded-lg hover:bg-orange-500 ease"
+                  className="inline-block w-full px-5 py-4 text-xl font-medium text-center text-white transition duration-200 bg-blue-600 rounded-lg hover:bg-blue-500 ease"
                   onClick={handleNewData}
                 >
                   Submit
