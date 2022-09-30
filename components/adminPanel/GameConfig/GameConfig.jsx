@@ -192,7 +192,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder=" New BetPerBattle"
                 onChange={handleBetPer}
               />
               <button
@@ -220,7 +220,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder="New FeePerBattle"
                 onChange={handleFee}
               />
               <button
@@ -248,7 +248,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder="New PrizePerWin"
                 onChange={handlePrize}
               />
               <button
@@ -276,7 +276,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder="New PrizePerWinBet"
                 onChange={handlePrizeBet}
               />
               <button
@@ -304,7 +304,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder="New  ExpPerLevel"
                 onChange={handleExpPerLevel}
               />
               <button
@@ -332,7 +332,7 @@ const MarketplacePanel = () => {
               <input
                 type="text"
                 className="grow rounded-lg border border-transparent bg-orange-200/50 py-2 px-2 placeholder:text-black/30 focus:border-orange-500 focus:outline-none"
-                placeholder="New Price Multiplier"
+                placeholder="New ExpPerWin"
                 onChange={handleExpPerWin}
               />
               <button
