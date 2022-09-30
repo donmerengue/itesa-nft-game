@@ -34,13 +34,15 @@ function Footer() {
           <button onClick={handleChat}>
             <Icon as={ChatIcon} className="text-4xl hover:bg-blue-400" />
           </button>
-          {activate && (
+          {activate && (<>
             <ModalChat
               isOpen={isOpen}
               onClose={onClose}
-            />
+            /> 
+        <Text>FAQs</Text>
+        </>
           )}
-        </Stack>
+        </Stack> 
       </Container>
     </Box>
   );
