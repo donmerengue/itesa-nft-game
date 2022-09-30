@@ -54,8 +54,7 @@ const Navbar = () => {
         path != "/register" &&
         path != "/login2fa" &&
         path != "/resetpassword" &&
-        path != "/user/createavatar" &&
-        path != "/arena"
+        path != "/user/createavatar"
       ) {
         router.push("/unlogged");
       }
