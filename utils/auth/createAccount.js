@@ -38,7 +38,17 @@ const createAccount = async ({ name, lastname, email, password }) => {
       location.origin === "http://localhost:3000"
     )
       url = "http://localhost:3000/user/createavatar";
-    else url = "https://itesa-nft-game.vercel.app/user/createavatar";
+    else if (
+      location.pathname === "/register" &&
+      location.origin === "http://localhost:3000"
+    )
+      url = "http://localhost:3000/user/createavatar";
+    // Redireccionar en Vercel
+    else  if (
+      location.pathname === "/register" &&
+      location.origin === "https://itesa-nft-game.vercel.app"
+    )
+    url = "https://itesa-nft-game.vercel.app/user/createavatar";
 
     const actionCodeSettings = {
       // URL you want to redirect back to
