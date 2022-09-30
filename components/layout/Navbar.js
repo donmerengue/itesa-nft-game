@@ -37,10 +37,7 @@ const Navbar = () => {
 
   useEffect(() => {
     if (!loading) {
-      console.log(loading);
-      console.log("termino de cargar");
       if (auth.currentUser) {
-        console.log("hay usuario");
         if (
           !auth.currentUser?.emailVerified &&
           path != "/" &&
@@ -60,7 +57,6 @@ const Navbar = () => {
         path != "/user/createavatar" &&
         path != "/arena"
       ) {
-        console.log("no hay usuario PAPÁ");
         router.push("/unlogged");
       }
     }
@@ -108,10 +104,10 @@ const Navbar = () => {
 
   // Actualizar intencion de juego del usuario
   const handleWannaPlay = () => {
-    console.log("gatillado");
-    const uid = auth.currentUser.uid;
+    const uid = auth.currentUser?.uid;
     const playData = { wannaPlay: true };
-    updateData("users", uid, playData);
+
+    uid && updateData("users", uid, playData);
   };
 
   return (
