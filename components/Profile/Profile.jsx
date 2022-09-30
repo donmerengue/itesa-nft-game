@@ -51,7 +51,6 @@ const UserProfile = () => {
                   <span>
                     {" "}
                     <button
-                      on
                       onClick={handleTable}
                       className=" p-2 pl-5 pr-5 bg-violet-500 border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white"
                     >
