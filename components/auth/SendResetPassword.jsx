@@ -16,8 +16,9 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { auth } from "../../firebase/firebase-config";
+import { sendPasswordResetEmail } from "firebase/auth";
 
-const Login = () => {
+const SendResetPassword = () => {
   const dispatch = useDispatch();
   const toast = useToast();
   const router = useRouter();
@@ -28,23 +29,31 @@ const Login = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  // Enviar link de cambio de contraseña al mail del usuario
+  const handleForgot = async () => {
+    const user = auth.currentUser;
+    const email = user.email;
+  };
+
   // Enviar link de login al mail del usuario
-  const onSubmit = ({ email }) => {
-    dispatch(linkLogin(email)).then((res) => {
-      if (!res.payload) {
+  const onSubmit = async ({ email }) => {
+    await sendPasswordResetEmail(auth, email)
+      .then((res) => {
         toast({
-          title: "Verification email sent",
+          title: "Reset email sent",
           description: "Please check your inbox (and spam)",
           status: "info",
           position: "top",
           duration: 5000,
           isClosable: true,
         });
+
         setTimeout(() => {
           // Redirigir a carpeta de spam de Gmail
           router.push("https://mail.google.com/mail/u/0/#spam");
         }, 3500);
-      } else {
+      })
+      .catch((err) =>
         toast({
           title: "Email not registered",
           description: "Please sign up",
@@ -52,9 +61,8 @@ const Login = () => {
           position: "top",
           duration: 6000,
           isClosable: true,
-        });
-      }
-    });
+        })
+      );
   };
 
   return (
@@ -68,9 +76,9 @@ const Login = () => {
           <form onSubmit={handleSubmit(onSubmit)}>
             <Box rounded={"lg"} bg={"white"} boxShadow={"lg"} p={8}>
               <Stack align={"center"} mb="8">
-                <Heading fontSize={"4xl"}> Sign In (1/2)</Heading>
+                <Heading fontSize={"4xl"}> Reset Password</Heading>
                 <Text fontSize={"md"} color={"gray.600"}>
-                  Enter your email to initiate login with 2FA
+                  Enter your email to recieve a reset link
                 </Text>
               </Stack>
               <FormControl isInvalid={errors.email}>
@@ -103,23 +111,8 @@ const Login = () => {
                   }}
                   isLoading={isSubmitting}
                   type="submit">
-                  Send Login Link
+                  Send Reset Link
                 </Button>
-              </Stack>
-              <Heading fontSize={"md"} mt={9}></Heading>
-              <Stack pt={6}>
-                <Text align={"center"}>
-                  New to Intergalaxy?{" "}
-                  <Link href="/register" color={"blue.400"}>
-                    Create your account
-                  </Link>
-                </Text>
-                <Text align={"center"}>
-                  Forgot your password?{" "}
-                  <Link href="/resetpassword" color={"blue.400"}>
-                    Click here to reset
-                  </Link>
-                </Text>
               </Stack>
             </Box>
           </form>
@@ -129,4 +122,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default SendResetPassword;

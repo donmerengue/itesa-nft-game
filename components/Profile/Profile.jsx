@@ -4,7 +4,7 @@ import CartStatistics from "./CartStatistics";
 import styled from "styled-components";
 import { auth } from "../../firebase/firebase-config";
 import { getId } from "../../fetchData/controllers";
-import { Img } from "@chakra-ui/react";
+import { Center, Heading, Img } from "@chakra-ui/react";
 import Link from "next/link";
 import NtfBought from "./nftBought";
 import { useSelector } from "react-redux";
@@ -41,6 +41,11 @@ const UserProfile = () => {
                   <Link href={"/user/edit"}>
                     <button className=" p-2 pl-5 pr-5 bg-violet-500 border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white">
                       Edit User
+                    </button>
+                  </Link>
+                  <Link href={"/user/changepassword"}>
+                    <button className=" p-2 pl-5 pr-5 bg-violet-500 border-2 border-gray-900  transition-colors duration-700 transform hover:bg-gray-900 hover:text-gray-100 focus:border-4  focus:bg-gray-900 focus:text-white focus:border-white">
+                      Change password
                     </button>
                   </Link>
                
@@ -92,6 +97,9 @@ const UserProfile = () => {
             </div>
           </div>
         </Container>
+        <Center mt={20}>
+                  <Heading color={"white"}>ACCESORIES NFT</Heading>
+                  </Center>
         <NtfBought />
       </div>
     </div>
