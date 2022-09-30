@@ -41,6 +41,7 @@ import {
 } from "../../utils/gameplay/levelUp";
 import AvatarGamer from "./UserAvatar";
 import RivalAvatar from "./RivalAvatar";
+import DeslogueadoPage from "../auth/DeslogueadoPage";
 
 const ArenaCopy = () => {
   const router = useRouter();
@@ -181,29 +182,20 @@ const ArenaCopy = () => {
 
   return (
     <>
-      <Box
-        w={"full"}
-        h={"100vh"}
-        backgroundSize={"cover"}
-        backgroundImage={arena?.planet}
-        backgroundPosition={"center center"}>
-        <VStack
+      {auth.currentUser ? (
+        <Box
           w={"full"}
-          justify={"center"}
-          px={useBreakpointValue({ base: 4, md: 8 })}>
-          <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
-            {!winner ? (
-              <Heading
-                mt={10}
-                color={"white"}
-                fontWeight={700}
-                lineHeight={1.2}
-                // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
-              >
-                {"LET'S PLAY!"}
-              </Heading>
-            ) : (
-              <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
+          h={"100vh"}
+          backgroundSize={"cover"}
+          backgroundImage={arena?.planet}
+          backgroundPosition={"center center"}>
+          <VStack
+            w={"full"}
+            justify={"center"}
+            // px={useBreakpointValue({ base: 4, md: 8 })}
+          >
+            <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
+              {!winner ? (
                 <Heading
                   mt={10}
                   color={"white"}
@@ -211,90 +203,104 @@ const ArenaCopy = () => {
                   lineHeight={1.2}
                   // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
                 >
-                  {winner === auth.currentUser?.uid ? (
-                    <>
-                      GANASTE PAPÁ!
-                      <Center>
-                        <Image
-                          mt={5}
-                          boxSize="100px"
-                          src="https://imgur.com/8Y4nDNr.png"
-                        />
-                      </Center>
-                      {reward ? <Text>You won {reward} ITGX</Text> : ""}
-                    </>
-                  ) : (
-                    <>
-                      PERDISTE BOBY
-                      <Center>
-                        <Image
-                          mt={5}
-                          boxSize="100px"
-                          src="https://i.imgur.com/GkTTm2z.png"
-                        />
-                      </Center>
-                      {reward ? <Text>You lost the bet </Text> : ""}
-                    </>
-                  )}
+                  {"LET'S PLAY!"}
                 </Heading>
-              </Stack>
-            )}
-          </Stack>
-        </VStack>
-
-        {arena ? (
-          <>
-            <Wrap justify={"center"} columns={2} spacing={300}>
-              <AvatarGamer />
-              {router.asPath === "/play" && rival ? (
-                <RivalAvatar />
               ) : (
-                <Center>
-                  <Spinner size="xl" />
-                </Center>
+                <Stack maxW={"2xl"} align={"flex-center"} spacing={6}>
+                  <Heading
+                    mt={10}
+                    color={"white"}
+                    fontWeight={700}
+                    lineHeight={1.2}
+                    // fontSize={useBreakpointValue({ base: "3xl", md: "4xl" })}
+                  >
+                    {winner === auth.currentUser?.uid ? (
+                      <>
+                        GANASTE PAPÁ!
+                        <Center>
+                          <Image
+                            mt={5}
+                            boxSize="100px"
+                            src="https://imgur.com/8Y4nDNr.png"
+                          />
+                        </Center>
+                        {reward ? <Text>You won {reward} ITGX</Text> : ""}
+                      </>
+                    ) : (
+                      <>
+                        PERDISTE BOBY
+                        <Center>
+                          <Image
+                            mt={5}
+                            boxSize="100px"
+                            src="https://i.imgur.com/GkTTm2z.png"
+                          />
+                        </Center>
+                        {reward ? <Text>You lost the bet </Text> : ""}
+                      </>
+                    )}
+                  </Heading>
+                </Stack>
               )}
-            </Wrap>
+            </Stack>
+          </VStack>
 
-            <VStack w={"full"} justify={"center"}>
-              <Stack direction={"row"} justify={"center"}>
-                <Link href="/arena">
-                  <Button
-                    bg={"gray.800"}
-                    rounded={"full"}
-                    color={"white"}
-                    _hover={{ bg: "blue.500" }}>
-                    BACK
-                  </Button>
-                </Link>
-                {!winner ? (
-                  <Button
-                    bg={"gray.800"}
-                    rounded={"full"}
-                    color={"white"}
-                    _hover={{ bg: "blue.500" }}
-                    onClick={handlePlay}>
-                    START BATTLE
-                  </Button>
+          {arena ? (
+            <>
+              <Wrap justify={"center"} columns={2} spacing={300}>
+                <AvatarGamer />
+                {router.asPath === "/play" && rival ? (
+                  <RivalAvatar />
                 ) : (
-                  <Link href="/play">
+                  <Center>
+                    <Spinner size="xl" />
+                  </Center>
+                )}
+              </Wrap>
+
+              <VStack w={"full"} justify={"center"}>
+                <Stack direction={"row"} justify={"center"}>
+                  <Link href="/arena">
                     <Button
                       bg={"gray.800"}
                       rounded={"full"}
                       color={"white"}
                       _hover={{ bg: "blue.500" }}>
-                      PLAY AGAIN
+                      BACK
                     </Button>
                   </Link>
-                )}
-              </Stack>
-            </VStack>
-          </>
-        ) : (
-          <Center>
-            <Spinner size="xl" />
-          </Center>
-        )}
-      </Box>
+                  {!winner ? (
+                    <Button
+                      bg={"gray.800"}
+                      rounded={"full"}
+                      color={"white"}
+                      _hover={{ bg: "blue.500" }}
+                      onClick={handlePlay}>
+                      START BATTLE
+                    </Button>
+                  ) : (
+                    <Link href="/play">
+                      <Button
+                        bg={"gray.800"}
+                        rounded={"full"}
+                        color={"white"}
+                        _hover={{ bg: "blue.500" }}>
+                        PLAY AGAIN
+                      </Button>
+                    </Link>
+                  )}
+                </Stack>
+              </VStack>
+            </>
+          ) : (
+            <Center>
+              <Spinner size="xl" />
+            </Center>
+          )}
+        </Box>
+      ) : (
+        <DeslogueadoPage />
+      )}
     </>
   );
 };

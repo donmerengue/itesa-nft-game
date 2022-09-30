@@ -1,11 +1,12 @@
-import ArenaCopy from "../../components/play/Battle";
 import PlayGame from "../../components/play/Arena";
 import Navbar from "../../components/layout/Navbar";
+import DeslogueadoPage from "../../components/auth/DeslogueadoPage";
+import { auth } from "../../firebase/firebase-config";
 const GameArenaIndex = () => {
   return (
     <>
       <Navbar />
-      <PlayGame />
+      {auth.currentUser ? <PlayGame /> : <DeslogueadoPage />}
     </>
   );
 };

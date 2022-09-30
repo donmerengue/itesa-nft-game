@@ -1,14 +1,21 @@
-import { Box } from '@chakra-ui/react';
-import HeadMarket from './head/head';
-import GridMarket from './grid/grid';
+import { Box } from "@chakra-ui/react";
+import HeadMarket from "./head/head";
+import GridMarket from "./grid/grid";
+import { auth } from "../../firebase/firebase-config";
+import DeslogueadoPage from "../auth/DeslogueadoPage";
 
 const Marketplace = () => {
-
-    return (
+  return (
+    <>
+      {auth.currentUser ? (
         <Box>
-            <HeadMarket />
-            <GridMarket />
-        </Box >
-    );
-}
-export default Marketplace; 
+          <HeadMarket />
+          <GridMarket />
+        </Box>
+      ) : (
+        <DeslogueadoPage />
+      )}
+    </>
+  );
+};
+export default Marketplace;
