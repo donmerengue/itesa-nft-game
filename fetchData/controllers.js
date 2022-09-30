@@ -73,7 +73,6 @@ export const deleteData = async (coleccion, id) => {
 export const getId = async (coleccion, id) => {
   const data = await getData(coleccion);
   const avatar = data.filter((obj) => obj.userId === id);
-  console.log(avatar);
   return avatar;
 };
 

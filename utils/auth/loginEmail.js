@@ -16,7 +16,7 @@ const loginEmail = async ({ password }) => {
     // Borrar mail de local storage
     window.localStorage.removeItem("emailForSignIn");
     // Devolver data del usuario desde la DB
-    return getDocumento("users", userCredential.user.uid);
+    return getDocumento("users", userCredential.user.uid)
   } catch (error) {
     return error;
   }

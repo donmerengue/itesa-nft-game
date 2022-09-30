@@ -18,6 +18,7 @@ import {
   useToast,
   InputGroup,
   InputRightElement,
+  Link,
 } from "@chakra-ui/react";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
 
@@ -34,8 +35,10 @@ const LoginPassword = () => {
   } = useForm();
 
   const onSubmit = (password) => {
-    dispatch(login(password)).then((res) => {
-      if (res.payload.isActive) {
+    dispatch(login(password)).then((res) => {    
+      console.log("res", res)
+      console.log(res.payload)
+      if (res.payload.level) {
         toast({
           title: "Login successful",
           status: "success",
@@ -119,6 +122,12 @@ const LoginPassword = () => {
                 </Button>
               </Stack>
               <Heading fontSize={"md"} mt={9}></Heading>
+              <Text align={"center"}>
+                Forgot your password?{" "}
+                <Link href="/resetpassword" color={"blue.400"}>
+                  Click here to reset
+                </Link>
+              </Text>
             </Box>
           </form>
         </Stack>

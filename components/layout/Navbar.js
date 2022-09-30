@@ -8,6 +8,7 @@ import {
   Menu,
   MenuButton,
   Stack,
+  useToast,
 } from "@chakra-ui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { requestAccount } from "../../utils/blockchain/tokenOperations";
@@ -24,12 +25,11 @@ const Navbar = () => {
   const [verificado, setVerificado] = useState(false);
   const dispatch = useDispatch();
   const router = useRouter();
+  const toast = useToast();
 
   //Traer info del usuario logueado
   useAuth();
   const user = useSelector((state) => state.user);
-  // Chequear si el usuario verificó el mail al registarse
-  // Traer data de Auth del usuario
 
   const path = router.pathname;
 
@@ -44,7 +44,7 @@ const Navbar = () => {
       ) {
         router.push("/verify");
       }
-    } 
+    }
 
     // TODO: 29/9 ->ver usuario no autenticado
     // else if (
@@ -57,13 +57,35 @@ const Navbar = () => {
     // }
   }, [auth.currentUser]);
 
+  // Funcionalidad baneo
+  useEffect(() => {
+    if (auth.currentUser) {
+      // Chequear si el usuario esta baneado
+      if (!user?.isActive) {
+        dispatch(logoutUser()).then((res) => {
+          toast({
+            title: "You have been banned",
+            description: "See you",
+            status: "warning",
+            position: "top",
+            duration: 6000,
+            isClosable: true,
+          });
+          router.push("/");
+        });
+      }
+    }
+  }, [user]);
+
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
     account ? setAccount(null) : setAccount(await requestAccount());
 
   //Manejo del logout
   const handlerLogout = () => {
-    dispatch(logoutUser());
+    dispatch(logoutUser()).then(() => {
+      router.push("/");
+    });
   };
 
   // Actualizar intencion de juego del usuario
