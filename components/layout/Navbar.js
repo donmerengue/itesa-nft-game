@@ -74,7 +74,7 @@ const Navbar = () => {
   useEffect(() => {
     if (auth.currentUser) {
       // Chequear si el usuario esta baneado
-      if (!user?.isActive) {
+      if (!(user?.isActive)) {
         dispatch(logoutUser()).then((res) => {
           toast({
             title: "You have been banned",
@@ -88,7 +88,7 @@ const Navbar = () => {
         });
       }
     }
-  }, [user]);
+  }, [user, loading]);
 
   //Manejo de cuenta de Metamask
   const handleAccount = async () =>
