@@ -31,19 +31,10 @@ const Navbar = () => {
   useAuth();
   const user = useSelector((state) => state.user);
 
-  // Traer data de Auth del usuario
-
   const path = router.pathname;
 
   useEffect(() => {
     if (auth.currentUser) {
-      // Chequear si el usuario esta baneado
-      // console.log("user", user);
-      // if (user?.isActive) {
-      //   console.log("user", user);
-      //   console.log("user is active");
-      // }
-
       if (
         !auth.currentUser?.emailVerified &&
         path != "/" &&
@@ -66,13 +57,12 @@ const Navbar = () => {
     // }
   }, [auth.currentUser]);
 
+  // Funcionalidad baneo
   useEffect(() => {
     if (auth.currentUser) {
       // Chequear si el usuario esta baneado
       if (!user?.isActive) {
         dispatch(logoutUser()).then((res) => {
-          console.log(res);
-
           toast({
             title: "You have been banned",
             description: "See you",
